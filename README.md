@@ -5,11 +5,14 @@ An AI research agent that identifies the self-proteins the immune system mistake
 showing its AlphaFold-predicted 3D structure. A research aide that keeps a human in the loop and
 takes nothing on trust.
 
+### 🔬 [**Live demo → rotate all 29 protein structures in your browser**](https://dreamcclure.github.io/lupus-autoantigen-assistant/figures/structure_viewer.html)
+
 ![Ro60 AlphaFold structure, colored by confidence](figures/P10155_alphafold.png)
 
 > *Ro60 (P10155), a classic lupus autoantigen — its AlphaFold structure colored by prediction
 > confidence (pLDDT). Mostly very-high confidence (blue), with a low-confidence flexible tail
-> (orange). An [interactive viewer for all 29 structures](figures/structure_viewer.html) is included.*
+> (orange). Spin all 29 structures in the
+> [live interactive viewer](https://dreamcclure.github.io/lupus-autoantigen-assistant/figures/structure_viewer.html).*
 
 ---
 
