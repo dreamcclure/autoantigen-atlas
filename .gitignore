@@ -1,0 +1,15 @@
+# Secrets — NEVER commit these
+.env
+
+# Raw downloaded structures — regenerable with `python3 src/fetch_proteins.py`
+data/raw/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS / editor
+.DS_Store
+.idea/

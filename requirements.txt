@@ -1,0 +1,14 @@
+# Python packages this project needs.
+# Install everything with:  pip install -r requirements.txt
+#
+# We'll add to this as the project grows.
+
+requests          # for calling the free web APIs (UniProt, AlphaFold, Europe PMC)
+
+# Phase 2 — the agent
+langgraph         # the agent framework (reuses our Project 3 pattern)
+langchain-anthropic   # lets LangGraph talk to Claude (pulls in the anthropic SDK)
+python-dotenv     # loads our secret API key from a private .env file
+
+# Phase 4 — visuals
+matplotlib        # renders AlphaFold structures colored by confidence
