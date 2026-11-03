@@ -21,14 +21,11 @@ import sys
 import datetime
 
 from agent import build_agent, ask
+from diseases import DISEASES
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(HERE)
-DATASET = os.path.join(PROJECT_ROOT, "data", "processed", "autoantigens.json")
-OUT = os.path.join(PROJECT_ROOT, "data", "processed", "evaluation.json")
-
-# A fixed pilot subset (3 real autoantigens + 2 controls) for cheap harness testing.
-PILOT = ["P10155", "P62314", "P02745", "P04406", "P60709"]
+PROCESSED_DIR = os.path.join(PROJECT_ROOT, "data", "processed")
 
 # The blind question template. It names the protein but NEVER its label or role.
 # The decision rule is explicit so the agent can classify (not prove a universal
@@ -37,16 +34,23 @@ PILOT = ["P10155", "P62314", "P02745", "P04406", "P60709"]
 # while keeping the agent fully honest about what it did and didn't find.
 QUESTION = (
     "Is the protein {short} (gene {gene}) an established, recognized autoantigen in "
-    "systemic lupus erythematosus (SLE)? Investigate using your tools and give a "
-    "short, cited assessment of what you find.\n\n"
+    "{disease_name}? Investigate using your tools and give a short, cited assessment "
+    "of what you find.\n\n"
     "Then classify with a single final line in exactly one of these formats:\n"
-    "VERDICT: YES        -- your tools returned evidence it IS an established SLE autoantigen\n"
-    "VERDICT: NO         -- your tools returned no evidence establishing it as an SLE "
-    "autoantigen (treat absence of established evidence as NO; you are classifying, "
-    "not proving a universal negative)\n"
+    "VERDICT: YES        -- your tools returned evidence it IS an established autoantigen in {disease_name}\n"
+    "VERDICT: NO         -- your tools returned no evidence establishing it as one "
+    "(treat absence of established evidence as NO; you are classifying, not proving a "
+    "universal negative)\n"
     "VERDICT: UNCERTAIN  -- ONLY if the tools returned genuinely conflicting evidence "
     "you cannot resolve"
 )
+
+
+def pilot_subset(records):
+    """A cheap harness-test subset: the first 3 positives + first 2 controls."""
+    positives = [r for r in records if r["role"] == "positive"][:3]
+    controls = [r for r in records if r["role"] == "negative_control"][:2]
+    return positives + controls
 
 VERDICT_RE = re.compile(r"VERDICT:\s*(YES|NO|UNCERTAIN)", re.IGNORECASE)
 
@@ -69,16 +73,24 @@ def outcome_for(role, verdict):
 
 
 def main():
+    # Disease = first non-flag argument (default lupus); --pilot = cheap subset.
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    disease = args[0] if args else "lupus"
     pilot = "--pilot" in sys.argv
-    with open(DATASET) as f:
+
+    dataset = os.path.join(PROCESSED_DIR, "{}.json".format(disease))
+    out = os.path.join(PROCESSED_DIR, "evaluation_{}.json".format(disease))
+    disease_name = DISEASES[disease]["name"]
+
+    with open(dataset) as f:
         records = json.load(f)["autoantigens"]
     if pilot:
-        records = [r for r in records if r["accession"] in PILOT]
+        records = pilot_subset(records)
 
     scope = "PILOT ({} proteins)".format(len(records)) if pilot else "FULL ({} proteins)".format(len(records))
-    print("Running evaluation — {}\n".format(scope))
+    print("Running evaluation for '{}' — {}\n".format(disease, scope))
 
-    agent = build_agent()
+    agent = build_agent(disease)
     results = []
     counts = {k: 0 for k in
               ["true_positive", "false_negative", "true_negative", "false_positive",
@@ -86,7 +98,7 @@ def main():
 
     for rec in records:
         short, gene, acc, role = rec["short_name"], rec["gene"], rec["accession"], rec["role"]
-        question = QUESTION.format(short=short, gene=gene)
+        question = QUESTION.format(short=short, gene=gene, disease_name=disease_name)
         try:
             answer = ask(agent, question)
         except Exception as error:
@@ -125,7 +137,9 @@ def main():
 
     payload = {
         "_metadata": {
-            "project": "Lupus Autoantigen Discovery Assistant",
+            "project": "Autoantigen Discovery Platform",
+            "disease_key": disease,
+            "disease": disease_name,
             "phase": "3 - evaluation",
             "scope": "pilot" if pilot else "full",
             "run_date": datetime.date.today().isoformat(),
@@ -136,7 +150,7 @@ def main():
         "metrics": metrics,
         "results": results,
     }
-    with open(OUT, "w") as f:
+    with open(out, "w") as f:
         json.dump(payload, f, indent=2)
 
     # --- report ---
@@ -152,7 +166,7 @@ def main():
     print("  Specificity          : {}  ({}/{} controls correctly rejected)".format(
         metrics["specificity"], tn, neg_total))
     print("  Precision            : {}".format(metrics["precision"]))
-    print("\n  Full transcripts saved to data/processed/evaluation.json")
+    print("\n  Full transcripts saved to data/processed/evaluation_{}.json".format(disease))
 
 
 if __name__ == "__main__":

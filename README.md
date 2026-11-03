@@ -1,52 +1,52 @@
-# Lupus Autoantigen Discovery Assistant
+# Autoantigen Discovery Platform
 
-An AI research agent that identifies the self-proteins the immune system mistakenly attacks in
-**systemic lupus erythematosus (SLE)** — summarizing the evidence for each **with citations** and
-showing its AlphaFold-predicted 3D structure. A research aide that keeps a human in the loop and
-takes nothing on trust.
-
-### 🔬 [**Live demo → rotate all 29 protein structures in your browser**](https://dreamcclure.github.io/lupus-autoantigen-assistant/figures/structure_viewer.html)
+A **disease-agnostic** AI research platform that identifies the self-proteins the immune system
+mistakenly attacks in autoimmune disease — summarizing the evidence for each **with citations** and
+showing its AlphaFold-predicted 3D structure. Validated first, and most deeply, on **lupus**, then
+extended to **rheumatoid arthritis**. A research aide that keeps a human in the loop and takes
+nothing on trust.
 
 ![Ro60 AlphaFold structure, colored by confidence](figures/P10155_alphafold.png)
 
 > *Ro60 (P10155), a classic lupus autoantigen — its AlphaFold structure colored by prediction
 > confidence (pLDDT). Mostly very-high confidence (blue), with a low-confidence flexible tail
-> (orange). Spin all 29 structures in the
-> [live interactive viewer](https://dreamcclure.github.io/lupus-autoantigen-assistant/figures/structure_viewer.html).*
+> (orange).*
+
+### 🔬 Live demos — rotate the real structures in your browser
+- **[Lupus — 29 structures](https://dreamcclure.github.io/lupus-autoantigen-assistant/figures/structure_viewer.html)**
+- **[Rheumatoid arthritis — 20 structures](https://dreamcclure.github.io/lupus-autoantigen-assistant/figures/rheumatoid_arthritis_viewer.html)**
 
 ---
 
 ## Why this matters
 
 Researchers spend enormous effort combing the literature and protein databases to work out which
-proteins drive an autoimmune disease. This assistant speeds that up — and, crucially, **every claim
-it makes is backed by a citation** to a public database or paper, so a scientist can verify rather
-than trust. Lupus is the test case: a disease with high unmet need and exceptionally
-well-characterized autoantigens, making it ideal for demonstrating the approach rigorously.
+proteins drive an autoimmune disease. This platform speeds that up — and, crucially, **every claim
+the agent makes is backed by a citation** to a public database or paper, so a scientist can verify
+rather than trust. Because a disease here is just a configuration entry, the same engine extends to
+new diseases without rewriting the code.
 
-## Results
+## Results — validated on two diseases
 
-The agent was **blind-tested** against a golden set of **24 established SLE autoantigens + 5 negative
-controls** (abundant proteins that are *not* lupus autoantigens). It was never told the answers.
+Each disease's agent was **blind-tested** against a golden set of established autoantigens **plus
+negative controls** (abundant proteins that are *not* targets in that disease). The agent is never
+told the answers.
 
-| Metric | Score | Meaning |
-|---|---|---|
-| **Precision** | **1.00** | When it says "autoantigen," it is right — zero false positives |
-| **Specificity** | **1.00** | All 5 negative controls correctly rejected |
-| **Recall** | **0.96** | 23 of 24 real autoantigens identified |
+| Disease | Autoantigens | Controls | Recall | Precision | Specificity |
+|---|---|---|---|---|---|
+| **Systemic lupus erythematosus** | 24 | 5 | **0.96** | **1.00** | **1.00** |
+| **Rheumatoid arthritis** | 16 | 5 | **0.81** | **1.00** | **1.00** |
 
-**Iteration, honestly:** an initial run scored **0.67 recall**. The misses were diagnosed (the agent
-was missing UniProt's curated *complex-membership* evidence, and had a protein-lookup bug), the
-agent's **evidence and tools** were improved — while the evaluation rubric was kept **byte-identical**
-— and recall rose to **0.96**. Precision and specificity stayed at **1.00** throughout, which proves
-the gain came from better evidence, not a lowered bar. The one remaining miss (PCNA, a rare marker in
-older literature) is documented rather than hidden.
+**Precision and specificity are perfect on both diseases** — the agent never fabricates a target and
+never misclassifies a control. Recall is high, and every miss is a documented, understood
+retrieval limitation (not a guess).
 
-```
-                 said YES   said NO          (after improvement)
-  real autoantigen  23         1
-  control (not)      0         5
-```
+**Earned honestly.** Both scores were reached by improving the agent's *evidence and reasoning* while
+holding the evaluation rubric fixed — never by lowering the bar (the perfect specificity is the proof).
+During the RA work, an early run scored a perfect 1.00 because the agent's instructions had
+accidentally *named the answer proteins*; that leak was caught, removed, and the honest result
+(0.81) reported instead. The leaked and intermediate runs are preserved in `data/processed/` for
+audit.
 
 ## How it works
 
@@ -65,67 +65,69 @@ flowchart LR
   A --> R[Cited summary<br/>for human review]
 ```
 
-**Three tools, all free and key-free:**
-- 🧬 **`lookup_protein`** — protein facts & complex membership from **UniProt**
-- 🧊 **`get_structure`** — predicted 3D structure & pLDDT confidence from **AlphaFold**
-- 🔎 **`search_literature`** — published papers & citations from **Europe PMC**
+**Three tools, all free and key-free:** `lookup_protein` (UniProt facts & complex membership),
+`get_structure` (AlphaFold 3D structure & pLDDT confidence), `search_literature` (Europe PMC papers).
 
-**Five guardrails, designed in from the start:**
-1. **Cite or don't claim** — no factual statement without the source the tool returned
-2. **No hallucination** — answers come only from tool results, never the model's own memory
-3. **Human in the loop** — presents findings for a scientist to review; never acts autonomously
-4. **Scoped** — stays on lupus-autoantigen research; declines off-topic requests
-5. **Fail honestly** — a failed tool call is reported, not papered over with a guess
+**Five guardrails, designed in from the start:** (1) cite or don't claim, (2) no hallucination —
+answers only from tool results, (3) human in the loop, (4) stay in scope, (5) fail honestly.
 
-## The dataset
+**The platform keystone** is `src/diseases.py` — a registry where each disease is pure data (its seed
+proteins, its sources, and the reasoning the agent should use). The fetch / build / evaluate scripts
+and the agent all read from it, so adding a disease is a *data* change, not a *code* change.
 
-29 human proteins, each sourced from a 2025 peer-reviewed review
-([*Autoantibodies in SLE: Diagnostic and Pathogenic Insights*, PMC12386345](https://pmc.ncbi.nlm.nih.gov/articles/PMC12386345/))
-and **verified live against UniProt**: 24 established autoantigens (Ro/La, Sm, U1-RNP, nucleosome,
-ribosomal P, C1q, Ku, PCNA, β2-GPI) + 5 negative controls (GAPDH, β-actin, albumin, hemoglobin β,
-tubulin β). The clean dataset, with provenance on every field, lives in
-[`data/processed/`](data/processed/). *(Non-protein lupus antigens such as dsDNA are deliberately
-out of scope — they have no UniProt/AlphaFold entry.)*
+## The data
+
+Every protein is sourced from a peer-reviewed review and **verified live against UniProt**:
+- **Lupus** — 24 autoantigens (Ro/La, Sm, U1-RNP, nucleosome, ribosomal P, C1q, Ku, PCNA, β2-GPI) + 5
+  controls. Source: [PMC12386345](https://pmc.ncbi.nlm.nih.gov/articles/PMC12386345/).
+- **Rheumatoid arthritis** — 16 autoantigens (ACPA targets: vimentin, fibrinogen, enolase, collagen,
+  fibronectin, filaggrin, citrullinated histones; plus BiP, RA33, PTX3, and the RF target) + 5
+  controls. Source: [PMC11139241](https://pmc.ncbi.nlm.nih.gov/articles/PMC11139241/).
+
+Clean datasets with full provenance live in [`data/processed/`](data/processed/). *(Non-protein
+antigens such as dsDNA (lupus) are deliberately out of scope — they have no UniProt/AlphaFold entry.
+RA antigens are the citrullinated form; the databases hold the unmodified protein, which is noted.)*
 
 ## Run it yourself
 
 ```bash
 python3 -m pip install -r requirements.txt
-
 cp .env.example .env            # then paste your Anthropic API key into .env
 
-python3 src/fetch_proteins.py   # Phase 0 — download proteins + structures
-python3 src/build_dataset.py    # Phase 1 — build the clean dataset
-python3 src/agent.py "What is Ro60, and why is it a lupus autoantigen?"   # Phase 2 — ask the agent
-python3 src/evaluate.py --pilot # Phase 3 — evaluate (pilot; drop --pilot for the full run)
-python3 src/build_viewer.py     # (re)build the interactive 3D viewer
+python3 src/fetch_proteins.py  lupus      # download proteins + structures
+python3 src/build_dataset.py   lupus      # build the clean dataset
+python3 src/evaluate.py        lupus --pilot   # blind evaluation (pilot; drop --pilot for full)
+python3 src/agent.py "What is Ro60, and why is it a lupus autoantigen?"
+
+# swap 'lupus' for 'rheumatoid_arthritis' to run the other disease — same engine
 ```
 
-The biomedical databases need **no API key**. Only the agent (Claude) needs an
+The biomedical databases need **no API key**; only the agent (Claude) needs an
 [Anthropic API key](https://console.anthropic.com).
 
 ## Project structure
 
 ```
 src/
-  fetch_proteins.py     Phase 0 — fetch proteins + AlphaFold structures
-  build_dataset.py      Phase 1 — validate & build the clean dataset
-  agent.py              Phase 2 — the LangGraph agent + guardrails
+  diseases.py           the platform registry — a disease is just data here
+  fetch_proteins.py     fetch proteins + AlphaFold structures (per disease)
+  build_dataset.py      validate & build the clean dataset (per disease)
+  agent.py              the LangGraph agent + per-disease guardrails
   tools/                the agent's tools (protein, structure, literature)
-  evaluate.py           Phase 3 — blind evaluation + metrics
-  visualize_structure.py / build_viewer.py   structure visuals
-data/processed/         the cited dataset + evaluation results
-figures/                structure renders + interactive viewer
+  evaluate.py           blind evaluation + metrics (per disease)
+  build_viewer.py / visualize_structure.py   structure visuals
+learn/                  annotated "learning editions" of the code (plain-English teaching)
+data/processed/         the cited datasets + evaluation results (per disease)
+figures/                structure renders + interactive viewers
 ```
 
 ## Honest limitations
 
-- **PCNA** is missed (1 of 24) — anti-PCNA is a rare marker in older literature the search tool
-  doesn't surface well. The agent abstains honestly rather than guessing.
-- Scope is **protein** autoantigens with structures; non-protein antigens (dsDNA, cardiolipin) are
-  excluded by design.
-- The negative-control set is small (5); a larger control panel would tighten the specificity
-  estimate.
+- **Lupus** misses PCNA (1/24); **RA** misses Fibronectin and Histones H4/H2B (3/16) — all literature
+  -retrieval gaps where the agent abstained honestly rather than guessing.
+- **Filaggrin** (4,061 aa) has no AlphaFold model (too large), so it has no 3D view.
+- Scope is **protein** autoantigens with structures; non-protein antigens are excluded by design.
+- Negative-control panels are small (5 each); larger panels would tighten the specificity estimates.
 
 ## Tech stack
 
@@ -135,9 +137,8 @@ Europe PMC · matplotlib
 
 ## Data sources
 
-- **UniProt** — <https://www.uniprot.org>
-- **AlphaFold Protein Structure Database** — <https://alphafold.ebi.ac.uk>
-- **Europe PMC** — <https://europepmc.org>
+UniProt (<https://www.uniprot.org>) · AlphaFold DB (<https://alphafold.ebi.ac.uk>) ·
+Europe PMC (<https://europepmc.org>)
 
 ## License
 

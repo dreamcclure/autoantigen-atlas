@@ -23,9 +23,12 @@ import csv
 import datetime
 import json
 import os
+import sys
 
 # Reuse the EXACT same confidence calculation from Phase 0 — one source of truth.
-from fetch_proteins import mean_plddt, SEED_PROTEINS
+from fetch_proteins import mean_plddt
+# The seed list + disease metadata come from the registry (one source of truth).
+from diseases import seed_for, DISEASES
 
 
 # ---------------------------------------------------------------------------
@@ -143,16 +146,19 @@ def read_structure_confidence(accession):
     return plddt, []
 
 
-def build():
+def build(disease="lupus"):
+    seed = seed_for(disease)        # the protein list for this disease
+    meta = DISEASES[disease]        # its human name + source citation
+
     # GUARDRAIL: make sure the OUTPUT folder exists; we never write into raw/.
     os.makedirs(PROCESSED_DIR, exist_ok=True)
 
     clean_records = []
     flagged = []   # proteins with any problem — reported loudly, never hidden.
 
-    print("Building clean dataset from {}\n".format(RAW_DIR))
+    print("Building clean dataset for '{}' from {}\n".format(disease, RAW_DIR))
 
-    for protein in SEED_PROTEINS:
+    for protein in seed:
         acc = protein["accession"]
         short = protein["short"]
 
@@ -169,6 +175,7 @@ def build():
         record = {
             "short_name": short,
             "accession": acc,
+            "disease": disease,
             "role": protein.get("role", "positive"),  # positive autoantigen vs negative control
             "protein_name": facts["protein_name"],
             "gene": facts["gene"],
@@ -195,7 +202,9 @@ def build():
     build_date = datetime.date.today().isoformat()
     payload = {
         "_metadata": {
-            "project": "Lupus Autoantigen Discovery Assistant",
+            "project": "Autoantigen Discovery Platform",
+            "disease_key": disease,
+            "disease": meta["name"],
             "phase": "1 - knowledge base",
             "built_from": "data/raw/",
             "build_date": build_date,
@@ -203,7 +212,7 @@ def build():
             "positive_count": sum(1 for r in clean_records if r["role"] == "positive"),
             "negative_control_count": sum(1 for r in clean_records if r["role"] == "negative_control"),
             "flagged_count": len(flagged),
-            "source": "Autoantibodies in SLE: Diagnostic and Pathogenic Insights (2025), PMC12386345",
+            "source": meta["source"],
             "source_apis": {
                 "uniprot": "https://rest.uniprot.org/uniprotkb/",
                 "alphafold": "https://alphafold.ebi.ac.uk/api/prediction/",
@@ -212,12 +221,12 @@ def build():
         },
         "autoantigens": clean_records,
     }
-    json_path = os.path.join(PROCESSED_DIR, "autoantigens.json")
+    json_path = os.path.join(PROCESSED_DIR, "{}.json".format(disease))
     with open(json_path, "w") as f:
         json.dump(payload, f, indent=2)
 
     # ---- Write the CSV (for you to open in Excel/Numbers) ----
-    csv_path = os.path.join(PROCESSED_DIR, "autoantigens.csv")
+    csv_path = os.path.join(PROCESSED_DIR, "{}.csv".format(disease))
     if clean_records:
         columns = list(clean_records[0].keys())
         with open(csv_path, "w", newline="") as f:
@@ -227,10 +236,10 @@ def build():
 
     # ---- Final honest report ----
     print("\n--- Summary ---")
-    print("  Clean records : {} / {}".format(len(clean_records), len(SEED_PROTEINS)))
+    print("  Clean records : {} / {}".format(len(clean_records), len(seed)))
     print("  Flagged       : {}".format(len(flagged)))
-    print("  Written       : data/processed/autoantigens.json")
-    print("                  data/processed/autoantigens.csv")
+    print("  Written       : data/processed/{}.json".format(disease))
+    print("                  data/processed/{}.csv".format(disease))
     if flagged:
         print("\n  !! Some proteins were flagged — coverage is INCOMPLETE. Review above.")
     else:
@@ -238,4 +247,4 @@ def build():
 
 
 if __name__ == "__main__":
-    build()
+    build(sys.argv[1] if len(sys.argv) > 1 else "lupus")

@@ -1,9 +1,11 @@
 {
   "_metadata": {
-    "project": "Lupus Autoantigen Discovery Assistant",
+    "project": "Autoantigen Discovery Platform",
+    "disease_key": "lupus",
+    "disease": "Systemic lupus erythematosus (SLE)",
     "phase": "1 - knowledge base",
     "built_from": "data/raw/",
-    "build_date": "2026-11-02",
+    "build_date": "2026-11-03",
     "record_count": 29,
     "positive_count": 24,
     "negative_control_count": 5,
@@ -19,6 +21,7 @@
     {
       "short_name": "Ro60",
       "accession": "P10155",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "RNA-binding protein RO60",
       "gene": "RO60",
@@ -36,6 +39,7 @@
     {
       "short_name": "Ro52",
       "accession": "P19474",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "E3 ubiquitin-protein ligase TRIM21",
       "gene": "TRIM21",
@@ -53,6 +57,7 @@
     {
       "short_name": "La/SSB",
       "accession": "P05455",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Lupus La protein",
       "gene": "SSB",
@@ -70,6 +75,7 @@
     {
       "short_name": "Sm-B/B'",
       "accession": "P14678",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Small nuclear ribonucleoprotein-associated proteins B and B'",
       "gene": "SNRPB",
@@ -87,6 +93,7 @@
     {
       "short_name": "Sm-D1",
       "accession": "P62314",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Small nuclear ribonucleoprotein Sm D1",
       "gene": "SNRPD1",
@@ -104,6 +111,7 @@
     {
       "short_name": "Sm-D2",
       "accession": "P62316",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Small nuclear ribonucleoprotein Sm D2",
       "gene": "SNRPD2",
@@ -121,6 +129,7 @@
     {
       "short_name": "Sm-D3",
       "accession": "P62318",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Small nuclear ribonucleoprotein Sm D3",
       "gene": "SNRPD3",
@@ -138,6 +147,7 @@
     {
       "short_name": "U1-70K",
       "accession": "P08621",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "U1 small nuclear ribonucleoprotein 70 kDa",
       "gene": "SNRNP70",
@@ -155,6 +165,7 @@
     {
       "short_name": "U1-A",
       "accession": "P09012",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "U1 small nuclear ribonucleoprotein A",
       "gene": "SNRPA",
@@ -172,6 +183,7 @@
     {
       "short_name": "U1-C",
       "accession": "P09234",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "U1 small nuclear ribonucleoprotein C",
       "gene": "SNRPC",
@@ -189,6 +201,7 @@
     {
       "short_name": "Histone H4",
       "accession": "P62805",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Histone H4",
       "gene": "H4C1",
@@ -206,6 +219,7 @@
     {
       "short_name": "Histone H3.1",
       "accession": "P68431",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Histone H3.1",
       "gene": "H3C1",
@@ -223,6 +237,7 @@
     {
       "short_name": "Histone H2B",
       "accession": "P62807",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Histone H2B type 1-C/E/F/G/I",
       "gene": "H2BC4",
@@ -240,6 +255,7 @@
     {
       "short_name": "Histone H2A",
       "accession": "P0C0S8",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Histone H2A type 1",
       "gene": "H2AC11",
@@ -257,6 +273,7 @@
     {
       "short_name": "Ribosomal P0",
       "accession": "P05388",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Large ribosomal subunit protein uL10",
       "gene": "RPLP0",
@@ -274,6 +291,7 @@
     {
       "short_name": "Ribosomal P1",
       "accession": "P05386",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Large ribosomal subunit protein P1",
       "gene": "RPLP1",
@@ -291,6 +309,7 @@
     {
       "short_name": "Ribosomal P2",
       "accession": "P05387",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Large ribosomal subunit protein P2",
       "gene": "RPLP2",
@@ -308,6 +327,7 @@
     {
       "short_name": "C1q A",
       "accession": "P02745",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Complement C1q subcomponent subunit A",
       "gene": "C1QA",
@@ -325,6 +345,7 @@
     {
       "short_name": "C1q B",
       "accession": "P02746",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Complement C1q subcomponent subunit B",
       "gene": "C1QB",
@@ -342,6 +363,7 @@
     {
       "short_name": "C1q C",
       "accession": "P02747",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Complement C1q subcomponent subunit C",
       "gene": "C1QC",
@@ -359,6 +381,7 @@
     {
       "short_name": "Ku70",
       "accession": "P12956",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "DNA repair protein Ku70",
       "gene": "XRCC6",
@@ -376,6 +399,7 @@
     {
       "short_name": "Ku80",
       "accession": "P13010",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "DNA repair protein Ku80",
       "gene": "XRCC5",
@@ -393,6 +417,7 @@
     {
       "short_name": "PCNA",
       "accession": "P12004",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "DNA sliding clamp PCNA",
       "gene": "PCNA",
@@ -410,6 +435,7 @@
     {
       "short_name": "Beta-2-GPI",
       "accession": "P02749",
+      "disease": "lupus",
       "role": "positive",
       "protein_name": "Beta-2-glycoprotein 1",
       "gene": "APOH",
@@ -427,6 +453,7 @@
     {
       "short_name": "GAPDH",
       "accession": "P04406",
+      "disease": "lupus",
       "role": "negative_control",
       "protein_name": "Glyceraldehyde-3-phosphate dehydrogenase",
       "gene": "GAPDH",
@@ -444,6 +471,7 @@
     {
       "short_name": "Beta-actin",
       "accession": "P60709",
+      "disease": "lupus",
       "role": "negative_control",
       "protein_name": "Actin, cytoplasmic 1",
       "gene": "ACTB",
@@ -461,6 +489,7 @@
     {
       "short_name": "Serum albumin",
       "accession": "P02768",
+      "disease": "lupus",
       "role": "negative_control",
       "protein_name": "Albumin",
       "gene": "ALB",
@@ -478,6 +507,7 @@
     {
       "short_name": "Hemoglobin beta",
       "accession": "P68871",
+      "disease": "lupus",
       "role": "negative_control",
       "protein_name": "Hemoglobin subunit beta",
       "gene": "HBB",
@@ -495,6 +525,7 @@
     {
       "short_name": "Tubulin beta",
       "accession": "P07437",
+      "disease": "lupus",
       "role": "negative_control",
       "protein_name": "Tubulin beta chain",
       "gene": "TUBB",

@@ -10,17 +10,20 @@ Run:  python3 src/build_viewer.py
 
 import json
 import os
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(HERE)
 RAW_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
-DATASET = os.path.join(PROJECT_ROOT, "data", "processed", "autoantigens.json")
-OUT = os.path.join(PROJECT_ROOT, "figures", "structure_viewer.html")
+PROCESSED_DIR = os.path.join(PROJECT_ROOT, "data", "processed")
+FIG_DIR = os.path.join(PROJECT_ROOT, "figures")
 
 
 def read_ca(acc):
-    """Centered alpha-carbon coords + pLDDT for one protein: [[x,y,z,p], ...]."""
+    """Centered alpha-carbon coords + pLDDT for one protein, or None if no structure."""
     path = os.path.join(RAW_DIR, "{}_alphafold.pdb".format(acc))
+    if not os.path.exists(path):
+        return None   # e.g. Filaggrin — too large for AlphaFold to have a model
     pts = []
     with open(path) as f:
         for line in f:
@@ -35,22 +38,37 @@ def read_ca(acc):
 
 
 def main():
-    records = json.load(open(DATASET))["autoantigens"]
+    disease = sys.argv[1] if len(sys.argv) > 1 else "lupus"
+    dataset = os.path.join(PROCESSED_DIR, "{}.json".format(disease))
+    # Keep the lupus viewer's filename stable — the live GitHub Pages link points to it.
+    out = os.path.join(FIG_DIR, "structure_viewer.html" if disease == "lupus"
+                       else "{}_viewer.html".format(disease))
+
+    records = json.load(open(dataset))["autoantigens"]
     proteins = []
+    skipped = []
     for r in records:
+        ca = read_ca(r["accession"])
+        if ca is None:                    # no AlphaFold structure — can't visualize it
+            skipped.append(r["short_name"])
+            continue
         proteins.append({
             "short": r["short_name"], "name": r["protein_name"], "gene": r["gene"],
             "acc": r["accession"], "len": r["length_aa"], "plddt": r["structure_mean_plddt"],
-            "role": r["role"], "ca": read_ca(r["accession"]),
+            "role": r["role"], "ca": ca,
         })
     data_json = json.dumps(proteins, separators=(",", ":"))
 
     html = TEMPLATE.replace("/*__DATA__*/", "const PROTEINS = " + data_json + ";")
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w") as f:
+    # Make the subtitle name the actual disease (template ships with lupus wording).
+    html = html.replace("structures of lupus autoantigens",
+                        "structures of {} autoantigens".format(disease.replace("_", " ")))
+    os.makedirs(FIG_DIR, exist_ok=True)
+    with open(out, "w") as f:
         f.write(html)
-    kb = os.path.getsize(OUT) // 1024
-    print("Wrote {}  ({} proteins, {} KB)".format(OUT, len(proteins), kb))
+    kb = os.path.getsize(out) // 1024
+    note = "  (skipped, no structure: {})".format(", ".join(skipped)) if skipped else ""
+    print("Wrote {}  ({} proteins, {} KB){}".format(out, len(proteins), kb, note))
 
 
 TEMPLATE = r"""<title>Autoantigen Structure Viewer</title>
