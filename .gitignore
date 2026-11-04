@@ -13,3 +13,8 @@ venv/
 # OS / editor
 .DS_Store
 .idea/
+
+# Private — local only, NOT for the public portfolio repo
+# (personal learning editions + the plain-English project guide / notes)
+learn/
+PROJECT_GUIDE.md
