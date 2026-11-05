@@ -1,0 +1,114 @@
+{
+  "_metadata": {
+    "project": "Autoantigen Discovery Platform",
+    "disease_key": "lupus",
+    "disease": "Systemic lupus erythematosus (SLE)",
+    "phase": "7 - discovery mode (literature arm)",
+    "run_date": "2026-11-05",
+    "method": "literature arm: Europe PMC text-mined Gene_Proteins annotations from the disease's autoantibody papers, kept only when near autoantibody-context cues, mapped to reviewed human UniProt, scored by # distinct papers.",
+    "context_cue": "autoantib|autoantig|autoimmun|immunoreact|seroreact|seroposit|reactiv",
+    "min_articles": 2,
+    "framing": "Candidates are CITED HYPOTHESES for expert review, not confirmed discoveries.",
+    "n_novel_candidates": 9,
+    "n_known_resurfaced": 1,
+    "caveat": "Broad net: the agent-assessment step is the precision filter. Coverage of the classic antigens is partial (recent-paper-biased); several candidates are real autoantigens from ADJACENT autoimmune diseases, not necessarily this one."
+  },
+  "known_resurfaced": [
+    {
+      "accession": "P19474",
+      "gene": "TRIM21",
+      "lit_support": 3
+    }
+  ],
+  "candidates": [
+    {
+      "accession": "P24158",
+      "gene": "PRTN3",
+      "lit_support": 58
+    },
+    {
+      "accession": "Q9BYX4",
+      "gene": "IFIH1",
+      "lit_support": 56
+    },
+    {
+      "accession": "O75369",
+      "gene": "FLNB",
+      "lit_support": 10
+    },
+    {
+      "accession": "Q01955",
+      "gene": "COL4A3",
+      "lit_support": 7
+    },
+    {
+      "accession": "Q92637",
+      "gene": "FCGR1BP",
+      "lit_support": 6
+    },
+    {
+      "accession": "Q13609",
+      "gene": "DNASE1L3",
+      "lit_support": 3
+    },
+    {
+      "accession": "Q96LT9",
+      "gene": "RNPC3",
+      "lit_support": 3
+    },
+    {
+      "accession": "P11274",
+      "gene": "BCR",
+      "lit_support": 2
+    },
+    {
+      "accession": "P15391",
+      "gene": "CD19",
+      "lit_support": 2
+    }
+  ],
+  "agent_assessments": [
+    {
+      "accession": "P24158",
+      "gene": "PRTN3",
+      "evidence_tier": "ESTABLISHED",
+      "transcript": "## Assessment: PRTN3 / Proteinase 3 (PR3) as an autoantigen\n\n**Protein identity.** PRTN3 (P24158) is Myeloblastin, a 256-aa neutrophil serine protease that degrades extracellular matrix proteins and participates in neutrophil transendothelial migration (UniProt: https://www.uniprot.org/uniprotkb/P24158/entry). Its AlphaFold model is of good quality (mean pLDDT 89.5, \"Confident\": https://alphafold.ebi.ac.uk/entry/P24158) \u2014 but structural confidence is not autoantigen evidence.\n\n**Autoantigen evidence from the literature:**\n\n- PRTN3 is the molecular target \"PR3\" of **PR3-ANCA (anti-neutrophil cytoplasmic antibodies)**, the hallmark autoantibody of **ANCA-associated vasculitis / granulomatosis with polyangiitis (GPA)** \u2014 a recognized autoimmune disease. The literature robustly treats it as *the* autoantigen in this setting (genetic-architecture study of ANCA-associated vasculitis: https://europepmc.org/article/MED/42874292; serotype-stratified ANCA vasculitis analysis: https://europepmc.org/article/MED/42903185; dual c-/p-ANCA vasculitis case: https://europepmc.org/article/MED/41549496).\n\n- A direct **SLE\u2013PR3-ANCA overlap** is documented: a retrospective study of ANCA-positive SLE patients (https://europepmc.org/article/MED/42443663) and a series of concurrent SLE and biopsy-proven ANCA-associated vasculitis (https://europepmc.org/article/MED/42780091). These establish that anti-PR3/ANCA reactivity is observed in a subset of SLE patients, though as an overlap phenomenon rather than a core SLE antibody.\n\n**Interpretation (for your review).** The tool evidence shows PRTN3/PR3 is a firmly **established autoantigen in a related autoimmune disease** (ANCA-associated vasculitis/GPA), and is detected in an ANCA-positive subset of SLE patients. I did *not* find evidence that PR3 is a *core* SLE autoantigen in the way the Sm/snRNP, Ro/La, nucleosome, or ribosomal-P systems are; in SLE it appears mainly through ANCA/vasculitis overlap. Given the prompt's scope (SLE *or a related autoimmune disease*), the autoantigen status is well established. This is complex/overlap-level evidence; an expert should weigh whether the specific research question concerns PR3 in pure SLE versus SLE\u2013vasculitis overlap.\n\nEVIDENCE: ESTABLISHED  -- tools found it is already a recognized autoantigen in the disease"
+    },
+    {
+      "accession": "Q9BYX4",
+      "gene": "IFIH1",
+      "evidence_tier": "ESTABLISHED",
+      "transcript": "## Assessment: IFIH1 / MDA5 as an autoantigen\n\n**Protein identity.** IFIH1 (Q9BYX4) is the \"Interferon-induced helicase C domain-containing protein 1,\" a 1025-aa cytoplasmic innate-immune sensor of viral RNA that drives type I interferon responses \u2014 better known as **MDA5** (UniProt: https://www.uniprot.org/uniprotkb/Q9BYX4/entry).\n\n**Structural confidence.** AlphaFold predicts its structure with a mean pLDDT of 79.5/100 (\"Confident\" band) (https://alphafold.ebi.ac.uk/entry/Q9BYX4). This is a modeling-quality metric only, not evidence of autoantigenicity.\n\n**Autoantigen evidence from the literature:**\n\n- There is **strong, established published evidence that IFIH1/MDA5 is itself the target of a named autoantibody \u2014 \"anti-MDA5\" \u2014 in dermatomyositis**, a related systemic autoimmune disease. This is reflected across multiple clinical papers, including a national multicenter cohort on \"Management and Prognosis of Anti-MDA5 Dermatomyositis\" (https://europepmc.org/article/MED/41898353), a scoping review of anti-MDA5-positive dermatomyositis-associated ILD (https://europepmc.org/article/PMC/PMC13690796), and work on viral infection in anti-MDA5 DM (https://europepmc.org/article/MED/41573583). In these, MDA5 is treated as a defined clinical autoantigen with a routine antibody test.\n\n- **For SLE specifically**, my targeted searches did **not** return any paper directly reporting anti-MDA5/anti-IFIH1 autoantibodies in lupus patients. IFIH1 recurs in the SLE literature chiefly as an **interferon-pathway / genetic-susceptibility gene** (e.g., IFIH1 variants and inflammatory disease: https://europepmc.org/article/MED/41695592), not as a documented SLE autoantibody target. IFIH1 is also not a component of the recognized SLE autoantigen complexes (Sm/snRNP, nucleosome, ribosomal P, Ku, Ro/La).\n\n**Human-in-the-loop caveat.** The evidence is split by disease: IFIH1/MDA5 is a well-recognized autoantigen in **dermatomyositis** (established anti-MDA5 antibody), but tool evidence that it is an autoantibody target **in SLE itself** was not found here. An expert may wish to run a dedicated anti-MDA5-in-SLE search before treating it as an SLE-specific autoantigen. Given that the question explicitly includes \"a related autoimmune disease,\" the dermatomyositis evidence is established.\n\nEVIDENCE: ESTABLISHED  -- tools found it is already a recognized autoantigen in the disease"
+    },
+    {
+      "accession": "O75369",
+      "gene": "FLNB",
+      "evidence_tier": "EMERGING",
+      "transcript": "## Assessment: FLNB (Filamin-B, O75369) as an SLE autoantigen\n\n**Protein facts (UniProt):** FLNB is Filamin-B, a 2,602-aa cytoskeletal protein that connects cell-membrane constituents to the actin cytoskeleton, promotes actin branching, and anchors transmembrane proteins. It functions as a homodimer and interacts with FLNA, FLNC, integrins, and other partners. It is **not** a component of any recognized SLE autoantigen complex (Sm core/snRNP, U1 snRNP, nucleosome/histones, ribosomal P, Ku, or Ro/La). Source: https://www.uniprot.org/uniprotkb/O75369/entry\n\n**Structural confidence (AlphaFold):** Mean pLDDT 76.3/100 \u2014 \"Confident\" band. A reasonable predicted structure, but this speaks only to model quality, not to autoantigen status. Source: https://alphafold.ebi.ac.uk/entry/O75369\n\n**Literature evidence:** Across multiple refined searches, FLNB appears **only** in broad, discovery-type proteomic \"autoantigen atlas/repertoire\" screens from one group (Wang/Roehrl), not in any SLE-specific, antibody-validated study:\n- A proteomic repertoire of autoantigens from HEp-2 cells (the classic clinical ANA substrate), 2020 \u2014 https://europepmc.org/article/MED/32973414\n- A master autoantigen-ome linking alternative splicing, female predilection, and COVID-19 to autoimmune diseases, 2022 \u2014 https://europepmc.org/article/MED/35237749\n- Autoantigen atlases from human lung/A549/HFL1 cells (COVID-19 context), 2021\u20132022 \u2014 https://europepmc.org/article/MED/35401574 ; https://europepmc.org/article/MED/33971585\n\nI found **no** paper demonstrating that FLNB is specifically targeted by autoantibodies in SLE patients, no named clinical antibody test for it, and no disease-specific validation. The hits that mention \"filamin\" in an autoimmune context (e.g., filaminopathies, systemic sclerosis genetics) do not establish FLNB as an autoantibody target.\n\n**Interpretation (for your review):** The repeated appearance of FLNB reflects its recurrence in unbiased autoantigen-discovery proteomics (HEp-2 and tissue-cell screens), which is a genuine published *hint* that it can be immunoreactive. However, this is candidate/discovery-level evidence \u2014 it is not SLE-specific, not patient-validated, and FLNB is not a member of any established SLE autoantigen complex. The evidence is therefore suggestive but not established, and should be treated cautiously.\n\n**Suggested next step:** If you want to firm this up, consider targeted searches for FLNB autoantibody validation in defined SLE cohorts (e.g., immunoprecipitation/ELISA against patient sera), which my searches did not surface.\n\nEVIDENCE: EMERGING"
+    },
+    {
+      "accession": "Q01955",
+      "gene": "COL4A3",
+      "evidence_tier": "ESTABLISHED",
+      "transcript": "## Assessment: COL4A3 (Q01955) as an autoantigen\n\n**Identity (UniProt).** Q01955 is the Collagen alpha-3(IV) chain. It forms a triple-helical protomer with the alpha-4(IV) and alpha-5(IV) chains, which dimerizes through NC1\u2013NC1 domain interactions to build the type IV collagen network \u2014 the architecture of the glomerular basement membrane (GBM). Source: https://www.uniprot.org/uniprotkb/Q01955/entry\n\n**Structure (AlphaFold).** Mean pLDDT 47.9/100 (\"Very low\" confidence) \u2014 expected for a long, extended fibrillar collagen chain, so the predicted model is not structurally informative here. Source: https://alphafold.ebi.ac.uk/entry/Q01955\n\n**Published autoantibody/autoantigen evidence (Europe PMC).**\n- The literature robustly places the alpha-3(IV)/NC1 collagen chain at the center of **anti-glomerular basement membrane (anti-GBM) / Goodpasture disease**, an autoantibody-mediated autoimmune disease. Examples: a therapeutic study targeting the alpha-3(IV)NC1 epitope with an m-P14 peptide in anti-GBM disease (https://europepmc.org/article/MED/42278340); identification of laminin-521 as a *novel* target in anti-GBM disease, framed against the classical collagen IV target (https://europepmc.org/article/MED/33893224); and a murine transgenic study of anti-collagen type IV autoantibody specificities (https://europepmc.org/article/MED/28886586).\n- Several reviews/case series confirm anti-GBM disease as an established autoantibody-driven condition and discuss serological/immunological stratification (https://europepmc.org/article/MED/42483168; https://europepmc.org/article/MED/37284681), plus renal-autoantibody discovery efforts (https://europepmc.org/article/MED/39684370).\n\n**Caveats / human-in-the-loop notes.**\n- The tool evidence establishes COL4A3/alpha-3(IV)NC1 as a recognized autoantigen in **anti-GBM (Goodpasture) disease \u2014 a related autoimmune disease**, not as an established component of the canonical SLE autoantigen complexes (Sm/snRNP, nucleosome, Ro/La, etc.).\n- My searches did **not** return evidence specifically establishing COL4A3 as a defined *SLE* autoantigen; its recurrence in the SLE literature set you cite may reflect overlap at the level of renal/glomerular autoimmunity (e.g., dual-positive or overlap nephritis \u2014 https://europepmc.org/article/MED/40641986) rather than a direct SLE anti-COL4A3 antibody test. An expert should verify whether any SLE-specific anti-COL4A3 reactivity is intended before attributing it to SLE itself.\n\n**Bottom line:** There is strong published evidence that COL4A3 (alpha-3(IV)NC1, the Goodpasture antigen) is an established target of autoantibodies in a related autoimmune disease (anti-GBM disease); direct establishment as an SLE autoantigen was not found in these tool results.\n\nEVIDENCE: ESTABLISHED"
+    },
+    {
+      "accession": "Q92637",
+      "gene": "FCGR1BP",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: FCGR1BP (Q92637) as an SLE autoantigen\n\n**Protein facts (UniProt):** Q92637 is \"Putative high affinity immunoglobulin gamma Fc receptor IB\" (gene *FCGR1BP*), 280 aa. UniProt describes it as *may* bind the Fc region of IgG with low affinity and *may* function in the humoral immune response \u2014 note the tentative/putative language. Critically, it has **no subunit/complex annotation** \u2014 it is not listed as a component of any recognized SLE autoantigen complex (Sm/snRNP, U1-RNP, nucleosome, ribosomal P, Ku, or Ro/La). Source: https://www.uniprot.org/uniprotkb/Q92637/entry\n\n**Structure (AlphaFold):** Mean pLDDT 82.9/100 (\"Confident\"). This tells us the predicted fold is reasonably reliable, but says nothing about autoantigen status. Source: https://alphafold.ebi.ac.uk/entry/Q92637\n\n**Literature (Europe PMC), across four searches:** I found no paper reporting that FCGR1BP is itself targeted by autoantibodies or acts as an autoantigen.\n- SLE/autoimmune hits where *FCGR1BP*/Fc receptors appeared were **transcriptomic/biomarker or receptor-biology studies**, not autoantibody-target studies (e.g., bulk/single-cell transcriptome shared-gene analysis in sepsis and SLE, https://europepmc.org/article/PPR/PPR701500; \"Fc gamma receptors: evolution, genomic architecture, genetic variation, and impact on human disease,\" https://europepmc.org/article/MED/39345014).\n- Fc-receptor papers that came up treat Fc\u03b3Rs as **effector receptors** (signaling, genetics, IgG occupancy), not as antigens the immune system attacks (e.g., https://europepmc.org/article/MED/37701568).\n- A direct query for \"FCGR1BP autoantigen target autoantibody\" returned **no papers at all**.\n\n**Interpretation (for your review):** The \"6 papers\" recurrence likely reflects FCGR1BP showing up in expression/omics gene lists, not autoantibody reactivity. Based on the tool evidence, this is a putative Fc receptor with no documented role as a target of autoantibodies, and it is not a member of any established SLE autoantigen complex. I found no published evidence supporting autoantigen status in SLE or a related autoimmune disease. (Caveat: absence in these searches is not proof of absence; a specialist experimental source could exist that these queries did not surface.)\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "Q13609",
+      "gene": "DNASE1L3",
+      "evidence_tier": "EMERGING",
+      "transcript": "## Assessment: DNASE1L3 (Q13609) as an SLE autoantigen\n\n**Protein identity & function (UniProt):** DNASE1L3 is Deoxyribonuclease gamma, a 305-aa enzyme that cleaves chromatin to nucleosomal units, drives internucleosomal DNA fragmentation in apoptosis, and degrades neutrophil extracellular traps (NETs). Notably, UniProt states it \"is active on chromatin in apoptotic cell-derived membrane-coated microparticles and thus **suppresses anti-DNA autoimmunity**\" \u2014 biologically linking it to lupus pathways (https://www.uniprot.org/uniprotkb/Q13609/entry).\n\n**Structural confidence (AlphaFold):** Mean pLDDT 91.8/100 \u2014 \"Very high\" confidence predicted structure (https://alphafold.ebi.ac.uk/entry/Q13609). (This is a structural-quality metric, not autoantigen evidence.)\n\n**Published autoantibody/autoantigen evidence (Europe PMC):**\n- **Direct primary evidence:** Hartl et al., 2021 \u2014 *\"Autoantibody-mediated impairment of DNASE1L3 activity in sporadic systemic lupus erythematosus\"* directly demonstrates that SLE patients produce autoantibodies against DNASE1L3 that neutralize its enzymatic activity (https://europepmc.org/article/MED/33783474). This is the key finding: DNASE1L3 is itself a target of autoantibodies in sporadic (non-monogenic) SLE.\n- **Supporting context:** A 2025 review, *\"The role of DNASE1L3 in systemic lupus erythematosus: from pathogenesis to clinical implications\"* (https://europepmc.org/article/MED/41469485), and multiple papers on DNASE1L3-associated **monogenic lupus** and HUVS (e.g., https://europepmc.org/article/MED/42601766, https://europepmc.org/article/MED/42716676). These establish DNASE1L3's central causal role in lupus, though loss-of-function genetics is a distinct mechanism from being an autoantibody target.\n\n**Interpretation (for your review):** There is at least one direct, peer-reviewed report (Hartl 2021) showing DNASE1L3 is targeted by neutralizing autoantibodies in sporadic SLE, plus a strong surrounding literature tying the enzyme to lupus pathogenesis. However, DNASE1L3 is **not** part of a classic recognized autoantigen complex (Sm/snRNP, Ro/La, nucleosome, ribosomal P, Ku), and there is no standard named clinical antibody test for it \u2014 so I would not call it a \"classically established\" clinical autoantigen on the tool evidence here. The autoantibody evidence is real and specific, but still specialized/recent rather than canonical. This is a judgment best confirmed by your expert reading of the Hartl paper.\n\nEVIDENCE: EMERGING"
+    },
+    {
+      "accession": "Q96LT9",
+      "gene": "RNPC3",
+      "evidence_tier": "EMERGING",
+      "transcript": "The server is intermittently returning 503 errors, but I already have substantive results. Here is my assessment.\n\n## Assessment: RNPC3 (Q96LT9) as an SLE / autoimmune autoantigen\n\n**Protein facts (UniProt):** RNPC3 is \"RNA-binding region-containing protein 3,\" a 517-aa component of the **U11/U12 snRNPs of the minor (U12-type) spliceosome**, binding the 3'-stem-loop of m\u2077G-capped U12 snRNA. (https://www.uniprot.org/uniprotkb/Q96LT9/entry)\n\n**Structural confidence (AlphaFold):** Mean pLDDT 67.4/100 \u2014 a **\"Low\" confidence** predicted structure. This is a structural caveat only and says nothing about autoantigenicity. (https://alphafold.ebi.ac.uk/entry/Q96LT9)\n\n**Published autoantibody evidence (Europe PMC):**\n- **Anti-RNPC3 autoantibodies are a named, studied specificity.** A dedicated 2026 study, *\"Clinical Associations of Anti-RNPC3 Autoantibodies in Mixed Connective Tissue Disease\"* (Jalaledin et al.), directly characterizes anti-RNPC3 antibodies in MCTD \u2014 a connective-tissue disease closely related to SLE. (https://europepmc.org/article/MED/41946577)\n- Anti-RNPC3 also appears in the **systemic sclerosis** autoantibody literature, including *\"Distinct Scleroderma Autoantibody Profiles Stratify Patients for Cancer Risk...\"* (Kim et al., 2024), where it is used for patient stratification. (https://europepmc.org/article/MED/37488962)\n\n**Interpretation and caveats:**\n- The tools show RNPC3 is a **genuine, named autoantibody target** in connective-tissue autoimmune disease (MCTD, systemic sclerosis) \u2014 not merely a structural candidate.\n- However, I did **not** retrieve a paper establishing RNPC3 as an autoantigen *specifically in SLE itself*. The direct evidence is in MCTD and scleroderma (both \"related autoimmune diseases\"). My attempts to run an SLE-specific confirmation query were blocked by repeated Europe PMC 503 server errors, so that angle remains incompletely tested.\n- RNPC3 is **not** a member of the classical SLE autoantigen complexes defined in my guidance (Sm/snRNP core, U1 snRNP, nucleosome, ribosomal P, Ku, Ro/La); it belongs to the distinct **minor (U12) spliceosome**. So \"established core-complex\" membership does not apply here.\n\n**Bottom line:** There is real, published autoantibody evidence for RNPC3 as a target \u2014 robustly in MCTD and systemic sclerosis \u2014 but the tools did not establish it as a *recognized SLE* autoantigen. This fits best as emerging/related-disease evidence rather than an established SLE autoantigen. **Recommend an expert follow-up search for RNPC3 in SLE cohorts once Europe PMC is responsive.**\n\nEVIDENCE: EMERGING"
+    }
+  ]
+}

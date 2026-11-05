@@ -4,6 +4,9 @@
 # Raw downloaded structures — regenerable with `python3 src/fetch_proteins.py`
 data/raw/
 
+# Internal caches (regenerable) — not portfolio artifacts
+data/processed/_literature_cache_*.json
+
 # Python
 __pycache__/
 *.pyc

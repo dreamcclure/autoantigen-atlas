@@ -87,6 +87,16 @@ method is validated two honest ways — with *no* answer key:
   ([Europe PMC MED:37910256](https://europepmc.org/article/MED/37910256)). Two unrelated methods
   converging on the same protein is exactly what makes a candidate worth following up.
 
+**A second, complementary arm — literature** (`src/discover.py --source literature`). This finds
+candidates a different way: proteins recurring in the disease's autoantibody literature (Europe PMC
+text-mining), kept only when they appear in an *autoantibody context* — which filters out the drug
+targets, risk genes, and cytokines that merely co-occur with the disease. It surfaced **DNASE1L3** —
+which a 2021 study shows carries autoantibodies in sporadic lupus
+([MED:33783474](https://europepmc.org/article/MED/33783474)) — alongside established autoantigens from
+*related* autoimmune diseases (ANCA/PR3, MDA5, Goodpasture), while the agent correctly returned
+`NONE-FOUND` for a pseudogene that slipped through. The two arms find **disjoint** candidates —
+structural neighbours vs literature-grounded — each with its own validated hit (FUBP1, DNASE1L3).
+
 *(Honesty note: the agent abstains rather than guesses — e.g. it returns `NONE-FOUND` for coilin, a real
 but hard-to-retrieve autoantigen, because the literature tool sees only titles/abstracts. A documented
 limitation, not a hidden one.)*

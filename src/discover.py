@@ -39,10 +39,10 @@ from diseases import DISEASES
 # evaluation (established YES/NO), here we expect most candidates to be NOVEL — so we ask the
 # agent what evidence EXISTS, tiering it: already established / emerging hints / none found.
 ASSESS_QUESTION = (
-    "The protein {gene} ({acc}) physically associates with known {disease_name} autoantigens "
-    "({connects}). Using your tools, investigate whether there is any PUBLISHED evidence that "
-    "{gene} is itself targeted by autoantibodies or implicated as an autoantigen in {disease_name} "
-    "(or a related autoimmune disease). Give a short, cited assessment of what you find.\n\n"
+    "The protein {gene} ({acc}) {rationale}. Using your tools, investigate whether there is any "
+    "PUBLISHED evidence that {gene} is itself targeted by autoantibodies or implicated as an "
+    "autoantigen in {disease_name} (or a related autoimmune disease). Give a short, cited "
+    "assessment of what you find.\n\n"
     "End with a single final line in exactly one of these formats:\n"
     "EVIDENCE: ESTABLISHED  -- tools found it is already a recognized autoantigen in the disease\n"
     "EVIDENCE: EMERGING     -- tools found some published hints/reports, but not established\n"
@@ -68,6 +68,16 @@ NA_PRIOR_DISEASES = {"lupus"}
 # Two documented filters that control the confounds in candidate ranking:
 MIN_DEGREE = 4        # thin-data floor: need >=4 recorded interactions for a trustworthy ratio
 MIN_SPECIFICITY = 0.05  # hub floor: drop promiscuous hubs (e.g. HTT, 6/860 = 0.007)
+
+# --- Literature arm (Europe PMC text-mining) ---
+EPMC_SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+EPMC_ANNOT = "https://www.ebi.ac.uk/europepmc/annotations_api/annotationsByArticleIds"
+UNIPROT_URI_RE = re.compile(r"uniprotkb/([A-Z0-9]+)/entry")
+# Keep only mentions sitting near autoantibody/reactivity language — this is what separates
+# actual autoantigen targets from drug targets / risk genes / cytokines that also co-occur
+# with the disease (tested: it drops CD19/CD20/TLR7/IRF5, keeps MDA5/DNASE1L3/PRTN3/RNPC3).
+AUTOAB_CUE = re.compile(r"autoantib|autoantig|autoimmun|immunoreact|seroreact|seroposit|reactiv", re.I)
+LIT_MIN_ARTICLES = 2  # a candidate must recur in >=2 autoantibody-context papers (washes out mislinks)
 
 
 def positives(disease):
@@ -182,9 +192,207 @@ def holdout_recall(disease):
     return recall, recovered, missed
 
 
-def main():
-    disease = sys.argv[1] if len(sys.argv) > 1 else "lupus"
+# ---------------------------------------------------------------------------
+# Shared agent-assessment step (used by both arms). `--assess N` turns it on.
+# ---------------------------------------------------------------------------
+def assess_count(default=5):
+    """Return N if `--assess [N]` was passed (default 5), else None (assessment off)."""
+    if "--assess" not in sys.argv:
+        return None
+    i = sys.argv.index("--assess")
+    if i + 1 < len(sys.argv) and sys.argv[i + 1].isdigit():
+        return int(sys.argv[i + 1])
+    return default
+
+
+def assess_top(disease, disease_name, items):
+    """Run the trusted cited agent on each item; items = [{accession, gene, rationale}]."""
+    print("\n--- Agent assessment of top {} candidates (live, cited) ---".format(len(items)))
+    from agent import build_agent, ask
+    agent = build_agent(disease)
+    out = []
+    for it in items:
+        q = ASSESS_QUESTION.format(gene=it["gene"], acc=it["accession"],
+                                   disease_name=disease_name, rationale=it["rationale"])
+        try:
+            answer = ask(agent, q)
+        except Exception as error:
+            answer = "AGENT ERROR: {}".format(error)
+        matches = EVIDENCE_RE.findall(answer or "")
+        tier = matches[-1].upper() if matches else "UNPARSED"
+        print("  {:<11} {:<10} -> EVIDENCE: {}".format(it["gene"], it["accession"], tier))
+        out.append({"accession": it["accession"], "gene": it["gene"],
+                    "evidence_tier": tier, "transcript": answer})
+    return out
+
+
+# ---------------------------------------------------------------------------
+# LITERATURE ARM — proteins recurring in the disease's autoantibody literature.
+# Complements the partner arm: it finds candidates that already have a literature
+# footing (and from adjacent autoimmune diseases), which structure-based partners miss.
+# ---------------------------------------------------------------------------
+def _epmc_articles(disease_name):
+    """Collect Europe PMC article ids about the disease's autoantibodies/autoantigens."""
+    queries = ["{} autoantibody target protein".format(disease_name),
+               "{} autoantigen".format(disease_name),
+               "{} anti antibody target novel".format(disease_name)]
+    ids = []
+    for q in queries:
+        try:
+            r = requests.get(EPMC_SEARCH, params={"query": q, "format": "json",
+                             "pageSize": 40, "resultType": "lite"}, headers=HEADERS, timeout=30)
+            for p in r.json().get("resultList", {}).get("result", []):
+                if p.get("source") and p.get("id"):
+                    ids.append("{}:{}".format(p["source"], p["id"]))
+        except Exception:
+            continue
+    return list(dict.fromkeys(ids))   # dedup, preserve order
+
+
+def generate_literature_candidates(disease):
+    """
+    Pull Gene_Proteins text-mining annotations from the disease's autoantibody papers,
+    keep only mentions near autoantibody-context cues, map to reviewed HUMAN UniProt,
+    and score by the number of distinct papers. Returns {acc: {gene, lit_support}}.
+    """
     disease_name = DISEASES[disease]["name"]
+    cache_path = os.path.join(PROCESSED_DIR, "_literature_cache_{}.json".format(disease))
+
+    def from_cache(reason):
+        """Fall back to a prior good run when Europe PMC is unavailable — fail honestly, not silently."""
+        if os.path.exists(cache_path):
+            print("  [note] {} — using cached literature candidates (delete {} to force a refresh)."
+                  .format(reason, os.path.basename(cache_path)))
+            return json.load(open(cache_path))["candidates"]
+        print("  [warn] {} — and no cache to fall back on. Try again when the service is up.".format(reason))
+        return {}
+
+    articles = _epmc_articles(disease_name)
+    if not articles:
+        return from_cache("Europe PMC returned no articles (service may be unavailable)")
+
+    acc_articles = {}
+    for i in range(0, len(articles), 8):   # annotations API takes a small batch per call
+        try:
+            resp = requests.get(EPMC_ANNOT, params={"articleIds": articles[i:i + 8],
+                                "type": "Gene_Proteins", "format": "JSON"}, headers=HEADERS, timeout=40)
+            for art in resp.json():
+                aid = art.get("extId") or art.get("id") or str(i)
+                for ann in art.get("annotations", []):
+                    ctx = "{} {} {}".format(ann.get("prefix", ""), ann.get("exact", ""), ann.get("postfix", ""))
+                    if not AUTOAB_CUE.search(ctx):    # the context filter — the key quality step
+                        continue
+                    for tag in ann.get("tags", []):
+                        m = UNIPROT_URI_RE.search(tag.get("uri", ""))
+                        if m:
+                            acc_articles.setdefault(m.group(1), set()).add(aid)
+        except Exception:
+            continue
+        time.sleep(0.3)
+
+    candidates = {}
+    for acc, arts in acc_articles.items():
+        if len(arts) < LIT_MIN_ARTICLES or not _ensure_cached(acc):
+            continue
+        rec = json.load(open(os.path.join(RAW_DIR, "{}_uniprot.json".format(acc))))
+        if rec.get("organism", {}).get("taxonId") != 9606:   # drop the mouse/other-species mislinks
+            continue
+        genes = rec.get("genes", [])
+        gene = genes[0].get("geneName", {}).get("value") if genes else "?"
+        candidates[acc] = {"gene": gene, "lit_support": len(arts)}
+
+    # Cache a good run (reproducible + resilient to later outages); if the live pass came back
+    # empty but we have a cache, prefer the cache rather than reporting a misleading zero.
+    if candidates:
+        with open(cache_path, "w") as f:
+            json.dump({"cached_date": datetime.date.today().isoformat(), "candidates": candidates}, f, indent=2)
+    elif os.path.exists(cache_path):
+        return from_cache("live extraction returned nothing")
+    return candidates
+
+
+def run_literature(disease, disease_name):
+    """The literature-arm flow: generate, validate, rank, optionally assess, write."""
+    print("Discovery mode (literature arm) — {}\n".format(disease_name))
+    seed_acc = all_seed_accessions(disease)
+    pos_acc = {p["accession"] for p in positives(disease)}
+    cands = generate_literature_candidates(disease)
+    known = {a: c for a, c in cands.items() if a in pos_acc}
+    novel = {a: c for a, c in cands.items() if a not in seed_acc}
+
+    # Soft validation: the literature arm should re-surface some KNOWN antigens.
+    print("--- Validation: known antigens re-surfaced in the literature ---")
+    if known:
+        for a, c in sorted(known.items(), key=lambda kv: -kv[1]["lit_support"]):
+            print("  {:>2} papers  {:<10} {}".format(c["lit_support"], a, c["gene"]))
+    else:
+        print("  (none of the seed antigens cleared the {}-paper threshold)".format(LIT_MIN_ARTICLES))
+
+    ranked = sorted(novel.items(), key=lambda kv: -kv[1]["lit_support"])
+    print("\n--- Novel literature candidates (ranked by # autoantibody-context papers) ---")
+    print("  {:<6} {:<10} {}".format("papers", "accession", "gene"))
+    for a, c in ranked[:20]:
+        print("  {:<6} {:<10} {}".format(c["lit_support"], a, c["gene"]))
+
+    assessments = []
+    k = assess_count()
+    if k is not None:
+        items = [{"accession": a, "gene": c["gene"],
+                  "rationale": "recurs in the {} autoantibody literature ({} papers)".format(
+                      disease_name, c["lit_support"])}
+                 for a, c in ranked[:k]]
+        assessments = assess_top(disease, disease_name, items)
+
+    payload = {
+        "_metadata": {
+            "project": "Autoantigen Discovery Platform",
+            "disease_key": disease, "disease": disease_name,
+            "phase": "7 - discovery mode (literature arm)",
+            "run_date": datetime.date.today().isoformat(),
+            "method": "literature arm: Europe PMC text-mined Gene_Proteins annotations from the "
+                      "disease's autoantibody papers, kept only when near autoantibody-context cues, "
+                      "mapped to reviewed human UniProt, scored by # distinct papers.",
+            "context_cue": AUTOAB_CUE.pattern,
+            "min_articles": LIT_MIN_ARTICLES,
+            "framing": "Candidates are CITED HYPOTHESES for expert review, not confirmed discoveries.",
+            "n_novel_candidates": len(novel),
+            "n_known_resurfaced": len(known),
+            "caveat": "Broad net: the agent-assessment step is the precision filter. Coverage of the "
+                      "classic antigens is partial (recent-paper-biased); several candidates are real "
+                      "autoantigens from ADJACENT autoimmune diseases, not necessarily this one.",
+        },
+        "known_resurfaced": [{"accession": a, "gene": c["gene"], "lit_support": c["lit_support"]}
+                             for a, c in sorted(known.items(), key=lambda kv: -kv[1]["lit_support"])],
+        "candidates": [{"accession": a, "gene": c["gene"], "lit_support": c["lit_support"]}
+                       for a, c in ranked],
+        "agent_assessments": assessments,
+    }
+    out = os.path.join(PROCESSED_DIR, "discovery_{}_literature.json".format(disease))
+    with open(out, "w") as f:
+        json.dump(payload, f, indent=2)
+    print("\n  {} novel candidates — full list in data/processed/discovery_{}_literature.json"
+          .format(len(novel), disease))
+
+
+def main():
+    source = (sys.argv[sys.argv.index("--source") + 1]
+              if "--source" in sys.argv and sys.argv.index("--source") + 1 < len(sys.argv)
+              else "partner")
+    # disease = first positional that isn't a flag or a flag's value
+    flag_vals = set()
+    for flag in ("--source", "--assess"):
+        if flag in sys.argv:
+            j = sys.argv.index(flag) + 1
+            if j < len(sys.argv):
+                flag_vals.add(sys.argv[j])
+    positionals = [a for a in sys.argv[1:] if not a.startswith("--") and a not in flag_vals]
+    disease = positionals[0] if positionals else "lupus"
+    disease_name = DISEASES[disease]["name"]
+
+    if source == "literature":
+        run_literature(disease, disease_name)
+        return
+
     print("Discovery mode (partner arm) — {}\n".format(disease_name))
 
     seed_acc = all_seed_accessions(disease)
@@ -243,25 +451,13 @@ def main():
     # `--assess N` runs the trusted, cited agent on the top N candidates to see what published
     # evidence actually exists for each. Off by default so the ranking stays free.
     assessments = []
-    if "--assess" in sys.argv:
-        i = sys.argv.index("--assess")
-        k = int(sys.argv[i + 1]) if i + 1 < len(sys.argv) and sys.argv[i + 1].isdigit() else 5
-        top = ranked[:k]
-        print("\n--- Agent assessment of top {} candidates (live, cited) ---".format(len(top)))
-        from agent import build_agent, ask
-        agent = build_agent(disease)
-        for acc, c in top:
-            conns = ", ".join(sorted(set(c["connects_to"])))
-            q = ASSESS_QUESTION.format(gene=c["gene"], acc=acc, disease_name=disease_name, connects=conns)
-            try:
-                answer = ask(agent, q)
-            except Exception as error:
-                answer = "AGENT ERROR: {}".format(error)
-            m = EVIDENCE_RE.findall(answer or "")
-            tier = m[-1].upper() if m else "UNPARSED"
-            print("  {:<11} {:<10} -> EVIDENCE: {}".format(c["gene"], acc, tier))
-            assessments.append({"accession": acc, "gene": c["gene"], "evidence_tier": tier,
-                                "transcript": answer})
+    k = assess_count()
+    if k is not None:
+        items = [{"accession": acc, "gene": c["gene"],
+                  "rationale": "physically associates with known {} autoantigens ({})".format(
+                      disease_name, ", ".join(sorted(set(c["connects_to"]))))}
+                 for acc, c in ranked[:k]]
+        assessments = assess_top(disease, disease_name, items)
 
     payload = {
         "_metadata": {
