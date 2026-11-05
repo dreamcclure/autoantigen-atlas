@@ -31,11 +31,11 @@ from diseases import seed_for
 # Where to save everything. We build the path relative to THIS file so the
 # script works no matter which folder you run it from.
 HERE = os.path.dirname(os.path.abspath(__file__))          # .../src
-PROJECT_ROOT = os.path.dirname(HERE)                        # .../lupus-autoantigen-assistant
+PROJECT_ROOT = os.path.dirname(HERE)                        # .../autoantigen-atlas
 RAW_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
 
 # A short, polite label so the servers know who's calling (good manners for free APIs).
-HEADERS = {"User-Agent": "lupus-autoantigen-assistant (educational project)"}
+HEADERS = {"User-Agent": "autoantigen-atlas (educational project)"}
 
 
 def fetch_uniprot(accession):

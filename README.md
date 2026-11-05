@@ -1,4 +1,4 @@
-# Autoantigen Discovery Platform
+# Autoantigen Atlas — an AI autoantigen-discovery platform
 
 A **disease-agnostic** AI research platform that identifies the self-proteins the immune system
 mistakenly attacks in autoimmune disease — summarizing the evidence for each **with citations** and
@@ -13,8 +13,8 @@ nothing on trust.
 > (orange).*
 
 ### 🔬 Live demos — rotate the real structures in your browser
-- **[Lupus — 29 structures](https://dreamcclure.github.io/lupus-autoantigen-assistant/figures/structure_viewer.html)**
-- **[Rheumatoid arthritis — 20 structures](https://dreamcclure.github.io/lupus-autoantigen-assistant/figures/rheumatoid_arthritis_viewer.html)**
+- **[Lupus — 29 structures](https://dreamcclure.github.io/autoantigen-atlas/figures/structure_viewer.html)**
+- **[Rheumatoid arthritis — 20 structures](https://dreamcclure.github.io/autoantigen-atlas/figures/rheumatoid_arthritis_viewer.html)**
 
 ---
 

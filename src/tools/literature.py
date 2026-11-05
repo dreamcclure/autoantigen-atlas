@@ -7,7 +7,7 @@ published evidence instead of its own memory.
 import requests
 from langchain_core.tools import tool
 
-HEADERS = {"User-Agent": "lupus-autoantigen-assistant (educational project)"}
+HEADERS = {"User-Agent": "autoantigen-atlas (educational project)"}
 SEARCH_URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
 

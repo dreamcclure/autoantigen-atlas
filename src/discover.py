@@ -55,7 +55,7 @@ PROJECT_ROOT = os.path.dirname(HERE)
 RAW_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
 PROCESSED_DIR = os.path.join(PROJECT_ROOT, "data", "processed")
 
-HEADERS = {"User-Agent": "lupus-autoantigen-assistant (educational project)"}
+HEADERS = {"User-Agent": "autoantigen-atlas (educational project)"}
 ENTRY_URL = "https://rest.uniprot.org/uniprotkb/{}.json"
 MIN_SUPPORT = 2   # a candidate must link to >=2 known antigens to be ranked (one link = fluke)
 

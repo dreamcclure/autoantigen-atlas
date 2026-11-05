@@ -12,7 +12,7 @@ from langchain_core.tools import tool
 from fetch_proteins import mean_plddt
 from build_dataset import confidence_band
 
-HEADERS = {"User-Agent": "lupus-autoantigen-assistant (educational project)"}
+HEADERS = {"User-Agent": "autoantigen-atlas (educational project)"}
 META_URL = "https://alphafold.ebi.ac.uk/api/prediction/{}"
 ENTRY_URL = "https://alphafold.ebi.ac.uk/entry/{}"
 

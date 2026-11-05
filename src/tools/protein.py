@@ -15,7 +15,7 @@ import re
 import requests
 from langchain_core.tools import tool
 
-HEADERS = {"User-Agent": "lupus-autoantigen-assistant (educational project)"}
+HEADERS = {"User-Agent": "autoantigen-atlas (educational project)"}
 SEARCH_URL = "https://rest.uniprot.org/uniprotkb/search"
 ENTRY_URL = "https://rest.uniprot.org/uniprotkb/{}.json"
 ACCESSION_RE = re.compile(r"[A-Z][0-9][A-Z0-9]{3}[0-9]([A-Z][A-Z0-9]{2}[0-9]){0,2}$")
