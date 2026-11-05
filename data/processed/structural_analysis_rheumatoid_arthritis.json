@@ -1,0 +1,254 @@
+{
+  "_metadata": {
+    "project": "Autoantigen Discovery Platform",
+    "disease_key": "rheumatoid_arthritis",
+    "disease": "Rheumatoid arthritis (RA)",
+    "phase": "6 - structural analysis",
+    "run_date": "2026-11-03",
+    "hypothesis": "Autoantigens are enriched in intrinsic disorder (low pLDDT) relative to non-autoantigen controls.",
+    "disorder_proxy": "AlphaFold pLDDT (<50 = very low ~ disordered; <70 = low confidence)",
+    "stat_test": "exact two-sided permutation test on difference in means",
+    "n_positive": 15,
+    "n_negative_control": 5,
+    "skipped_no_model": [
+      "Filaggrin"
+    ],
+    "caveat": "Small sample (esp. 5 controls); treat as exploratory, hypothesis-generating, not confirmatory."
+  },
+  "comparison": {
+    "mean_plddt": {
+      "label": "Mean pLDDT",
+      "direction": "higher = more ordered",
+      "positive_median": 85.5,
+      "control_median": 94.1,
+      "mean_difference": -6.433,
+      "permutation_p": 0.4009
+    },
+    "frac_disordered": {
+      "label": "Fraction disordered (pLDDT<50)",
+      "direction": "higher = more disordered",
+      "positive_median": 0.126,
+      "control_median": 0.014,
+      "mean_difference": 0.059,
+      "permutation_p": 0.5928
+    },
+    "frac_low_conf": {
+      "label": "Fraction low-conf (pLDDT<70)",
+      "direction": "higher = more disordered",
+      "positive_median": 0.196,
+      "control_median": 0.043,
+      "mean_difference": 0.08,
+      "permutation_p": 0.5718
+    },
+    "longest_disordered_run": {
+      "label": "Longest disordered run (aa)",
+      "direction": "higher = more disordered",
+      "positive_median": 30.0,
+      "control_median": 2.0,
+      "mean_difference": 39.133,
+      "permutation_p": 0.132
+    }
+  },
+  "per_protein": [
+    {
+      "length_aa": 110,
+      "mean_plddt": 52.9,
+      "frac_disordered": 0.509,
+      "frac_low_conf": 0.873,
+      "longest_disordered_run": 22,
+      "short_name": "Insulin",
+      "accession": "P01308",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 444,
+      "mean_plddt": 92.1,
+      "frac_disordered": 0.016,
+      "frac_low_conf": 0.043,
+      "longest_disordered_run": 7,
+      "short_name": "Tubulin beta",
+      "accession": "P07437",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 148,
+      "mean_plddt": 94.1,
+      "frac_disordered": 0.014,
+      "frac_low_conf": 0.101,
+      "longest_disordered_run": 2,
+      "short_name": "Lysozyme C",
+      "accession": "P61626",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 147,
+      "mean_plddt": 97.2,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.007,
+      "longest_disordered_run": 0,
+      "short_name": "Hemoglobin beta",
+      "accession": "P68871",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 154,
+      "mean_plddt": 97.2,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.006,
+      "longest_disordered_run": 0,
+      "short_name": "Myoglobin",
+      "accession": "P02144",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 1487,
+      "mean_plddt": 52.1,
+      "frac_disordered": 0.691,
+      "frac_low_conf": 0.806,
+      "longest_disordered_run": 82,
+      "short_name": "Type II collagen",
+      "accession": "P02458",
+      "role": "positive"
+    },
+    {
+      "length_aa": 866,
+      "mean_plddt": 60.3,
+      "frac_disordered": 0.455,
+      "frac_low_conf": 0.573,
+      "longest_disordered_run": 195,
+      "short_name": "Fibrinogen alpha",
+      "accession": "P02671",
+      "role": "positive"
+    },
+    {
+      "length_aa": 353,
+      "mean_plddt": 69.2,
+      "frac_disordered": 0.402,
+      "frac_low_conf": 0.482,
+      "longest_disordered_run": 127,
+      "short_name": "RA33",
+      "accession": "P22626",
+      "role": "positive"
+    },
+    {
+      "length_aa": 466,
+      "mean_plddt": 77.1,
+      "frac_disordered": 0.24,
+      "frac_low_conf": 0.305,
+      "longest_disordered_run": 66,
+      "short_name": "Vimentin",
+      "accession": "P08670",
+      "role": "positive"
+    },
+    {
+      "length_aa": 2477,
+      "mean_plddt": 69.7,
+      "frac_disordered": 0.165,
+      "frac_low_conf": 0.392,
+      "longest_disordered_run": 71,
+      "short_name": "Fibronectin",
+      "accession": "P02751",
+      "role": "positive"
+    },
+    {
+      "length_aa": 381,
+      "mean_plddt": 76.7,
+      "frac_disordered": 0.163,
+      "frac_low_conf": 0.409,
+      "longest_disordered_run": 40,
+      "short_name": "Pentraxin 3",
+      "accession": "P26022",
+      "role": "positive"
+    },
+    {
+      "length_aa": 491,
+      "mean_plddt": 84.1,
+      "frac_disordered": 0.151,
+      "frac_low_conf": 0.196,
+      "longest_disordered_run": 44,
+      "short_name": "Fibrinogen beta",
+      "accession": "P02675",
+      "role": "positive"
+    },
+    {
+      "length_aa": 453,
+      "mean_plddt": 85.5,
+      "frac_disordered": 0.126,
+      "frac_low_conf": 0.188,
+      "longest_disordered_run": 30,
+      "short_name": "Fibrinogen gamma",
+      "accession": "P02679",
+      "role": "positive"
+    },
+    {
+      "length_aa": 654,
+      "mean_plddt": 90.0,
+      "frac_disordered": 0.049,
+      "frac_low_conf": 0.086,
+      "longest_disordered_run": 17,
+      "short_name": "BiP/GRP78",
+      "accession": "P11021",
+      "role": "positive"
+    },
+    {
+      "length_aa": 399,
+      "mean_plddt": 86.7,
+      "frac_disordered": 0.038,
+      "frac_low_conf": 0.178,
+      "longest_disordered_run": 6,
+      "short_name": "IgG1 Fc",
+      "accession": "P01857",
+      "role": "positive"
+    },
+    {
+      "length_aa": 103,
+      "mean_plddt": 89.8,
+      "frac_disordered": 0.01,
+      "frac_low_conf": 0.146,
+      "longest_disordered_run": 1,
+      "short_name": "Histone H4",
+      "accession": "P62805",
+      "role": "positive"
+    },
+    {
+      "length_aa": 136,
+      "mean_plddt": 86.0,
+      "frac_disordered": 0.007,
+      "frac_low_conf": 0.272,
+      "longest_disordered_run": 1,
+      "short_name": "Histone H3.1",
+      "accession": "P68431",
+      "role": "positive"
+    },
+    {
+      "length_aa": 434,
+      "mean_plddt": 97.6,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.002,
+      "longest_disordered_run": 0,
+      "short_name": "Alpha-enolase",
+      "accession": "P06733",
+      "role": "positive"
+    },
+    {
+      "length_aa": 126,
+      "mean_plddt": 88.1,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.111,
+      "longest_disordered_run": 0,
+      "short_name": "Histone H2B",
+      "accession": "P62807",
+      "role": "positive"
+    },
+    {
+      "length_aa": 130,
+      "mean_plddt": 91.1,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.138,
+      "longest_disordered_run": 0,
+      "short_name": "Histone H2A",
+      "accession": "P0C0S8",
+      "role": "positive"
+    }
+  ]
+}

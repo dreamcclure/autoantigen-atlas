@@ -12,3 +12,6 @@ python-dotenv     # loads our secret API key from a private .env file
 
 # Phase 4 — visuals
 matplotlib        # renders AlphaFold structures colored by confidence
+
+# Phase 6 — structural analysis
+numpy             # vectorized maths for the disorder metrics + permutation tests

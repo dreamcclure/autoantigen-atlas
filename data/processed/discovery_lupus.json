@@ -1,0 +1,372 @@
+{
+  "_metadata": {
+    "project": "Autoantigen Discovery Platform",
+    "disease_key": "lupus",
+    "disease": "Systemic lupus erythematosus (SLE)",
+    "phase": "7 - discovery mode (partner arm)",
+    "run_date": "2026-11-04",
+    "method": "partner arm: pool UniProt curated interaction partners of known autoantigens (epitope-spreading prior); filter hubs (specificity>=min) and thin annotation (degree>=min); rank by support (# known antigens linked), then specificity, then the nuclear/NA prior. specificity = links-to-known-antigens / total partners.",
+    "filters": {
+      "min_support": 2,
+      "min_degree": 4,
+      "min_specificity": 0.05
+    },
+    "framing": "Candidates are CITED HYPOTHESES for expert review, not confirmed discoveries.",
+    "validation": {
+      "method": "leave-one-out hold-out rediscovery",
+      "discovery_recall": 0.5,
+      "recovered": [
+        "Sm-B/B'",
+        "Sm-D1",
+        "Sm-D2",
+        "Sm-D3",
+        "Histone H4",
+        "Histone H3.1",
+        "Ribosomal P1",
+        "Ribosomal P2",
+        "C1q A",
+        "C1q B",
+        "Ku70",
+        "Ku80"
+      ],
+      "not_recoverable_by_partners": [
+        "Ro60",
+        "Ro52",
+        "La/SSB",
+        "U1-70K",
+        "U1-A",
+        "U1-C",
+        "Histone H2B",
+        "Histone H2A",
+        "Ribosomal P0",
+        "C1q C",
+        "PCNA",
+        "Beta-2-GPI"
+      ]
+    },
+    "n_known_antigens": 24,
+    "n_novel_candidates_total": 357,
+    "n_scored_shortlist": 22,
+    "n_rediscovered_known": 12,
+    "caveat": "Partner arm finds complex-members well; standalone antigens (e.g. Ro60, no curated interactions) are invisible to it \u2014 a known coverage gap. Specificity controls for hub bias (e.g. HTT, 860 partners, correctly demoted)."
+  },
+  "ranking": {
+    "order": "support, then specificity, then nuclear/NA prior",
+    "nuclear_na_prior_applied": true,
+    "note": "Transparent multi-signal ranking; filters/order are a documented first pass."
+  },
+  "candidates": [
+    {
+      "accession": "Q15428",
+      "gene": "SF3A2",
+      "partner_support": 5,
+      "total_partners": 52,
+      "specificity": 0.096,
+      "na_associated": true,
+      "connects_to": [
+        "Sm-B/B'",
+        "Sm-D1",
+        "Sm-D2",
+        "Sm-D3",
+        "U1-C"
+      ]
+    },
+    {
+      "accession": "P54105",
+      "gene": "CLNS1A",
+      "partner_support": 4,
+      "total_partners": 13,
+      "specificity": 0.308,
+      "na_associated": true,
+      "connects_to": [
+        "Sm-B/B'",
+        "Sm-D1",
+        "Sm-D2",
+        "Sm-D3"
+      ]
+    },
+    {
+      "accession": "Q96AE4-2",
+      "gene": "FUBP1",
+      "partner_support": 3,
+      "total_partners": 12,
+      "specificity": 0.25,
+      "na_associated": false,
+      "connects_to": [
+        "Sm-B/B'",
+        "U1-A",
+        "U1-C"
+      ]
+    },
+    {
+      "accession": "Q07021",
+      "gene": "C1QBP",
+      "partner_support": 3,
+      "total_partners": 19,
+      "specificity": 0.158,
+      "na_associated": true,
+      "connects_to": [
+        "C1q A",
+        "C1q B",
+        "C1q C"
+      ]
+    },
+    {
+      "accession": "O75420",
+      "gene": "GIGYF1",
+      "partner_support": 3,
+      "total_partners": 34,
+      "specificity": 0.088,
+      "na_associated": false,
+      "connects_to": [
+        "Sm-B/B'",
+        "U1-A",
+        "U1-C"
+      ]
+    },
+    {
+      "accession": "P38432",
+      "gene": "COIL",
+      "partner_support": 3,
+      "total_partners": 46,
+      "specificity": 0.065,
+      "na_associated": true,
+      "connects_to": [
+        "Ku70",
+        "Ku80",
+        "Sm-B/B'"
+      ]
+    },
+    {
+      "accession": "Q12888",
+      "gene": "TP53BP1",
+      "partner_support": 3,
+      "total_partners": 48,
+      "specificity": 0.062,
+      "na_associated": true,
+      "connects_to": [
+        "Histone H2B",
+        "Histone H3.1",
+        "Histone H4"
+      ]
+    },
+    {
+      "accession": "O75164",
+      "gene": "KDM4A",
+      "partner_support": 2,
+      "total_partners": 4,
+      "specificity": 0.5,
+      "na_associated": true,
+      "connects_to": [
+        "Histone H3.1",
+        "Histone H4"
+      ]
+    },
+    {
+      "accession": "Q9Y468",
+      "gene": "L3MBTL1",
+      "partner_support": 2,
+      "total_partners": 5,
+      "specificity": 0.4,
+      "na_associated": true,
+      "connects_to": [
+        "Histone H3.1",
+        "Histone H4"
+      ]
+    },
+    {
+      "accession": "O15355",
+      "gene": "PPM1G",
+      "partner_support": 2,
+      "total_partners": 5,
+      "specificity": 0.4,
+      "na_associated": false,
+      "connects_to": [
+        "Ku70",
+        "Ku80"
+      ]
+    },
+    {
+      "accession": "Q9Y3F4",
+      "gene": "STRAP",
+      "partner_support": 2,
+      "total_partners": 7,
+      "specificity": 0.286,
+      "na_associated": true,
+      "connects_to": [
+        "Sm-B/B'",
+        "Sm-D2"
+      ]
+    },
+    {
+      "accession": "P55201",
+      "gene": "BRPF1",
+      "partner_support": 2,
+      "total_partners": 10,
+      "specificity": 0.2,
+      "na_associated": true,
+      "connects_to": [
+        "Histone H2A",
+        "Histone H4"
+      ]
+    },
+    {
+      "accession": "Q8WXD5",
+      "gene": "GEMIN6",
+      "partner_support": 2,
+      "total_partners": 11,
+      "specificity": 0.182,
+      "na_associated": true,
+      "connects_to": [
+        "Sm-D1",
+        "Sm-D2"
+      ]
+    },
+    {
+      "accession": "P78527",
+      "gene": "PRKDC",
+      "partner_support": 2,
+      "total_partners": 13,
+      "specificity": 0.154,
+      "na_associated": true,
+      "connects_to": [
+        "Ku70",
+        "Ku80"
+      ]
+    },
+    {
+      "accession": "P13693",
+      "gene": "TPT1",
+      "partner_support": 2,
+      "total_partners": 15,
+      "specificity": 0.133,
+      "na_associated": false,
+      "connects_to": [
+        "Ku70",
+        "Ku80"
+      ]
+    },
+    {
+      "accession": "O95400",
+      "gene": "CD2BP2",
+      "partner_support": 2,
+      "total_partners": 17,
+      "specificity": 0.118,
+      "na_associated": true,
+      "connects_to": [
+        "Sm-B/B'",
+        "U1-A"
+      ]
+    },
+    {
+      "accession": "Q03060-25",
+      "gene": "CREM",
+      "partner_support": 2,
+      "total_partners": 18,
+      "specificity": 0.111,
+      "na_associated": false,
+      "connects_to": [
+        "Sm-B/B'",
+        "U1-C"
+      ]
+    },
+    {
+      "accession": "P49736",
+      "gene": "MCM2",
+      "partner_support": 2,
+      "total_partners": 19,
+      "specificity": 0.105,
+      "na_associated": true,
+      "connects_to": [
+        "Histone H3.1",
+        "Histone H4"
+      ]
+    },
+    {
+      "accession": "Q9Y333",
+      "gene": "LSM2",
+      "partner_support": 2,
+      "total_partners": 25,
+      "specificity": 0.08,
+      "na_associated": true,
+      "connects_to": [
+        "Sm-B/B'",
+        "Sm-D2"
+      ]
+    },
+    {
+      "accession": "Q96SB4",
+      "gene": "SRPK1",
+      "partner_support": 2,
+      "total_partners": 27,
+      "specificity": 0.074,
+      "na_associated": true,
+      "connects_to": [
+        "Sm-D3",
+        "U1-70K"
+      ]
+    },
+    {
+      "accession": "P31943",
+      "gene": "HNRNPH1",
+      "partner_support": 2,
+      "total_partners": 38,
+      "specificity": 0.053,
+      "na_associated": true,
+      "connects_to": [
+        "Sm-B/B'",
+        "U1-C"
+      ]
+    },
+    {
+      "accession": "Q12824",
+      "gene": "SMARCB1",
+      "partner_support": 2,
+      "total_partners": 40,
+      "specificity": 0.05,
+      "na_associated": true,
+      "connects_to": [
+        "Histone H3.1",
+        "Histone H4"
+      ]
+    }
+  ],
+  "agent_assessments": [
+    {
+      "accession": "Q15428",
+      "gene": "SF3A2",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: SF3A2 (Q15428) as a potential SLE autoantigen\n\n**What the protein is**\n- SF3A2 (Splicing factor 3A subunit 2, \"SAP62\") is a component of the **17S U2 snRNP** spliceosome complex, specifically part of the **SF3A subcomplex** (SF3A1/SF3A2/SF3A3). It helps assemble the U2 snRNP and recognizes the intron branch site during pre-mRNA splicing. [UniProt Q15428](https://www.uniprot.org/uniprotkb/Q15428/entry)\n- Note on classification: although SF3A2 physically associates with Sm proteins (Sm-B/B', Sm-D1/2/3) and U1-C, its own home is the **U2 snRNP / SF3A subcomplex**. This is *not* one of the named, clinically tested SLE autoantigen particles (anti-Sm, anti-U1-RNP, anti-Ro/La, etc.). Physical association with Sm antigens is interaction, not membership in a recognized autoantigen complex \u2014 so complex-level autoantigen status does not automatically transfer to SF3A2.\n\n**Structural confidence (context only, not autoantigen evidence)**\n- AlphaFold mean pLDDT = 64.1/100 (\"Low\" confidence) \u2014 the predicted 3D model is of limited reliability, likely reflecting intrinsically disordered regions. [AlphaFold Q15428](https://alphafold.ebi.ac.uk/entry/Q15428)\n\n**Literature search for autoantigen evidence** \u2014 I ran five queries:\n- \"SF3A2 autoantibody autoantigen lupus\" \u2192 no papers found.\n- \"SF3A2 SAP62 autoantibody autoimmune\" \u2192 one off-topic COVID-vaccine myocarditis case report, nothing on SF3A2 as an autoantigen. [MED/34133883](https://europepmc.org/article/MED/34133883)\n- \"SF3a splicing factor autoantibody autoimmune disease\" \u2192 the only relevant hit concerned a **different protein**, anti-**SF3B1** (a SF3B-subcomplex protein) as a marker in hepatocellular carcinoma \u2014 not SF3A2 and not SLE. [MED/29954402](https://europepmc.org/article/MED/29954402)\n- \"splicing factor 3A subunit autoantibody SLE\" and \"U2 snRNP SF3A autoantigen connective tissue disease\" \u2192 only generic SLE/autoimmunity reviews and an unrelated 1993 meeting abstract; nothing linking SF3A2 to autoantibodies.\n\n**Conclusion (for your review)**\nAcross the tools, I found **no published evidence** that SF3A2 itself is targeted by autoantibodies or recognized as an autoantigen in SLE or a related autoimmune disease. Its connection to known SLE antigens is a physical/complex association only. The one autoantibody report in this protein family is against the distinct protein SF3B1 in a cancer context, which does not support SF3A2 status. This makes SF3A2 a **structural/guilt-by-association candidate** rather than a documented autoantigen. (Absence of evidence in these searches is not proof of absence \u2014 a targeted immunoprecipitation/proteomics search or an expert review of primary SLE autoantigen screens would be a reasonable next step.)\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "P54105",
+      "gene": "CLNS1A",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: CLNS1A / pICln (P54105) as a potential SLE autoantigen\n\n**What it is (factual):**\n- CLNS1A encodes \"Methylosome subunit pICln,\" a 237-aa chaperone that regulates assembly of spliceosomal snRNPs and the methylation of Sm proteins. It forms a 6S pICln\u2013Sm complex with SNRPD1, SNRPD2, SNRPE, SNRPF, SNRPG, and is a component of the 20S methylosome (with PRMT5, WDR77). Source: https://www.uniprot.org/uniprotkb/P54105/entry\n- So the premise is confirmed: CLNS1A physically associates with Sm core proteins \u2014 which are themselves established anti-Sm targets. But CLNS1A acts as a chaperone that *mimics* Sm proteins transiently; it is not a stable member of the mature core snRNP particle that the clinical anti-Sm test captures (UniProt notes the pICln\u2013Sm complex is \"unable to assemble into the core snRNP\"). Source: https://www.uniprot.org/uniprotkb/P54105/entry\n\n**Structure (context only):**\n- AlphaFold mean pLDDT 75.5/100 (\"Confident\"). Source: https://alphafold.ebi.ac.uk/entry/P54105\n\n**Published autoantigen evidence (the key question):**\n- A search for CLNS1A/pICln autoantibodies in lupus returned **no papers** directly reporting that CLNS1A/pICln is targeted by autoantibodies in SLE or any related autoimmune disease. Searches returned either off-topic results or an unrelated mechanistic study.\n- The one on-topic hit \u2014 \"CLNS1A regulates genome stability and cell cycle progression to control CD4 T cell function and autoimmunity\" (2025) \u2014 describes an *intracellular functional role* of CLNS1A in T cells and autoimmunity, **not** CLNS1A being an autoantibody target/autoantigen. Source: https://europepmc.org/article/MED/40540585\n- I found no published report of \"anti-pICln\" or \"anti-CLNS1A\" autoantibodies in patient sera.\n\n**Human-in-the-loop caveat:** My rules allow complex-level inference only for *established core members* of recognized autoantigen complexes captured by named clinical tests. CLNS1A is a transient chaperone/assembly factor, not a stable Sm-core/snRNP component, so it does not qualify by that criterion. Its association with Sm proteins makes it a plausible structural candidate, but association alone is not autoantigen evidence. You may wish to confirm with a targeted sera/immunoprecipitation literature review, as my tool searches cannot rule out niche reports.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "Q96AE4-2",
+      "gene": "FUBP1",
+      "evidence_tier": "EMERGING",
+      "transcript": "## Assessment: FUBP1 (Far upstream element-binding protein 1) as an SLE autoantigen\n\n**Protein identity (UniProt)**\n- FUBP1 / Far upstream element-binding protein 1, accession Q96AE4, 644 aa. It regulates MYC expression by binding a single-stranded far-upstream element and interacts with PUF60 and JTV1. Source: https://www.uniprot.org/uniprotkb/Q96AE4/entry\n- Note: UniProt describes it as a MYC-regulatory single-stranded DNA/RNA-binding protein. The tools returned **no** data placing FUBP1 inside any of the recognized SLE autoantigen complexes (Sm core, U1 snRNP, nucleosome, ribosomal P, Ku, Ro/La). Its association with Sm-B/B\u2032, U1-A, U1-C \u2014 per your premise \u2014 is an interaction, which by itself does not confer autoantigen status.\n\n**Structural confidence (AlphaFold)**\n- Mean pLDDT 63.6/100 \u2014 \"Low\" confidence. Source: https://alphafold.ebi.ac.uk/entry/Q96AE4. (This reflects predicted disorder/flexibility, not autoantigenicity \u2014 contextual only.)\n\n**Published autoantigen evidence (Europe PMC)**\n- FUBP1 recurs as a **candidate** in the Wang & Roehrl \"autoantigen-ome\" catalog papers, which profile proteins captured by autoantigen-affinity (DS-affinity) proteomics and link alternative-splicing-related proteins to autoimmune diseases:\n  - \"A master autoantigen-ome links alternative splicing, female predilection, and COVID-19 to autoimmune diseases\" (2022): https://europepmc.org/article/MED/35237749 (preprint: https://europepmc.org/article/PPR/PPR378369)\n  - \"An Autoantigen-ome from HS-Sultan B-Lymphoblasts\u2026\" (2021): https://europepmc.org/article/PPR/PPR307555\n- A broader antibody-profiling trial paper also appeared: https://europepmc.org/article/MED/41559617\n- My targeted searches for FUBP1 tied to a **named SLE antibody test** or **confirmed SLE patient sera** (anti-FUBP1 in lupus nephritis, Sj\u00f6gren, scleroderma, etc.) returned only these same catalog/discovery papers \u2014 no clinical validation study.\n\n**Interpretation (for your review)**\n- The evidence is **catalog/discovery-level**: FUBP1 is flagged as a candidate autoantigen in proteomic screens associated with autoimmunity, but the tools returned no clinical study demonstrating anti-FUBP1 autoantibodies in a defined SLE cohort, and FUBP1 is not part of any established named SLE autoantigen complex or clinical antibody panel. This is more than nothing, but well short of \"established.\"\n- Evidence is thin and derives largely from one research group's autoantigen-ome catalogs; independent clinical confirmation would be the sensible next step before any firm claim.\n\nEVIDENCE: EMERGING"
+    },
+    {
+      "accession": "Q07021",
+      "gene": "C1QBP",
+      "evidence_tier": "EMERGING",
+      "transcript": "## Assessment: Is C1QBP (Q07021) an SLE autoantigen?\n\n**Protein identity (UniProt)**\n- C1QBP = Complement component 1 Q subcomponent-binding protein, mitochondrial (gene *C1QBP*, 282 aa). The UniProt record I retrieved lists only microbial-infection-related function/interactions and does **not** document membership in any recognized SLE autoantigen complex (Sm/snRNP, Ro/La, nucleosome, ribosomal P, Ku). Source: https://www.uniprot.org/uniprotkb/Q07021/entry\n\n**Structural confidence (AlphaFold)**\n- Mean pLDDT 75.1 (\"Confident\"). This speaks only to model reliability, not to autoantigen status. Source: https://alphafold.ebi.ac.uk/entry/Q07021\n\n**Published autoantibody / autoantigen evidence (Europe PMC)**\n- I found **no paper that directly demonstrates anti-C1QBP autoantibodies in SLE patients** or validates it with a named clinical antibody test.\n- The most relevant hits were broad proteomic **\"autoantigen-ome\" discovery catalogues** (Wang, Roehrl et al., 2022 \u2014 https://europepmc.org/article/MED/35237749; preprint https://europepmc.org/article/PPR/PPR378369; related B-lymphoblast autoantigen-ome https://europepmc.org/article/PPR/PPR307555). These surfaced repeatedly for C1QBP-focused queries, suggesting C1QBP may appear as a *candidate* in such screens \u2014 **but I cannot confirm from the tool output that C1QBP is explicitly named inside these papers**, and these are unvalidated discovery lists, not disease-specific confirmation.\n- Other hits (mitochondria in rheumatic diseases \u2014 https://europepmc.org/article/MED/36175664; Sj\u00f6gren's/type I IFN; the 2023 SLE autoantibody update \u2014 https://europepmc.org/article/MED/36695053) were topically adjacent but did not, in the returned data, identify C1QBP as an autoantibody target.\n\n**Honest bottom line**\nC1QBP is not documented by these tools as an established SLE autoantigen, and no study I retrieved directly shows it is targeted by autoantibodies. There are, at most, broad published autoantigen-screening catalogues that may list it as a candidate \u2014 a weak hint rather than established evidence. **Recommended next step for the expert:** check the full text of the Wang/Roehrl autoantigen-ome papers to verify whether C1QBP is explicitly listed, and search for any patient-serum reactivity studies, before drawing conclusions.\n\nEVIDENCE: EMERGING"
+    },
+    {
+      "accession": "O75420",
+      "gene": "GIGYF1",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: GIGYF1 (O75420) as a potential SLE autoantigen\n\n**Protein identity & function.** GIGYF1 is the GRB10-interacting GYF protein 1, a 1,035-aa protein that cooperates with GRB10 to regulate tyrosine kinase (IGF1) receptor signaling and also interacts with DDX6. Its documented binding partners are GRB10 and DDX6 \u2014 **not** the Sm core/snRNP autoantigen complex. [UniProt: https://www.uniprot.org/uniprotkb/O75420/entry]\n\n**Structural confidence.** The AlphaFold model is low confidence (mean pLDDT 55.2/100), consistent with a largely disordered protein \u2014 a caveat for any structure-based epitope reasoning. [AlphaFold: https://alphafold.ebi.ac.uk/entry/O75420]\n\n**Literature search for autoantigen/autoantibody evidence.** I ran five targeted queries combining GIGYF1 (and its full protein name) with \"autoantibody,\" \"autoantigen,\" \"autoimmune disease,\" \"lupus,\" and SLE terms. None returned any paper reporting GIGYF1 as a target of autoantibodies or as an autoantigen in SLE or a related autoimmune disease. The returned hits were off-topic or concerned genetic susceptibility, not autoantigenicity:\n- Autoimmune hepatitis blood transcriptomics [https://europepmc.org/article/MED/35312680]\n- Shared genetic risk across immune-mediated diseases/schizophrenia [https://europepmc.org/article/MED/31211845]\n- Diabetes/Hashimoto's/Sj\u00f6gren's susceptibility-gene (GWAS/exome) studies [https://europepmc.org/article/MED/37528512; https://europepmc.org/article/MED/42527560; https://europepmc.org/article/MED/37730603]\n\nThese describe gene-level associations at most, which is distinct from a protein being an antibody-targeted autoantigen.\n\n**Interpretation (for your review).** Per the criteria I apply, GIGYF1 is not a documented core component of any recognized SLE autoantigen complex (Sm/snRNP, nucleosome, ribosomal P, Ku, Ro/La) \u2014 its UniProt-listed interactions are with GRB10/DDX6, not the Sm/U1 particle. Any physical association with Sm-B/B', U1-A, or U1-C mentioned in your prompt was not corroborated by the tool data here, and a mere interaction would not by itself confer autoantigen status. I found **no published evidence** that GIGYF1 is itself targeted by autoantibodies.\n\nSuggested next step: if you have a specific interaction dataset (e.g., a proteomics/IP study) linking GIGYF1 to the snRNP, I can search for that primary source directly; otherwise this remains a structural/interaction candidate only.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "P38432",
+      "gene": "COIL",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: Is COIL (coilin) a published SLE autoantigen?\n\n**What the tools confirm about the protein**\n- Coilin (COIL, P38432) is a structural component of nuclear coiled bodies / Cajal bodies, involved in snRNP modification and assembly. Its documented interaction partners are SMN1, AK6, WRAP53/TCAB1, ANKS1B, HMBOX1, PSME3, and UBL5 \u2014 note that none of these are the classical SLE autoantigen complexes (Sm core, U1-snRNP, nucleosome, ribosomal P, Ku, Ro/La). [UniProt: https://www.uniprot.org/uniprotkb/P38432/entry]\n- AlphaFold predicts its structure at low overall confidence (mean pLDDT 58.5/100), consistent with a largely disordered protein \u2014 structural modeling here should be treated cautiously. [AlphaFold: https://alphafold.ebi.ac.uk/entry/P38432]\n\n**What the literature searches returned**\nI ran six literature queries combining \"coilin / p80 / Cajal body\" with autoantibody and disease terms (SLE, Sj\u00f6gren's, nuclear dots, patient sera). The hits were almost entirely:\n- General ANA / HEp-2 immunofluorescence-pattern reviews, e.g. the HEp-2 pattern nomenclature consensus [https://europepmc.org/article/MED/26347739], ANA fluorescence-pattern reviews [https://europepmc.org/article/MED/42923724], and ANA-as-classification-criteria reviews [https://europepmc.org/article/MED/35128372]; and\n- Off-topic coilin cell-biology papers (Cajal body dynamics, aging, spliceosome screens), e.g. [https://europepmc.org/article/MED/11134083] and [https://europepmc.org/article/MED/41562866].\n\n**Important caveat:** these tools returned only titles/authors, not full text. None of the returned records has a title that documents anti-coilin autoantibodies or names coilin as an autoantigen in SLE or a related disease. The ANA-pattern reviews *may* discuss a coilin-associated nuclear-dot pattern internally, but I cannot verify that from the metadata the tool gave me, so I will not claim it.\n\n**Conclusion**\n- Coilin only *interacts with / co-localizes near* SLE autoantigens; it is not itself a core subunit of any recognized autoantigen complex, so the \"established-by-complex-membership\" rule does not apply to it.\n- My tool searches did not return any published paper that establishes, or even clearly reports, coilin/p80 as a target of autoantibodies in SLE or related autoimmune disease.\n\nThis should be reviewed by an expert: a human familiar with the anti-\"nuclear dots\"/p80-coilin ANA literature may know of primary reports (e.g., older coiled-body autoantibody work) that my keyword searches did not surface. I'd suggest a targeted full-text/PubMed search on \"p80-coilin autoantibody\" and screening the full text of the HEp-2 pattern consensus as a next step before finalizing.\n\nEVIDENCE: NONE-FOUND"
+    }
+  ]
+}

@@ -48,6 +48,49 @@ accidentally *named the answer proteins*; that leak was caught, removed, and the
 (0.81) reported instead. The leaked and intermediate runs are preserved in `data/processed/` for
 audit.
 
+## Beyond retrieval — a disease-specific signature in the structures
+
+The platform doesn't just *fetch* facts; it *analyzes* them. We asked whether autoantigens share a
+biological signature, and tested two hypotheses honestly against a **random 40-protein human-proteome
+background** (reproducible, fixed seed) — reporting both the win and the null.
+
+![Lupus autoantigens are enriched for nuclear / nucleic-acid biology](figures/lupus_localization_signature.png)
+
+- **A real, disease-specific signal.** Lupus autoantigens are **~8× more likely** to be nuclear /
+  nucleic-acid-binding than a typical human protein (**75% vs 28%, Fisher's exact *p* = 0.0003**) —
+  independently recovering the textbook hallmark of lupus autoimmunity (nucleosomes, snRNPs, the Ro/La
+  RNP) from our own data. It's **non-circular**: these proteins were chosen by clinical antibody
+  tests, not by location. And it's **specific** — the same test run on **rheumatoid arthritis** stays
+  quiet (*p* = 0.34), exactly as expected, because RA targets are citrullinated *extracellular*
+  proteins; the one RA signal that survives is the citrullinated **histones**.
+- **A null we caught, not buried.** A tempting "autoantigens are more intrinsically disordered" signal
+  turned out to be an **artifact** — of comparing against 5 atypically-ordered controls and a protein-
+  length confound. Against the proper background with length controlled, it vanished (*p* = 0.98,
+  length-matched). We report it as the null it is. *(Both analyses: `src/analyze_structure.py`,
+  `src/analyze_localization.py`.)*
+
+## Discovery mode — surfacing *novel* candidate autoantigens
+
+The platform doesn't only assess *known* proteins; it proposes *new* ones. `src/discover.py` pools the
+curated interaction partners of known autoantigens — the **epitope-spreading** rationale (the immune
+response tends to spread to the physical partners of an initial target) — controls for promiscuous
+interaction *hubs* (ranking by **specificity**, not raw count), and runs the trusted cited agent to
+tier each candidate's published evidence (`ESTABLISHED` / `EMERGING` / `NONE-FOUND`).
+
+Candidates are framed as **cited hypotheses for expert review, never "confirmed discoveries."** The
+method is validated two honest ways — with *no* answer key:
+
+- **Hold-out rediscovery:** hide a known antigen, and the method re-proposes it from its partners
+  (**recall 0.50** on lupus; the misses are standalone antigens with no complexes, an understood gap).
+- **A real off-seed hit — FUBP1:** surfaced top-3 from interaction topology alone (not in our seed), and
+  independent **clinical** studies really do report anti-FUBP1 autoantibodies
+  ([Europe PMC MED:37910256](https://europepmc.org/article/MED/37910256)). Two unrelated methods
+  converging on the same protein is exactly what makes a candidate worth following up.
+
+*(Honesty note: the agent abstains rather than guesses — e.g. it returns `NONE-FOUND` for coilin, a real
+but hard-to-retrieve autoantigen, because the literature tool sees only titles/abstracts. A documented
+limitation, not a hidden one.)*
+
 ## How it works
 
 A [LangGraph](https://github.com/langchain-ai/langgraph) agent powered by **Claude Opus 4.8** (with
@@ -115,6 +158,9 @@ src/
   agent.py              the LangGraph agent + per-disease guardrails
   tools/                the agent's tools (protein, structure, literature)
   evaluate.py           blind evaluation + metrics (per disease)
+  build_controls.py     sample a random proteome-background control set (for analysis)
+  analyze_structure.py / analyze_localization.py   structural-signature analysis (Phase 6)
+  discover.py           discovery mode — propose novel candidate autoantigens (Phase 7)
   build_viewer.py / visualize_structure.py   structure visuals
 learn/                  annotated "learning editions" of the code (plain-English teaching)
 data/processed/         the cited datasets + evaluation results (per disease)

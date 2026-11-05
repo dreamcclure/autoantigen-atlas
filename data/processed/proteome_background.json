@@ -1,0 +1,418 @@
+{
+  "_metadata": {
+    "project": "Autoantigen Discovery Platform",
+    "set": "proteome_background",
+    "phase": "6 - structural analysis (control set)",
+    "description": "Random sample of reviewed human proteins as a 'typical protein' background for structural comparison.",
+    "pool_query": "reviewed:true AND organism_id:9606 NOT autoantigen",
+    "pool_size": 20310,
+    "seed": 42,
+    "requested": 40,
+    "obtained": 40,
+    "candidates_tried": 40,
+    "excluded_known": 44,
+    "caveat": "A random draw may rarely include an unrecognized autoantigen; this is infrequent and would only make downstream tests more conservative."
+  },
+  "background": [
+    {
+      "short_name": "VSTM1",
+      "accession": "Q6UX27",
+      "gene": "VSTM1",
+      "protein_name": "V-set and transmembrane domain-containing protein 1",
+      "length_aa": 236,
+      "role": "background",
+      "structure_mean_plddt": 76.2,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q6UX27/entry"
+    },
+    {
+      "short_name": "MAGEB4",
+      "accession": "O15481",
+      "gene": "MAGEB4",
+      "protein_name": "Melanoma-associated antigen B4",
+      "length_aa": 346,
+      "role": "background",
+      "structure_mean_plddt": 73.9,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/O15481/entry"
+    },
+    {
+      "short_name": "HDLBP",
+      "accession": "Q00341",
+      "gene": "HDLBP",
+      "protein_name": "Vigilin",
+      "length_aa": 1268,
+      "role": "background",
+      "structure_mean_plddt": 74.5,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q00341/entry"
+    },
+    {
+      "short_name": "CIROZ",
+      "accession": "Q8N9H9",
+      "gene": "CIROZ",
+      "protein_name": "Ciliated left-right organizer ZP-N domains-containing protein",
+      "length_aa": 823,
+      "role": "background",
+      "structure_mean_plddt": 52.7,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q8N9H9/entry"
+    },
+    {
+      "short_name": "HOOK2",
+      "accession": "Q96ED9",
+      "gene": "HOOK2",
+      "protein_name": "Protein Hook homolog 2",
+      "length_aa": 719,
+      "role": "background",
+      "structure_mean_plddt": 82.1,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q96ED9/entry"
+    },
+    {
+      "short_name": "UBE2H",
+      "accession": "P62256",
+      "gene": "UBE2H",
+      "protein_name": "Ubiquitin-conjugating enzyme E2 H",
+      "length_aa": 183,
+      "role": "background",
+      "structure_mean_plddt": 89.3,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P62256/entry"
+    },
+    {
+      "short_name": "NSUN5P2",
+      "accession": "Q63ZY6",
+      "gene": "NSUN5P2",
+      "protein_name": "Putative methyltransferase NSUN5C",
+      "length_aa": 315,
+      "role": "background",
+      "structure_mean_plddt": 77.1,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q63ZY6/entry"
+    },
+    {
+      "short_name": "EFCAB12",
+      "accession": "Q6NXP0",
+      "gene": "EFCAB12",
+      "protein_name": "EF-hand calcium-binding domain-containing protein 12",
+      "length_aa": 572,
+      "role": "background",
+      "structure_mean_plddt": 65.1,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q6NXP0/entry"
+    },
+    {
+      "short_name": "ACYP1",
+      "accession": "P07311",
+      "gene": "ACYP1",
+      "protein_name": "Acylphosphatase-1",
+      "length_aa": 99,
+      "role": "background",
+      "structure_mean_plddt": 96.3,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P07311/entry"
+    },
+    {
+      "short_name": "NPIPA6",
+      "accession": "P0DXC3",
+      "gene": "NPIPA6",
+      "protein_name": "Nuclear pore complex-interacting protein family member A6",
+      "length_aa": 369,
+      "role": "background",
+      "structure_mean_plddt": 50.0,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P0DXC3/entry"
+    },
+    {
+      "short_name": "CXorf58",
+      "accession": "Q96LI9",
+      "gene": "CXorf58",
+      "protein_name": "Uncharacterized protein CXorf58",
+      "length_aa": 332,
+      "role": "background",
+      "structure_mean_plddt": 76.1,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q96LI9/entry"
+    },
+    {
+      "short_name": "ZNF821",
+      "accession": "O75541",
+      "gene": "ZNF821",
+      "protein_name": "Zinc finger protein 821",
+      "length_aa": 412,
+      "role": "background",
+      "structure_mean_plddt": 58.6,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/O75541/entry"
+    },
+    {
+      "short_name": "GASK1B",
+      "accession": "Q6UWH4",
+      "gene": "GASK1B",
+      "protein_name": "Golgi-associated kinase 1B",
+      "length_aa": 519,
+      "role": "background",
+      "structure_mean_plddt": 71.7,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q6UWH4/entry"
+    },
+    {
+      "short_name": "AFP",
+      "accession": "P02771",
+      "gene": "AFP",
+      "protein_name": "Alpha-fetoprotein",
+      "length_aa": 609,
+      "role": "background",
+      "structure_mean_plddt": 88.9,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P02771/entry"
+    },
+    {
+      "short_name": "PRB2",
+      "accession": "P02812",
+      "gene": "PRB2",
+      "protein_name": "Basic salivary proline-rich protein 2",
+      "length_aa": 416,
+      "role": "background",
+      "structure_mean_plddt": 46.7,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P02812/entry"
+    },
+    {
+      "short_name": "OR13G1",
+      "accession": "Q8NGZ3",
+      "gene": "OR13G1",
+      "protein_name": "Olfactory receptor 13G1",
+      "length_aa": 307,
+      "role": "background",
+      "structure_mean_plddt": 86.5,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q8NGZ3/entry"
+    },
+    {
+      "short_name": "PKM",
+      "accession": "P14618",
+      "gene": "PKM",
+      "protein_name": "Pyruvate kinase PKM",
+      "length_aa": 531,
+      "role": "background",
+      "structure_mean_plddt": 96.8,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P14618/entry"
+    },
+    {
+      "short_name": "CYP8B1",
+      "accession": "Q9UNU6",
+      "gene": "CYP8B1",
+      "protein_name": "7-alpha-hydroxycholest-4-en-3-one 12-alpha-hydroxylase",
+      "length_aa": 501,
+      "role": "background",
+      "structure_mean_plddt": 91.3,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q9UNU6/entry"
+    },
+    {
+      "short_name": "PPWD1",
+      "accession": "Q96BP3",
+      "gene": "PPWD1",
+      "protein_name": "Peptidylprolyl isomerase domain and WD repeat-containing protein 1",
+      "length_aa": 646,
+      "role": "background",
+      "structure_mean_plddt": 85.9,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q96BP3/entry"
+    },
+    {
+      "short_name": "NUDT16",
+      "accession": "Q96DE0",
+      "gene": "NUDT16",
+      "protein_name": "U8 snoRNA-decapping enzyme",
+      "length_aa": 195,
+      "role": "background",
+      "structure_mean_plddt": 92.1,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q96DE0/entry"
+    },
+    {
+      "short_name": "KDM1A",
+      "accession": "O60341",
+      "gene": "KDM1A",
+      "protein_name": "Lysine-specific histone demethylase 1A",
+      "length_aa": 852,
+      "role": "background",
+      "structure_mean_plddt": 84.2,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/O60341/entry"
+    },
+    {
+      "short_name": "COXFA4L3",
+      "accession": "Q9C002",
+      "gene": "COXFA4L3",
+      "protein_name": "Cytochrome c oxidase associated subunit FA4L3",
+      "length_aa": 83,
+      "role": "background",
+      "structure_mean_plddt": 90.3,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q9C002/entry"
+    },
+    {
+      "short_name": "TMEM67",
+      "accession": "Q5HYA8",
+      "gene": "TMEM67",
+      "protein_name": "Meckelin",
+      "length_aa": 995,
+      "role": "background",
+      "structure_mean_plddt": 84.7,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q5HYA8/entry"
+    },
+    {
+      "short_name": "KIR2DS2",
+      "accession": "P43631",
+      "gene": "KIR2DS2",
+      "protein_name": "Killer cell immunoglobulin-like receptor 2DS2",
+      "length_aa": 304,
+      "role": "background",
+      "structure_mean_plddt": 80.6,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P43631/entry"
+    },
+    {
+      "short_name": "SMDT1",
+      "accession": "Q9H4I9",
+      "gene": "SMDT1",
+      "protein_name": "Essential MCU regulator, mitochondrial",
+      "length_aa": 107,
+      "role": "background",
+      "structure_mean_plddt": 72.6,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q9H4I9/entry"
+    },
+    {
+      "short_name": "MRPS6",
+      "accession": "P82932",
+      "gene": "MRPS6",
+      "protein_name": "Small ribosomal subunit protein bS6m",
+      "length_aa": 125,
+      "role": "background",
+      "structure_mean_plddt": 92.7,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P82932/entry"
+    },
+    {
+      "short_name": "ZNF211",
+      "accession": "Q13398",
+      "gene": "ZNF211",
+      "protein_name": "Zinc finger protein 211",
+      "length_aa": 564,
+      "role": "background",
+      "structure_mean_plddt": 64.1,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q13398/entry"
+    },
+    {
+      "short_name": "ZZEF1",
+      "accession": "O43149",
+      "gene": "ZZEF1",
+      "protein_name": "Zinc finger ZZ-type and EF-hand domain-containing protein 1",
+      "length_aa": 2961,
+      "role": "background",
+      "structure_mean_plddt": 79.6,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/O43149/entry"
+    },
+    {
+      "short_name": "OR9Q1",
+      "accession": "Q8NGQ5",
+      "gene": "OR9Q1",
+      "protein_name": "Olfactory receptor 9Q1",
+      "length_aa": 310,
+      "role": "background",
+      "structure_mean_plddt": 84.6,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q8NGQ5/entry"
+    },
+    {
+      "short_name": "RHO",
+      "accession": "P08100",
+      "gene": "RHO",
+      "protein_name": "Rhodopsin",
+      "length_aa": 348,
+      "role": "background",
+      "structure_mean_plddt": 88.7,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P08100/entry"
+    },
+    {
+      "short_name": "CAVIN2",
+      "accession": "O95810",
+      "gene": "CAVIN2",
+      "protein_name": "Caveolae-associated protein 2",
+      "length_aa": 425,
+      "role": "background",
+      "structure_mean_plddt": 62.9,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/O95810/entry"
+    },
+    {
+      "short_name": "PARD6B",
+      "accession": "Q9BYG5",
+      "gene": "PARD6B",
+      "protein_name": "Partitioning defective 6 homolog beta",
+      "length_aa": 372,
+      "role": "background",
+      "structure_mean_plddt": 70.5,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q9BYG5/entry"
+    },
+    {
+      "short_name": "KPRP",
+      "accession": "Q5T749",
+      "gene": "KPRP",
+      "protein_name": "Keratinocyte proline-rich protein",
+      "length_aa": 579,
+      "role": "background",
+      "structure_mean_plddt": 48.7,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q5T749/entry"
+    },
+    {
+      "short_name": "FMR1NB",
+      "accession": "Q8N0W7",
+      "gene": "FMR1NB",
+      "protein_name": "FMR1 neighbor protein",
+      "length_aa": 255,
+      "role": "background",
+      "structure_mean_plddt": 61.7,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q8N0W7/entry"
+    },
+    {
+      "short_name": "RBX1",
+      "accession": "P62877",
+      "gene": "RBX1",
+      "protein_name": "E3 ubiquitin-protein ligase RBX1",
+      "length_aa": 108,
+      "role": "background",
+      "structure_mean_plddt": 79.2,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P62877/entry"
+    },
+    {
+      "short_name": "RPL22",
+      "accession": "P35268",
+      "gene": "RPL22",
+      "protein_name": "Large ribosomal subunit protein eL22",
+      "length_aa": 128,
+      "role": "background",
+      "structure_mean_plddt": 83.9,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/P35268/entry"
+    },
+    {
+      "short_name": "TMEM8B",
+      "accession": "A6NDV4",
+      "gene": "TMEM8B",
+      "protein_name": "Transmembrane protein 8B",
+      "length_aa": 472,
+      "role": "background",
+      "structure_mean_plddt": 80.8,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/A6NDV4/entry"
+    },
+    {
+      "short_name": "OR6C74",
+      "accession": "A6NCV1",
+      "gene": "OR6C74",
+      "protein_name": "Olfactory receptor 6C74",
+      "length_aa": 312,
+      "role": "background",
+      "structure_mean_plddt": 87.6,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/A6NCV1/entry"
+    },
+    {
+      "short_name": "DHRS9",
+      "accession": "Q9BPW9",
+      "gene": "DHRS9",
+      "protein_name": "Dehydrogenase/reductase SDR family member 9",
+      "length_aa": 319,
+      "role": "background",
+      "structure_mean_plddt": 94.6,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q9BPW9/entry"
+    },
+    {
+      "short_name": "TIMM13",
+      "accession": "Q9Y5L4",
+      "gene": "TIMM13",
+      "protein_name": "Mitochondrial import inner membrane translocase subunit Tim13",
+      "length_aa": 95,
+      "role": "background",
+      "structure_mean_plddt": 83.9,
+      "source_uniprot": "https://www.uniprot.org/uniprotkb/Q9Y5L4/entry"
+    }
+  ]
+}

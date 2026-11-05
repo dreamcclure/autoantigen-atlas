@@ -1,0 +1,52 @@
+{
+  "_metadata": {
+    "project": "Autoantigen Discovery Platform",
+    "disease_key": "rheumatoid_arthritis",
+    "disease": "Rheumatoid arthritis (RA)",
+    "phase": "6 - structural analysis (localization)",
+    "run_date": "2026-11-03",
+    "hypothesis": "Autoantigens are enriched for nuclear localization and/or nucleic-acid binding vs a typical human protein (apoptotic-bleb model).",
+    "classification": "UniProt controlled-vocabulary keywords: Nucleus, DNA-binding, RNA-binding",
+    "primary_endpoint": "nucleic_acid_associated (any of the three keywords)",
+    "stat_test": "Fisher's exact test, two-sided (hypergeometric; no scipy)",
+    "non_circular": "Autoantigens were selected by clinical autoantibody tests, not by localization, so this enrichment is a discovered property, not a selection loop.",
+    "n_autoantigen": 16,
+    "n_background": 40,
+    "skipped_no_uniprot": [],
+    "caveat": "Keyword-based classification is coarse (e.g. Ro60 is keyworded cytoplasmic but is an RNA-binding RNP) \u2014 the combined primary endpoint is the robust read."
+  },
+  "results": [
+    {
+      "key": "nucleic_acid_associated",
+      "label": "Nuclear and/or NA-binding (primary)",
+      "auto_has": 7,
+      "ctrl_has": 11,
+      "odds_ratio": 2.05,
+      "p": 0.3428
+    },
+    {
+      "key": "Nucleus",
+      "label": "Nucleus",
+      "auto_has": 7,
+      "ctrl_has": 9,
+      "odds_ratio": 2.68,
+      "p": 0.1886
+    },
+    {
+      "key": "DNA-binding",
+      "label": "DNA-binding",
+      "auto_has": 5,
+      "ctrl_has": 2,
+      "odds_ratio": 8.64,
+      "p": 0.0161
+    },
+    {
+      "key": "RNA-binding",
+      "label": "RNA-binding",
+      "auto_has": 1,
+      "ctrl_has": 4,
+      "odds_ratio": 0.6,
+      "p": 1.0
+    }
+  ]
+}

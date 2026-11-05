@@ -1,0 +1,219 @@
+{
+  "_metadata": {
+    "project": "Autoantigen Discovery Platform",
+    "disease_key": "rheumatoid_arthritis",
+    "disease": "Rheumatoid arthritis (RA)",
+    "phase": "7 - discovery mode (partner arm)",
+    "run_date": "2026-11-04",
+    "method": "partner arm: pool UniProt curated interaction partners of known autoantigens (epitope-spreading prior); filter hubs (specificity>=min) and thin annotation (degree>=min); rank by support (# known antigens linked), then specificity, then the nuclear/NA prior. specificity = links-to-known-antigens / total partners.",
+    "filters": {
+      "min_support": 2,
+      "min_degree": 4,
+      "min_specificity": 0.05
+    },
+    "framing": "Candidates are CITED HYPOTHESES for expert review, not confirmed discoveries.",
+    "validation": {
+      "method": "leave-one-out hold-out rediscovery",
+      "discovery_recall": 0.125,
+      "recovered": [
+        "Histone H4",
+        "Histone H3.1"
+      ],
+      "not_recoverable_by_partners": [
+        "Vimentin",
+        "Alpha-enolase",
+        "Fibrinogen alpha",
+        "Fibrinogen beta",
+        "Fibrinogen gamma",
+        "Fibronectin",
+        "Type II collagen",
+        "Filaggrin",
+        "Histone H2B",
+        "Histone H2A",
+        "BiP/GRP78",
+        "RA33",
+        "Pentraxin 3",
+        "IgG1 Fc"
+      ]
+    },
+    "n_known_antigens": 16,
+    "n_novel_candidates_total": 306,
+    "n_scored_shortlist": 9,
+    "n_rediscovered_known": 2,
+    "caveat": "Partner arm finds complex-members well; standalone antigens (e.g. Ro60, no curated interactions) are invisible to it \u2014 a known coverage gap. Specificity controls for hub bias (e.g. HTT, 860 partners, correctly demoted)."
+  },
+  "ranking": {
+    "order": "support, then specificity, then nuclear/NA prior",
+    "nuclear_na_prior_applied": false,
+    "note": "Transparent multi-signal ranking; filters/order are a documented first pass."
+  },
+  "candidates": [
+    {
+      "accession": "Q12888",
+      "gene": "TP53BP1",
+      "partner_support": 4,
+      "total_partners": 48,
+      "specificity": 0.083,
+      "na_associated": null,
+      "connects_to": [
+        "Histone H2B",
+        "Histone H3.1",
+        "Histone H4",
+        "Vimentin"
+      ]
+    },
+    {
+      "accession": "Q12824",
+      "gene": "SMARCB1",
+      "partner_support": 3,
+      "total_partners": 40,
+      "specificity": 0.075,
+      "na_associated": null,
+      "connects_to": [
+        "Histone H3.1",
+        "Histone H4",
+        "Vimentin"
+      ]
+    },
+    {
+      "accession": "O75164",
+      "gene": "KDM4A",
+      "partner_support": 2,
+      "total_partners": 4,
+      "specificity": 0.5,
+      "na_associated": null,
+      "connects_to": [
+        "Histone H3.1",
+        "Histone H4"
+      ]
+    },
+    {
+      "accession": "Q9Y4K0",
+      "gene": "LOXL2",
+      "partner_support": 2,
+      "total_partners": 5,
+      "specificity": 0.4,
+      "na_associated": null,
+      "connects_to": [
+        "Fibronectin",
+        "Vimentin"
+      ]
+    },
+    {
+      "accession": "Q9Y468",
+      "gene": "L3MBTL1",
+      "partner_support": 2,
+      "total_partners": 5,
+      "specificity": 0.4,
+      "na_associated": null,
+      "connects_to": [
+        "Histone H3.1",
+        "Histone H4"
+      ]
+    },
+    {
+      "accession": "Q96IZ0",
+      "gene": "PAWR",
+      "partner_support": 2,
+      "total_partners": 6,
+      "specificity": 0.333,
+      "na_associated": null,
+      "connects_to": [
+        "BiP/GRP78",
+        "Vimentin"
+      ]
+    },
+    {
+      "accession": "P55201",
+      "gene": "BRPF1",
+      "partner_support": 2,
+      "total_partners": 10,
+      "specificity": 0.2,
+      "na_associated": null,
+      "connects_to": [
+        "Histone H2A",
+        "Histone H4"
+      ]
+    },
+    {
+      "accession": "P98066",
+      "gene": "TNFAIP6",
+      "partner_support": 2,
+      "total_partners": 11,
+      "specificity": 0.182,
+      "na_associated": null,
+      "connects_to": [
+        "Fibronectin",
+        "Pentraxin 3"
+      ]
+    },
+    {
+      "accession": "P49736",
+      "gene": "MCM2",
+      "partner_support": 2,
+      "total_partners": 19,
+      "specificity": 0.105,
+      "na_associated": null,
+      "connects_to": [
+        "Histone H3.1",
+        "Histone H4"
+      ]
+    }
+  ],
+  "agent_assessments": [
+    {
+      "accession": "Q12888",
+      "gene": "TP53BP1",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "Here is my assessment based on the tool evidence gathered.\n\n## Assessment: TP53BP1 (Q12888) as a potential RA autoantigen\n\n**Protein identity and function (UniProt).** TP53BP1 is TP53-binding protein 1 (gene *TP53BP1*, 1972 aa), a double-strand-break DNA repair protein that promotes non-homologous end joining and is also required for immunoglobulin class-switch recombination during antibody genesis. Notably, it is recruited to DNA breaks by recognizing **histone H4 dimethylated at Lys-20 (H4K20me2)** and monoubiquitinated **histone H2A** \u2014 a chromatin/histone association, which matches the premise that it interacts with histone autoantigens. Source: https://www.uniprot.org/uniprotkb/Q12888/entry\n\n**Structural confidence (AlphaFold).** The AlphaFold model has a mean pLDDT of **43.9/100 \u2014 \"Very low\" confidence**, consistent with TP53BP1 being a large, largely disordered scaffold protein. This means any structure-based epitope inference should be treated with caution. Source: https://alphafold.ebi.ac.uk/entry/Q12888\n\n**Literature on autoantigen status.** I ran several targeted searches (autoantibody/autoantigen, anti-53BP1, citrullination/ACPA, RA and lupus). None returned any paper reporting that TP53BP1 is itself bound by autoantibodies or serves as an autoantigen in RA or a related disease:\n- The only recurrent on-topic hits connect the **DNA-damage-response pathway generally** to autoimmunity, not TP53BP1 as an antibody target \u2014 e.g. \"DNA Damage Response and Oxidative Stress in Systemic Autoimmunity\" (2019, https://europepmc.org/article/MED/31861764) and \"Defective DNA repair and chromatin organization in... systemic lupus erythematosus\" (2016, https://europepmc.org/article/MED/27492607).\n- A conceptually adjacent 2026 paper, \"DNA damage in macrophages drives immune autoreactivity via nuclear antigen presentation\" (https://europepmc.org/article/MED/41540279), concerns nuclear-antigen autoreactivity broadly but was not shown by the tool to name TP53BP1 as a target.\n- Searches specifically for citrullinated/ACPA-targeted TP53BP1 returned only off-topic reviews.\n\n**Interpretation (for your review).** My tools confirm TP53BP1's physical/functional association with histones (an established autoantigen family), but this is a structural/pathway link only. I found **no published evidence** that TP53BP1 itself is citrullinated and recognized by ACPA, is an RF target, or is otherwise an established autoantibody target in RA or a related autoimmune disease. It therefore does not meet the bar for an established RA autoantigen on the current evidence \u2014 it is best regarded as a structural/interaction-based candidate. I'd suggest, if you want to pursue it, a dedicated immunoprecipitation/autoantibody-screen literature search and checking whether it appears in any RA citrullinome proteomic dataset.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "Q12824",
+      "gene": "SMARCB1",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: SMARCB1 (Q12824) as an RA autoantigen\n\n**What the protein is**\nSMARCB1 is the \"SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily B member 1,\" a core component of the BAF (hSWI/SNF) ATP-dependent chromatin-remodeling complex (385 aa). Its described roles are in chromatin remodeling, cell-cycle control, and tumor suppression \u2014 no autoimmune function is listed in its record (UniProt: https://www.uniprot.org/uniprotkb/Q12824/entry).\n\n**Structural confidence**\nAlphaFold predicts its structure with a mean pLDDT of 80.8 (\"Confident\" band) \u2014 reliable for a structural model, but this says nothing about autoantigen status (AlphaFold: https://alphafold.ebi.ac.uk/entry/Q12824).\n\n**Literature search for autoantigen evidence**\nI ran multiple targeted queries:\n- \"SMARCB1 autoantibody autoantigen rheumatoid arthritis\"\n- \"SMARCB1 autoantibody autoimmune disease\"\n- \"SMARCB1 citrullinated ACPA rheumatoid arthritis autoantigen\" \u2192 **no papers found**\n- \"SMARCB1 INI1 autoantibody target serum\"\n- \"SMARCB1 INI1 BAF57 anti-SWI/SNF antibody systemic sclerosis myositis\" \u2192 **no papers found**\n- \"BAF SWI/SNF chromatin remodeling complex autoantigen autoantibody\"\n\nNone of these returned any paper reporting SMARCB1 (or the BAF/SWI/SNF complex) as a target of autoantibodies in RA or any related autoimmune disease. The hits that did appear were off-topic \u2014 almost entirely oncology/pathology papers (SMARCB1 is a well-studied tumor suppressor), plus general reviews that do not establish an autoantigen link.\n\n**Caveat on the \"guilt-by-association\" premise**\nYour prompt notes SMARCB1 associates with known RA autoantigens (histones, vimentin). My tools did **not** return evidence that SMARCB1 is a chain/subunit/family member of an established RA autoantibody target. It is a subunit of the BAF complex, but my searches found no evidence the BAF complex itself is an RA autoantigen. Physical association with autoantigens is a hypothesis-generating lead, not evidence of autoantigenicity, so it does not qualify SMARCB1 as an established autoantigen under my criteria.\n\n**Conclusion (for your expert review)**\nBased solely on tool evidence, SMARCB1 appears to be a purely structural/association-based candidate: no published report links it to autoantibodies in RA or related autoimmune diseases. Absence of search hits is not proof of absence \u2014 a bench-level antigen screen, or a search of specialized autoantigen databases I cannot access, would be sensible next steps if you want to pursue this lead.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "O75164",
+      "gene": "KDM4A",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: KDM4A as a potential RA (or related) autoantigen\n\n**Protein identity (confirmed by tool):**\nKDM4A is Lysine-specific demethylase 4A (gene *KDM4A*, accession O75164, 1064 aa), a chromatin-modifying enzyme that removes repressive histone methyl marks. UniProt describes only its enzymatic/transcriptional role and a microbial-infection interaction (HTLV-1 Tax) \u2014 no mention of autoimmunity or autoantibody targeting. [UniProt: https://www.uniprot.org/uniprotkb/O75164/entry]\n\n**Structure (confirmed by tool):**\nAlphaFold predicts the model with a mean pLDDT of 71.8/100 (\"Confident\" band). This speaks only to structural-model reliability, not to any disease role. [AlphaFold: https://alphafold.ebi.ac.uk/entry/O75164]\n\n**Autoantibody / autoantigen evidence (literature searches):**\nI ran five searches combining KDM4A/JMJD2A/\"lysine demethylase 4\"/\"histone demethylase\" with autoantibody, autoantigen, RA, and lupus terms. None returned a paper reporting that KDM4A is itself bound by autoantibodies or is an autoantigen in RA or a related autoimmune disease. The returned hits concern unrelated topics \u2014 KDM4A in cancer biology (e.g., nasopharyngeal carcinoma [https://europepmc.org/article/MED/42092754]), general epigenetic regulation of immunity [https://europepmc.org/article/MED/42875430], KDM4B/NLRP3 inflammation [https://europepmc.org/article/MED/41703092], and broad autoimmunity reviews [https://europepmc.org/article/MED/42694375] \u2014 with no KDM4A-specific autoantigen claim in any of them.\n\n**Important caveats for your review:**\n- The premise that KDM4A physically associates with Histone H3.1/H4, and that those histones are RA autoantigens, was *not* verified by my tools in this session (I did not look up the histones, and no tool returned evidence of such an interaction or of histone autoantigen status). I therefore cannot use that as support.\n- Even if confirmed, a physical binding partner is not the same as a chain/subunit/family member of an established RA target, so it would not by itself make KDM4A an autoantigen under the criteria I apply.\n- Absence of search hits is not proof of absence; it reflects what Europe PMC surfaced for these queries. A domain expert may wish to try additional synonyms or proteomic autoantigen-array datasets.\n\n**Bottom line:** The tools confirm KDM4A's identity and provide a confident structural model, but I found **no published evidence** that KDM4A is itself targeted by autoantibodies or recognized as an autoantigen in RA or a related autoimmune disease. On tool evidence it is, at most, a structural/interaction candidate.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "Q9Y4K0",
+      "gene": "LOXL2",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: LOXL2 (Q9Y4K0) as an RA autoantigen\n\n**What the tools confirm about the protein:**\n- LOXL2 is \"Lysyl oxidase homolog 2,\" a 774-aa enzyme that oxidatively deaminates lysine residues, including cross-linking of extracellular-matrix proteins (collagen, elastin) and roles in EMT and transcriptional repression (UniProt: https://www.uniprot.org/uniprotkb/Q9Y4K0/entry).\n- Its documented interaction partners per UniProt are SNAI1, TAF10, HSPA5, and EFEMP2 (same source). **Note:** the UniProt record does *not* list Fibronectin or Vimentin among its subunit/complex partners, so the \"physically associates with RA autoantigens\" premise in your question is not something I can confirm from the tool data.\n- The AlphaFold predicted structure is of good quality (mean pLDDT 86.1, \"Confident\" band), but structural confidence says nothing about autoantigen status (AlphaFold: https://alphafold.ebi.ac.uk/entry/Q9Y4K0).\n\n**Literature search for autoantigen/autoantibody evidence (five queries run):**\nI searched for LOXL2 autoantibodies/autoantigen in RA, in related autoimmune diseases (systemic sclerosis, primary biliary cholangitis, autoimmune liver disease), and for LOXL2 as a citrullinated/ACPA target. Across all searches, **no paper reported LOXL2 as a target of autoantibodies or as an autoantigen** in RA or any related disease. The returned hits concern LOXL2 in fibrosis, EMT, tumor/matrix remodeling, and general autoimmunity reviews that do not name LOXL2 as an antigen \u2014 e.g., RA-ILD and RA-fibroblast reviews (https://europepmc.org/article/MED/41103435, https://europepmc.org/article/MED/39906351) and a systemic sclerosis biomarker/Mendelian-randomization study (https://europepmc.org/article/MED/41431733), none of which describe anti-LOXL2 antibodies.\n\n**Bottom line:** Based on tool evidence, LOXL2 is a structurally well-characterized ECM-cross-linking enzyme, but I found **no published evidence** that it is itself targeted by autoantibodies or recognized as an autoantigen in RA or a related autoimmune disease. I also could not confirm the stated physical association with Fibronectin/Vimentin from UniProt. At present it is best regarded as a candidate of interest only, not a documented autoantigen. An expert may wish to check specialized citrullinome/autoantigen-array datasets, which my literature tool may not fully index.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "Q9Y468",
+      "gene": "L3MBTL1",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: L3MBTL1 (Q9Y468) as a candidate RA autoantigen\n\n**What the protein is.** UniProt describes L3MBTL1 (Lethal(3)malignant brain tumor-like protein 1, gene *L3MBTL1*, 840 aa) as a Polycomb-group chromatin \"reader\" that binds mono-/dimethylated histone H1b and histone H4 (H4K20me1/me2) to compact chromatin and repress transcription. Listed interactors are RB1, p53/TP53, CBX3, ETV6, KMT5A and VCP/p97 (source: https://www.uniprot.org/uniprotkb/Q9Y468/entry). Note: the physical association in your prompt is consistent with its histone-binding role, but **a reader that binds histones is not itself a histone**, so the \"member/subunit of an established target family\" rule does not apply here \u2014 L3MBTL1 would need its own evidence.\n\n**Literature search for autoantigen status.** I ran several targeted searches and found **no published evidence** linking L3MBTL1 to autoantibodies or autoimmunity:\n- \"L3MBTL1 autoantibody autoantigen\" \u2192 no papers found.\n- \"L3MBTL1 citrullinated ACPA anti-citrullinated protein\" \u2192 no papers found.\n- \"L3MBTL1 lupus Sjogren systemic sclerosis autoantibody\" \u2192 no papers found.\n- \"L3MBTL1 rheumatoid arthritis autoimmune\" \u2192 returned only off-topic hits (osteoarthritis DNA methylation, iridocyclitis genetics, SUMOylation in Tregs, SMYD family, fibromyalgia) \u2014 none of which actually concern L3MBTL1 as an autoantigen (e.g. https://europepmc.org/article/MED/41127556, https://europepmc.org/article/MED/34235289).\n- \"L3MBTL1 autoantigen antibody target disease\" \u2192 one hit on chromatin MAR biology (https://europepmc.org/article/MED/33409278), not autoimmunity.\n\n**Conclusion (for your review).** My tools returned no published evidence that L3MBTL1 is targeted by ACPA, is an RF target, or is otherwise an established or reported autoantibody target in RA or any related autoimmune disease. Its only connection to the field is indirect \u2014 it physically associates with histones that your prompt notes are RA autoantigens \u2014 but guilt-by-association is not evidence of autoantigenicity. On tool evidence alone, L3MBTL1 is at most a structural/interaction-based candidate, not a recognized autoantigen. If you want to probe further, I'd suggest literature searches on its binding partners (e.g. citrullinated histone H4/H1 in RA) or experimental ACPA-reactivity screens, but I found nothing for L3MBTL1 itself.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "Q96IZ0",
+      "gene": "PAWR",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: Is PAWR (Q96IZ0) an RA autoantigen?\n\n**Protein identity (UniProt).** PAWR encodes \"PRKC apoptosis WT1 regulator protein\" (Par-4), a 340-aa pro-apoptotic protein that interacts with WT1, THAP1, AATF, BACE1, SPSB1/2/4, SQSTM1, PRKCZ, and actin. Notably, the UniProt subunit record does **not** list BiP/GRP78 or Vimentin among its interactors, and none of its listed partners are established by my tools as RA autoantigens. (Source: https://www.uniprot.org/uniprotkb/Q96IZ0/entry)\n\n**Structural confidence (AlphaFold).** The predicted structure has a mean pLDDT of 63.7/100 \u2014 \"Low\" confidence, consistent with a largely disordered protein. This is a structural note only and says nothing about autoantigenicity. (Source: https://alphafold.ebi.ac.uk/entry/Q96IZ0)\n\n**Literature search (Europe PMC).** I ran seven searches combining PAWR/Par-4 with autoantibody, autoantigen, citrullination, RA, and related autoimmune-disease terms. **None returned any paper linking PAWR/Par-4 to autoantibody targeting in RA or any other autoimmune disease.** The hits were uniformly off-topic \u2014 GRP78/BiP biology, cancer, thrombosis, immune-regulation reviews, and untitled poster/abstract collections \u2014 with no PAWR-specific autoimmunity report among them. (Representative searches returned either \"No papers found\" or off-topic results such as https://europepmc.org/article/MED/30568038 [anti-GRP78, not PAWR].)\n\n**What this means.**\n- I found **no tool evidence** that PAWR's citrullinated form is an ACPA target, that it is an RF target, or that it is otherwise an autoantibody target in RA.\n- The user's premise \u2014 that PAWR associates with BiP/GRP78 and vimentin \u2014 was **not confirmed** by the UniProt interactor list my tool returned, so I cannot invoke a \"member/subunit of an established target\" route. Even if that association exists, physical association with an autoantigen is not itself evidence that PAWR is targeted.\n- This leaves PAWR, on current tool evidence, as a **structural/interaction-based candidate only**, not a documented autoantigen.\n\n**Caveat for your review (human in the loop).** Absence of evidence in these searches is not proof of absence \u2014 a relevant report could exist under different terminology, in a database not covered here, or behind the untitled abstract collections (e.g., the 2012 and 2021 poster/abstract records) that my tool could not resolve. A useful next step would be targeted expert review of those abstract collections and a search of RA citrullinome/proteomic datasets if you have access.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "P55201",
+      "gene": "BRPF1",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: Is BRPF1 (Peregrin, P55201) an RA autoantigen?\n\n**What the tools establish about the protein:**\n- BRPF1 encodes \"Peregrin,\" a 1214-aa scaffold subunit of histone acetyltransferase (HAT) complexes (MOZ/MORF and HBO1). It interacts with histone H3 and partners such as KAT7/HBO1, ING5, MEAF6, KAT6A/B \u2014 a chromatin-regulatory role, not a histone itself. (UniProt: https://www.uniprot.org/uniprotkb/P55201/entry)\n\n**Search for autoantibody / autoantigen evidence:**\n- \"BRPF1 autoantibody autoantigen\" \u2192 returned only an unrelated LEDGF/p75 DNA-binding paper (https://europepmc.org/article/MED/21345933); no BRPF1 autoantigen link.\n- \"BRPF1 rheumatoid arthritis autoimmune\" \u2192 returned epigenetic-drug/cancer papers and a review on epigenetic readers in autoimmune disease (https://europepmc.org/article/MED/33922725), plus a paper on the *related* bromodomain protein BRD1 as a therapeutic target in RA (https://europepmc.org/article/MED/30042400). None of these describe BRPF1 as an autoantibody target; they concern BRPF1/bromodomain proteins as potential *drug targets*, which is a different claim.\n- \"Peregrin BRPF1 citrullinated ACPA\u2026\", \"BRPF1\u2026 lupus/Sj\u00f6gren\", and \"MOZ MORF HBO1 complex autoantigen\" \u2192 **no papers found** in Europe PMC.\n\n**Interpretation (for your review):**\n- I found **no published evidence** that BRPF1/Peregrin is itself targeted by autoantibodies or is an established/emerging autoantigen in RA or a related autoimmune disease.\n- The premise that BRPF1 physically associates with histones H2A/H4 does not, by my rules, make it an autoantigen: BRPF1 is a HAT-complex scaffold, not a histone chain, subunit, or family member of the histones. A physical interaction with a known autoantigen is a structural hypothesis only \u2014 not autoantibody evidence. The tools link BRPF1 to histone **H3**, and to drug-target (not autoantibody-target) interest in autoimmunity.\n- Caveat: absence of tool evidence is not proof of absence; a targeted immunoprecipitation/ACPA-profiling study could still exist under terms I didn't hit. If you want, I can run additional queries (e.g., proteome-wide ACPA arrays, citrullinome datasets) to further confirm.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "P98066",
+      "gene": "TNFAIP6",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "# Assessment: TNFAIP6 (TSG-6) as an RA autoantigen\n\n## What the tools confirm\n\n**Protein identity & biology** \u2014 TNFAIP6 (Tumor necrosis factor-inducible gene 6 protein / TSG-6), UniProt P98066, 277 aa. It is a regulator of extracellular matrix organization during tissue remodeling, transfers heavy chains from inter-alpha-inhibitor to hyaluronan, modulates chemokine/glycosaminoglycan interactions, and notably **protects against bone erosion during inflammation and limits neutrophil recruitment** \u2014 i.e. the tools describe it as *anti-inflammatory/protective*, not as an immune target. Source: https://www.uniprot.org/uniprotkb/P98066/entry\n\n**Interaction with known RA autoantigens** \u2014 The UniProt record confirms your premise: TNFAIP6 interacts (via its CUB domain) with fibronectin FN1, enhancing fibronectin fibril assembly, and may bridge FN1 and THBS1. Source: https://www.uniprot.org/uniprotkb/P98066/entry\n\n**Structure** \u2014 AlphaFold mean pLDDT 81.1 (\"Confident\"). Source: https://alphafold.ebi.ac.uk/entry/P98066\n\n## What the literature shows (and does not)\n\nAcross five targeted searches (autoantibody, anti-TSG-6, citrullinated/ACPA, lupus/Sj\u00f6gren/vasculitis, synovial biomarker), I found **no published paper describing TNFAIP6/TSG-6 as a target of autoantibodies or as an autoantigen** in RA or any related autoimmune disease.\n\n- The RA-related hits treat TSG-6 as an *anti-inflammatory effector/therapeutic mediator* (e.g., mesenchymal/umbilical-cord stem-cell studies: https://europepmc.org/article/MED/28005072 ; https://europepmc.org/article/MED/42959448), not as an antibody target.\n- The ACPA/anti-citrullinated-protein searches returned general RA antibody papers (e.g., https://europepmc.org/article/MED/36812347) that do **not** list TNFAIP6 among citrullinated targets.\n- Other hits were off-topic reviews (microbiota, AI, hydrogels, osteoarthritis biomarkers).\n\n## Caveats (human-in-the-loop)\n\nThis is a negative finding from literature-database searches, not proof of absence. The tools also do **not** report any citrullinated/modified form of TNFAIP6, nor is it shown to be a chain/subunit/family member of an established RA autoantibody target (its *interaction partners* fibronectin and pentraxin 3 being autoantigens does not transfer autoantigen status to it). An expert may wish to check proteomic/peptide-array ACPA datasets directly, which my tools do not index.\n\n**Bottom line:** TNFAIP6 is a structurally confident protein that physically associates with recognized RA autoantigens, but my tools surfaced no published evidence that TNFAIP6 itself is targeted by autoantibodies. At present it looks like a protein-interaction (structural/functional) candidate only.\n\nEVIDENCE: NONE-FOUND"
+    },
+    {
+      "accession": "P49736",
+      "gene": "MCM2",
+      "evidence_tier": "NONE-FOUND",
+      "transcript": "## Assessment: MCM2 (P49736) as an RA autoantigen\n\n**Protein identity (confirmed by tool).** P49736 is DNA replication licensing factor **MCM2**, 904 aa, a component of the MCM2-7 replicative helicase complex. UniProt confirms it interacts with histones H3.1/H3.3 and forms a co-chaperone complex with DNAJC9 and H3.3\u2013H4 heterodimers \u2014 i.e., it does physically associate with histones (https://www.uniprot.org/uniprotkb/P49736/entry).\n- *A caution for the record:* my first `lookup_protein` call for the string \"MCM2\" mistakenly returned **MCM7** (P33993). I re-queried by accession to get the correct MCM2 entry above.\n\n**Structure (AlphaFold).** Mean pLDDT 76.3/100 \u2014 \"Confident\" band (https://alphafold.ebi.ac.uk/entry/P49736). This is structural-model confidence only; it says nothing about autoantigenicity.\n\n**Literature on MCM2 as an autoantibody target.** I ran five searches combining MCM2/minichromosome-maintenance with autoantibody, RA, ACPA/citrullination, lupus, Sj\u00f6gren, and connective tissue disease. I found **no published paper demonstrating that MCM2 (native or citrullinated) is targeted by autoantibodies in RA or a related autoimmune disease.**\n- The only tangentially related hits were broad proteomic \"candidate autoantigen-ome\" screens from one group (Wang/Roehrl et al., 2021\u20132022; https://europepmc.org/article/MED/35237749 and https://europepmc.org/article/PPR/PPR366312). These are affinity/proteomic candidate catalogues, not disease-specific demonstrations of anti-MCM2 antibodies, and I could not confirm from the tool output that MCM2 is actually named in them.\n- All other returned results (musculoskeletal reviews, oncoproteomics, hematology/genetics congress abstracts, etc.) were off-topic.\n\n**Bottom line (for your review).** The tools confirm MCM2's physical association with histones (established RA autoantigens), but association is not the same as being an autoantigen itself. MCM2 is **not** a member of the histone family, so the \"member-of-a-targeted-family/parent\" rule does not transfer autoantigen status to it. I found **no tool-backed published evidence** that MCM2 is itself an ACPA target, an RF target, or an established autoantibody target in RA or a related disease. It currently stands as a structural/interaction-based candidate only.\n\nSuggested next step if you want to push further: a focused search of ACPA citrullinome proteomics datasets (e.g., mass-spec citrullinated-peptide studies in RA synovium) to check whether MCM2-derived citrullinated peptides have ever been detected.\n\nEVIDENCE: NONE-FOUND"
+    }
+  ]
+}

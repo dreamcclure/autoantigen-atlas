@@ -1,0 +1,636 @@
+{
+  "_metadata": {
+    "project": "Autoantigen Discovery Platform",
+    "disease_key": "rheumatoid_arthritis",
+    "disease": "Rheumatoid arthritis (RA)",
+    "phase": "6 - structural analysis",
+    "comparison_group": "proteome background",
+    "run_date": "2026-11-03",
+    "hypothesis": "Autoantigens are enriched in intrinsic disorder (low pLDDT) relative to non-autoantigens.",
+    "disorder_proxy": "AlphaFold pLDDT (<50 very low ~ disordered; <70 low confidence)",
+    "primary_metric": "mean_plddt",
+    "stat_test": "permutation (exact when small, else Monte-Carlo); length confound handled by stratified + matched tests",
+    "rng_seed": 42,
+    "n_autoantigen": 15,
+    "n_control": 40,
+    "skipped_no_model": [
+      "Filaggrin"
+    ],
+    "caveat": "Curated-control mode uses only 5 controls (exploratory). Background mode uses a random proteome sample for real power; a random draw may rarely include an unknown autoantigen, which is infrequent and only makes the test more conservative."
+  },
+  "comparison": {
+    "mean_plddt": {
+      "label": "Mean pLDDT",
+      "direction": "higher = more ordered",
+      "autoantigen_median": 85.5,
+      "control_median": 80.7,
+      "mean_difference": 2.574,
+      "permutation_p": 0.5232,
+      "method": "monte-carlo (20000)",
+      "primary": true
+    },
+    "frac_disordered": {
+      "label": "Fraction disordered (pLDDT<50)",
+      "direction": "higher = more disordered",
+      "autoantigen_median": 0.126,
+      "control_median": 0.114,
+      "mean_difference": -0.015,
+      "permutation_p": 0.7981,
+      "method": "monte-carlo (20000)",
+      "primary": false
+    },
+    "frac_low_conf": {
+      "label": "Fraction low-conf (pLDDT<70)",
+      "direction": "higher = more disordered",
+      "autoantigen_median": 0.196,
+      "control_median": 0.218,
+      "mean_difference": -0.026,
+      "permutation_p": 0.7406,
+      "method": "monte-carlo (20000)",
+      "primary": false
+    },
+    "longest_disordered_run": {
+      "label": "Longest disordered run (aa)",
+      "direction": "higher = more disordered",
+      "autoantigen_median": 30.0,
+      "control_median": 23.5,
+      "mean_difference": 2.958,
+      "permutation_p": 0.905,
+      "method": "monte-carlo (20000)",
+      "primary": false
+    }
+  },
+  "length_confound": {
+    "length_median_autoantigen": 434,
+    "length_median_control": 358,
+    "length_permutation_p": 0.1748,
+    "stratified": {
+      "primary_metric": "mean_plddt",
+      "n_bins": 3,
+      "adjusted_mean_difference": 3.118,
+      "permutation_p": 0.4128
+    },
+    "length_matched": {
+      "n_pairs": 15,
+      "median_length_gap_aa": 13.0,
+      "mean_paired_diff": 0.213,
+      "permutation_p": 0.9646
+    }
+  },
+  "per_protein": {
+    "autoantigen": [
+      {
+        "length_aa": 1487,
+        "mean_plddt": 52.1,
+        "frac_disordered": 0.691,
+        "frac_low_conf": 0.806,
+        "longest_disordered_run": 82,
+        "short_name": "Type II collagen",
+        "accession": "P02458",
+        "gene": "COL2A1"
+      },
+      {
+        "length_aa": 866,
+        "mean_plddt": 60.3,
+        "frac_disordered": 0.455,
+        "frac_low_conf": 0.573,
+        "longest_disordered_run": 195,
+        "short_name": "Fibrinogen alpha",
+        "accession": "P02671",
+        "gene": "FGA"
+      },
+      {
+        "length_aa": 353,
+        "mean_plddt": 69.2,
+        "frac_disordered": 0.402,
+        "frac_low_conf": 0.482,
+        "longest_disordered_run": 127,
+        "short_name": "RA33",
+        "accession": "P22626",
+        "gene": "HNRNPA2B1"
+      },
+      {
+        "length_aa": 466,
+        "mean_plddt": 77.1,
+        "frac_disordered": 0.24,
+        "frac_low_conf": 0.305,
+        "longest_disordered_run": 66,
+        "short_name": "Vimentin",
+        "accession": "P08670",
+        "gene": "VIM"
+      },
+      {
+        "length_aa": 2477,
+        "mean_plddt": 69.7,
+        "frac_disordered": 0.165,
+        "frac_low_conf": 0.392,
+        "longest_disordered_run": 71,
+        "short_name": "Fibronectin",
+        "accession": "P02751",
+        "gene": "FN1"
+      },
+      {
+        "length_aa": 381,
+        "mean_plddt": 76.7,
+        "frac_disordered": 0.163,
+        "frac_low_conf": 0.409,
+        "longest_disordered_run": 40,
+        "short_name": "Pentraxin 3",
+        "accession": "P26022",
+        "gene": "PTX3"
+      },
+      {
+        "length_aa": 491,
+        "mean_plddt": 84.1,
+        "frac_disordered": 0.151,
+        "frac_low_conf": 0.196,
+        "longest_disordered_run": 44,
+        "short_name": "Fibrinogen beta",
+        "accession": "P02675",
+        "gene": "FGB"
+      },
+      {
+        "length_aa": 453,
+        "mean_plddt": 85.5,
+        "frac_disordered": 0.126,
+        "frac_low_conf": 0.188,
+        "longest_disordered_run": 30,
+        "short_name": "Fibrinogen gamma",
+        "accession": "P02679",
+        "gene": "FGG"
+      },
+      {
+        "length_aa": 654,
+        "mean_plddt": 90.0,
+        "frac_disordered": 0.049,
+        "frac_low_conf": 0.086,
+        "longest_disordered_run": 17,
+        "short_name": "BiP/GRP78",
+        "accession": "P11021",
+        "gene": "HSPA5"
+      },
+      {
+        "length_aa": 399,
+        "mean_plddt": 86.7,
+        "frac_disordered": 0.038,
+        "frac_low_conf": 0.178,
+        "longest_disordered_run": 6,
+        "short_name": "IgG1 Fc",
+        "accession": "P01857",
+        "gene": "IGHG1"
+      },
+      {
+        "length_aa": 103,
+        "mean_plddt": 89.8,
+        "frac_disordered": 0.01,
+        "frac_low_conf": 0.146,
+        "longest_disordered_run": 1,
+        "short_name": "Histone H4",
+        "accession": "P62805",
+        "gene": "H4C1"
+      },
+      {
+        "length_aa": 136,
+        "mean_plddt": 86.0,
+        "frac_disordered": 0.007,
+        "frac_low_conf": 0.272,
+        "longest_disordered_run": 1,
+        "short_name": "Histone H3.1",
+        "accession": "P68431",
+        "gene": "H3C1"
+      },
+      {
+        "length_aa": 434,
+        "mean_plddt": 97.6,
+        "frac_disordered": 0.0,
+        "frac_low_conf": 0.002,
+        "longest_disordered_run": 0,
+        "short_name": "Alpha-enolase",
+        "accession": "P06733",
+        "gene": "ENO1"
+      },
+      {
+        "length_aa": 126,
+        "mean_plddt": 88.1,
+        "frac_disordered": 0.0,
+        "frac_low_conf": 0.111,
+        "longest_disordered_run": 0,
+        "short_name": "Histone H2B",
+        "accession": "P62807",
+        "gene": "H2BC4"
+      },
+      {
+        "length_aa": 130,
+        "mean_plddt": 91.1,
+        "frac_disordered": 0.0,
+        "frac_low_conf": 0.138,
+        "longest_disordered_run": 0,
+        "short_name": "Histone H2A",
+        "accession": "P0C0S8",
+        "gene": "H2AC11"
+      }
+    ],
+    "control": [
+      {
+        "length_aa": 416,
+        "mean_plddt": 46.7,
+        "frac_disordered": 0.704,
+        "frac_low_conf": 0.964,
+        "longest_disordered_run": 55,
+        "short_name": "PRB2",
+        "accession": "P02812",
+        "gene": "PRB2"
+      },
+      {
+        "length_aa": 579,
+        "mean_plddt": 48.7,
+        "frac_disordered": 0.629,
+        "frac_low_conf": 0.943,
+        "longest_disordered_run": 120,
+        "short_name": "KPRP",
+        "accession": "Q5T749",
+        "gene": "KPRP"
+      },
+      {
+        "length_aa": 823,
+        "mean_plddt": 52.7,
+        "frac_disordered": 0.61,
+        "frac_low_conf": 0.666,
+        "longest_disordered_run": 449,
+        "short_name": "CIROZ",
+        "accession": "Q8N9H9",
+        "gene": "CIROZ"
+      },
+      {
+        "length_aa": 369,
+        "mean_plddt": 50.0,
+        "frac_disordered": 0.553,
+        "frac_low_conf": 0.908,
+        "longest_disordered_run": 67,
+        "short_name": "NPIPA6",
+        "accession": "P0DXC3",
+        "gene": "NPIPA6"
+      },
+      {
+        "length_aa": 412,
+        "mean_plddt": 58.6,
+        "frac_disordered": 0.434,
+        "frac_low_conf": 0.721,
+        "longest_disordered_run": 86,
+        "short_name": "ZNF821",
+        "accession": "O75541",
+        "gene": "ZNF821"
+      },
+      {
+        "length_aa": 425,
+        "mean_plddt": 62.9,
+        "frac_disordered": 0.421,
+        "frac_low_conf": 0.685,
+        "longest_disordered_run": 62,
+        "short_name": "CAVIN2",
+        "accession": "O95810",
+        "gene": "CAVIN2"
+      },
+      {
+        "length_aa": 564,
+        "mean_plddt": 64.1,
+        "frac_disordered": 0.356,
+        "frac_low_conf": 0.477,
+        "longest_disordered_run": 131,
+        "short_name": "ZNF211",
+        "accession": "Q13398",
+        "gene": "ZNF211"
+      },
+      {
+        "length_aa": 372,
+        "mean_plddt": 70.5,
+        "frac_disordered": 0.325,
+        "frac_low_conf": 0.449,
+        "longest_disordered_run": 66,
+        "short_name": "PARD6B",
+        "accession": "Q9BYG5",
+        "gene": "PARD6B"
+      },
+      {
+        "length_aa": 519,
+        "mean_plddt": 71.7,
+        "frac_disordered": 0.324,
+        "frac_low_conf": 0.405,
+        "longest_disordered_run": 73,
+        "short_name": "GASK1B",
+        "accession": "Q6UWH4",
+        "gene": "GASK1B"
+      },
+      {
+        "length_aa": 572,
+        "mean_plddt": 65.1,
+        "frac_disordered": 0.311,
+        "frac_low_conf": 0.514,
+        "longest_disordered_run": 35,
+        "short_name": "EFCAB12",
+        "accession": "Q6NXP0",
+        "gene": "EFCAB12"
+      },
+      {
+        "length_aa": 255,
+        "mean_plddt": 61.7,
+        "frac_disordered": 0.267,
+        "frac_low_conf": 0.655,
+        "longest_disordered_run": 25,
+        "short_name": "FMR1NB",
+        "accession": "Q8N0W7",
+        "gene": "FMR1NB"
+      },
+      {
+        "length_aa": 346,
+        "mean_plddt": 73.9,
+        "frac_disordered": 0.225,
+        "frac_low_conf": 0.413,
+        "longest_disordered_run": 42,
+        "short_name": "MAGEB4",
+        "accession": "O15481",
+        "gene": "MAGEB4"
+      },
+      {
+        "length_aa": 315,
+        "mean_plddt": 77.1,
+        "frac_disordered": 0.213,
+        "frac_low_conf": 0.298,
+        "longest_disordered_run": 66,
+        "short_name": "NSUN5P2",
+        "accession": "Q63ZY6",
+        "gene": "NSUN5P2"
+      },
+      {
+        "length_aa": 332,
+        "mean_plddt": 76.1,
+        "frac_disordered": 0.208,
+        "frac_low_conf": 0.268,
+        "longest_disordered_run": 22,
+        "short_name": "CXorf58",
+        "accession": "Q96LI9",
+        "gene": "CXorf58"
+      },
+      {
+        "length_aa": 852,
+        "mean_plddt": 84.2,
+        "frac_disordered": 0.202,
+        "frac_low_conf": 0.216,
+        "longest_disordered_run": 69,
+        "short_name": "KDM1A",
+        "accession": "O60341",
+        "gene": "KDM1A"
+      },
+      {
+        "length_aa": 236,
+        "mean_plddt": 76.2,
+        "frac_disordered": 0.195,
+        "frac_low_conf": 0.394,
+        "longest_disordered_run": 30,
+        "short_name": "VSTM1",
+        "accession": "Q6UX27",
+        "gene": "VSTM1"
+      },
+      {
+        "length_aa": 304,
+        "mean_plddt": 80.6,
+        "frac_disordered": 0.161,
+        "frac_low_conf": 0.289,
+        "longest_disordered_run": 27,
+        "short_name": "KIR2DS2",
+        "accession": "P43631",
+        "gene": "KIR2DS2"
+      },
+      {
+        "length_aa": 472,
+        "mean_plddt": 80.8,
+        "frac_disordered": 0.146,
+        "frac_low_conf": 0.189,
+        "longest_disordered_run": 33,
+        "short_name": "TMEM8B",
+        "accession": "A6NDV4",
+        "gene": "TMEM8B"
+      },
+      {
+        "length_aa": 1268,
+        "mean_plddt": 74.5,
+        "frac_disordered": 0.118,
+        "frac_low_conf": 0.22,
+        "longest_disordered_run": 37,
+        "short_name": "HDLBP",
+        "accession": "Q00341",
+        "gene": "HDLBP"
+      },
+      {
+        "length_aa": 128,
+        "mean_plddt": 83.9,
+        "frac_disordered": 0.117,
+        "frac_low_conf": 0.211,
+        "longest_disordered_run": 8,
+        "short_name": "RPL22",
+        "accession": "P35268",
+        "gene": "RPL22"
+      },
+      {
+        "length_aa": 719,
+        "mean_plddt": 82.1,
+        "frac_disordered": 0.111,
+        "frac_low_conf": 0.203,
+        "longest_disordered_run": 22,
+        "short_name": "HOOK2",
+        "accession": "Q96ED9",
+        "gene": "HOOK2"
+      },
+      {
+        "length_aa": 646,
+        "mean_plddt": 85.9,
+        "frac_disordered": 0.104,
+        "frac_low_conf": 0.172,
+        "longest_disordered_run": 32,
+        "short_name": "PPWD1",
+        "accession": "Q96BP3",
+        "gene": "PPWD1"
+      },
+      {
+        "length_aa": 183,
+        "mean_plddt": 89.3,
+        "frac_disordered": 0.098,
+        "frac_low_conf": 0.137,
+        "longest_disordered_run": 14,
+        "short_name": "UBE2H",
+        "accession": "P62256",
+        "gene": "UBE2H"
+      },
+      {
+        "length_aa": 1085,
+        "mean_plddt": 79.6,
+        "frac_disordered": 0.091,
+        "frac_low_conf": 0.221,
+        "longest_disordered_run": 42,
+        "short_name": "ZZEF1",
+        "accession": "O43149",
+        "gene": "ZZEF1"
+      },
+      {
+        "length_aa": 108,
+        "mean_plddt": 79.2,
+        "frac_disordered": 0.065,
+        "frac_low_conf": 0.278,
+        "longest_disordered_run": 4,
+        "short_name": "RBX1",
+        "accession": "P62877",
+        "gene": "RBX1"
+      },
+      {
+        "length_aa": 609,
+        "mean_plddt": 88.9,
+        "frac_disordered": 0.049,
+        "frac_low_conf": 0.079,
+        "longest_disordered_run": 21,
+        "short_name": "AFP",
+        "accession": "P02771",
+        "gene": "AFP"
+      },
+      {
+        "length_aa": 348,
+        "mean_plddt": 88.7,
+        "frac_disordered": 0.049,
+        "frac_low_conf": 0.098,
+        "longest_disordered_run": 17,
+        "short_name": "RHO",
+        "accession": "P08100",
+        "gene": "RHO"
+      },
+      {
+        "length_aa": 995,
+        "mean_plddt": 84.7,
+        "frac_disordered": 0.033,
+        "frac_low_conf": 0.12,
+        "longest_disordered_run": 16,
+        "short_name": "TMEM67",
+        "accession": "Q5HYA8",
+        "gene": "TMEM67"
+      },
+      {
+        "length_aa": 195,
+        "mean_plddt": 92.1,
+        "frac_disordered": 0.031,
+        "frac_low_conf": 0.082,
+        "longest_disordered_run": 4,
+        "short_name": "NUDT16",
+        "accession": "Q96DE0",
+        "gene": "NUDT16"
+      },
+      {
+        "length_aa": 107,
+        "mean_plddt": 72.6,
+        "frac_disordered": 0.028,
+        "frac_low_conf": 0.514,
+        "longest_disordered_run": 1,
+        "short_name": "SMDT1",
+        "accession": "Q9H4I9",
+        "gene": "SMDT1"
+      },
+      {
+        "length_aa": 310,
+        "mean_plddt": 84.6,
+        "frac_disordered": 0.026,
+        "frac_low_conf": 0.119,
+        "longest_disordered_run": 5,
+        "short_name": "OR9Q1",
+        "accession": "Q8NGQ5",
+        "gene": "OR9Q1"
+      },
+      {
+        "length_aa": 95,
+        "mean_plddt": 83.9,
+        "frac_disordered": 0.021,
+        "frac_low_conf": 0.211,
+        "longest_disordered_run": 2,
+        "short_name": "TIMM13",
+        "accession": "Q9Y5L4",
+        "gene": "TIMM13"
+      },
+      {
+        "length_aa": 312,
+        "mean_plddt": 87.6,
+        "frac_disordered": 0.016,
+        "frac_low_conf": 0.083,
+        "longest_disordered_run": 3,
+        "short_name": "OR6C74",
+        "accession": "A6NCV1",
+        "gene": "OR6C74"
+      },
+      {
+        "length_aa": 99,
+        "mean_plddt": 96.3,
+        "frac_disordered": 0.01,
+        "frac_low_conf": 0.04,
+        "longest_disordered_run": 1,
+        "short_name": "ACYP1",
+        "accession": "P07311",
+        "gene": "ACYP1"
+      },
+      {
+        "length_aa": 531,
+        "mean_plddt": 96.8,
+        "frac_disordered": 0.008,
+        "frac_low_conf": 0.013,
+        "longest_disordered_run": 4,
+        "short_name": "PKM",
+        "accession": "P14618",
+        "gene": "PKM"
+      },
+      {
+        "length_aa": 501,
+        "mean_plddt": 91.3,
+        "frac_disordered": 0.008,
+        "frac_low_conf": 0.064,
+        "longest_disordered_run": 2,
+        "short_name": "CYP8B1",
+        "accession": "Q9UNU6",
+        "gene": "CYP8B1"
+      },
+      {
+        "length_aa": 307,
+        "mean_plddt": 86.5,
+        "frac_disordered": 0.007,
+        "frac_low_conf": 0.088,
+        "longest_disordered_run": 2,
+        "short_name": "OR13G1",
+        "accession": "Q8NGZ3",
+        "gene": "OR13G1"
+      },
+      {
+        "length_aa": 83,
+        "mean_plddt": 90.3,
+        "frac_disordered": 0.0,
+        "frac_low_conf": 0.012,
+        "longest_disordered_run": 0,
+        "short_name": "COXFA4L3",
+        "accession": "Q9C002",
+        "gene": "COXFA4L3"
+      },
+      {
+        "length_aa": 125,
+        "mean_plddt": 92.7,
+        "frac_disordered": 0.0,
+        "frac_low_conf": 0.032,
+        "longest_disordered_run": 0,
+        "short_name": "MRPS6",
+        "accession": "P82932",
+        "gene": "MRPS6"
+      },
+      {
+        "length_aa": 319,
+        "mean_plddt": 94.6,
+        "frac_disordered": 0.0,
+        "frac_low_conf": 0.013,
+        "longest_disordered_run": 0,
+        "short_name": "DHRS9",
+        "accession": "Q9BPW9",
+        "gene": "DHRS9"
+      }
+    ]
+  }
+}

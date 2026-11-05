@@ -1,0 +1,342 @@
+{
+  "_metadata": {
+    "project": "Autoantigen Discovery Platform",
+    "disease_key": "lupus",
+    "disease": "Systemic lupus erythematosus (SLE)",
+    "phase": "6 - structural analysis",
+    "run_date": "2026-11-03",
+    "hypothesis": "Autoantigens are enriched in intrinsic disorder (low pLDDT) relative to non-autoantigen controls.",
+    "disorder_proxy": "AlphaFold pLDDT (<50 = very low ~ disordered; <70 = low confidence)",
+    "stat_test": "exact two-sided permutation test on difference in means",
+    "n_positive": 24,
+    "n_negative_control": 5,
+    "skipped_no_model": [],
+    "caveat": "Small sample (esp. 5 controls); treat as exploratory, hypothesis-generating, not confirmatory."
+  },
+  "comparison": {
+    "mean_plddt": {
+      "label": "Mean pLDDT",
+      "direction": "higher = more ordered",
+      "positive_median": 82.8,
+      "control_median": 95.2,
+      "mean_difference": -12.806,
+      "permutation_p": 0.0019
+    },
+    "frac_disordered": {
+      "label": "Fraction disordered (pLDDT<50)",
+      "direction": "higher = more disordered",
+      "positive_median": 0.064,
+      "control_median": 0.005,
+      "mean_difference": 0.077,
+      "permutation_p": 0.0829
+    },
+    "frac_low_conf": {
+      "label": "Fraction low-conf (pLDDT<70)",
+      "direction": "higher = more disordered",
+      "positive_median": 0.275,
+      "control_median": 0.027,
+      "mean_difference": 0.24,
+      "permutation_p": 0.0064
+    },
+    "longest_disordered_run": {
+      "label": "Longest disordered run (aa)",
+      "direction": "higher = more disordered",
+      "positive_median": 6.0,
+      "control_median": 2.0,
+      "mean_difference": 8.783,
+      "permutation_p": 0.3449
+    }
+  },
+  "per_protein": [
+    {
+      "length_aa": 609,
+      "mean_plddt": 92.7,
+      "frac_disordered": 0.041,
+      "frac_low_conf": 0.043,
+      "longest_disordered_run": 25,
+      "short_name": "Serum albumin",
+      "accession": "P02768",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 444,
+      "mean_plddt": 92.1,
+      "frac_disordered": 0.016,
+      "frac_low_conf": 0.043,
+      "longest_disordered_run": 7,
+      "short_name": "Tubulin beta",
+      "accession": "P07437",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 375,
+      "mean_plddt": 95.2,
+      "frac_disordered": 0.005,
+      "frac_low_conf": 0.027,
+      "longest_disordered_run": 2,
+      "short_name": "Beta-actin",
+      "accession": "P60709",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 335,
+      "mean_plddt": 98.1,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.003,
+      "longest_disordered_run": 0,
+      "short_name": "GAPDH",
+      "accession": "P04406",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 147,
+      "mean_plddt": 97.2,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.007,
+      "longest_disordered_run": 0,
+      "short_name": "Hemoglobin beta",
+      "accession": "P68871",
+      "role": "negative_control"
+    },
+    {
+      "length_aa": 114,
+      "mean_plddt": 69.6,
+      "frac_disordered": 0.342,
+      "frac_low_conf": 0.447,
+      "longest_disordered_run": 39,
+      "short_name": "Ribosomal P1",
+      "accession": "P05386",
+      "role": "positive"
+    },
+    {
+      "length_aa": 115,
+      "mean_plddt": 67.8,
+      "frac_disordered": 0.33,
+      "frac_low_conf": 0.443,
+      "longest_disordered_run": 38,
+      "short_name": "Ribosomal P2",
+      "accession": "P05387",
+      "role": "positive"
+    },
+    {
+      "length_aa": 437,
+      "mean_plddt": 71.8,
+      "frac_disordered": 0.238,
+      "frac_low_conf": 0.449,
+      "longest_disordered_run": 35,
+      "short_name": "U1-70K",
+      "accession": "P08621",
+      "role": "positive"
+    },
+    {
+      "length_aa": 408,
+      "mean_plddt": 74.5,
+      "frac_disordered": 0.186,
+      "frac_low_conf": 0.385,
+      "longest_disordered_run": 76,
+      "short_name": "La/SSB",
+      "accession": "P05455",
+      "role": "positive"
+    },
+    {
+      "length_aa": 240,
+      "mean_plddt": 69.5,
+      "frac_disordered": 0.142,
+      "frac_low_conf": 0.613,
+      "longest_disordered_run": 17,
+      "short_name": "Sm-B/B'",
+      "accession": "P14678",
+      "role": "positive"
+    },
+    {
+      "length_aa": 317,
+      "mean_plddt": 79.3,
+      "frac_disordered": 0.139,
+      "frac_low_conf": 0.177,
+      "longest_disordered_run": 43,
+      "short_name": "Ribosomal P0",
+      "accession": "P05388",
+      "role": "positive"
+    },
+    {
+      "length_aa": 119,
+      "mean_plddt": 82.8,
+      "frac_disordered": 0.134,
+      "frac_low_conf": 0.286,
+      "longest_disordered_run": 9,
+      "short_name": "Sm-D1",
+      "accession": "P62314",
+      "role": "positive"
+    },
+    {
+      "length_aa": 732,
+      "mean_plddt": 83.1,
+      "frac_disordered": 0.101,
+      "frac_low_conf": 0.163,
+      "longest_disordered_run": 30,
+      "short_name": "Ku80",
+      "accession": "P13010",
+      "role": "positive"
+    },
+    {
+      "length_aa": 126,
+      "mean_plddt": 82.8,
+      "frac_disordered": 0.087,
+      "frac_low_conf": 0.278,
+      "longest_disordered_run": 8,
+      "short_name": "Sm-D3",
+      "accession": "P62318",
+      "role": "positive"
+    },
+    {
+      "length_aa": 609,
+      "mean_plddt": 84.4,
+      "frac_disordered": 0.085,
+      "frac_low_conf": 0.12,
+      "longest_disordered_run": 32,
+      "short_name": "Ku70",
+      "accession": "P12956",
+      "role": "positive"
+    },
+    {
+      "length_aa": 253,
+      "mean_plddt": 78.5,
+      "frac_disordered": 0.083,
+      "frac_low_conf": 0.419,
+      "longest_disordered_run": 12,
+      "short_name": "C1q B",
+      "accession": "P02746",
+      "role": "positive"
+    },
+    {
+      "length_aa": 282,
+      "mean_plddt": 79.5,
+      "frac_disordered": 0.064,
+      "frac_low_conf": 0.348,
+      "longest_disordered_run": 5,
+      "short_name": "U1-A",
+      "accession": "P09012",
+      "role": "positive"
+    },
+    {
+      "length_aa": 159,
+      "mean_plddt": 70.4,
+      "frac_disordered": 0.063,
+      "frac_low_conf": 0.629,
+      "longest_disordered_run": 3,
+      "short_name": "U1-C",
+      "accession": "P09234",
+      "role": "positive"
+    },
+    {
+      "length_aa": 345,
+      "mean_plddt": 93.1,
+      "frac_disordered": 0.038,
+      "frac_low_conf": 0.075,
+      "longest_disordered_run": 5,
+      "short_name": "Beta-2-GPI",
+      "accession": "P02749",
+      "role": "positive"
+    },
+    {
+      "length_aa": 245,
+      "mean_plddt": 80.5,
+      "frac_disordered": 0.037,
+      "frac_low_conf": 0.392,
+      "longest_disordered_run": 5,
+      "short_name": "C1q C",
+      "accession": "P02747",
+      "role": "positive"
+    },
+    {
+      "length_aa": 475,
+      "mean_plddt": 90.7,
+      "frac_disordered": 0.023,
+      "frac_low_conf": 0.055,
+      "longest_disordered_run": 7,
+      "short_name": "Ro52",
+      "accession": "P19474",
+      "role": "positive"
+    },
+    {
+      "length_aa": 261,
+      "mean_plddt": 94.3,
+      "frac_disordered": 0.015,
+      "frac_low_conf": 0.023,
+      "longest_disordered_run": 4,
+      "short_name": "PCNA",
+      "accession": "P12004",
+      "role": "positive"
+    },
+    {
+      "length_aa": 103,
+      "mean_plddt": 89.8,
+      "frac_disordered": 0.01,
+      "frac_low_conf": 0.146,
+      "longest_disordered_run": 1,
+      "short_name": "Histone H4",
+      "accession": "P62805",
+      "role": "positive"
+    },
+    {
+      "length_aa": 118,
+      "mean_plddt": 90.6,
+      "frac_disordered": 0.008,
+      "frac_low_conf": 0.059,
+      "longest_disordered_run": 1,
+      "short_name": "Sm-D2",
+      "accession": "P62316",
+      "role": "positive"
+    },
+    {
+      "length_aa": 136,
+      "mean_plddt": 86.0,
+      "frac_disordered": 0.007,
+      "frac_low_conf": 0.272,
+      "longest_disordered_run": 1,
+      "short_name": "Histone H3.1",
+      "accession": "P68431",
+      "role": "positive"
+    },
+    {
+      "length_aa": 538,
+      "mean_plddt": 93.3,
+      "frac_disordered": 0.004,
+      "frac_low_conf": 0.006,
+      "longest_disordered_run": 2,
+      "short_name": "Ro60",
+      "accession": "P10155",
+      "role": "positive"
+    },
+    {
+      "length_aa": 245,
+      "mean_plddt": 82.6,
+      "frac_disordered": 0.004,
+      "frac_low_conf": 0.314,
+      "longest_disordered_run": 1,
+      "short_name": "C1q A",
+      "accession": "P02745",
+      "role": "positive"
+    },
+    {
+      "length_aa": 126,
+      "mean_plddt": 88.1,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.111,
+      "longest_disordered_run": 0,
+      "short_name": "Histone H2B",
+      "accession": "P62807",
+      "role": "positive"
+    },
+    {
+      "length_aa": 130,
+      "mean_plddt": 91.1,
+      "frac_disordered": 0.0,
+      "frac_low_conf": 0.138,
+      "longest_disordered_run": 0,
+      "short_name": "Histone H2A",
+      "accession": "P0C0S8",
+      "role": "positive"
+    }
+  ]
+}
