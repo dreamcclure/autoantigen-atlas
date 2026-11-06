@@ -189,17 +189,21 @@ VIEWER = {"lupus": "structure_viewer.html",
 def render_structures(disease):
     st.caption("Every structure is an **AlphaFold** prediction, colored by per-residue confidence "
                "(**pLDDT**): blue = very high, orange/red = low (often flexible / disordered "
-               "regions). Drag to rotate.")
+               "regions). Drag to rotate; pick a protein from the list.")
     name = VIEWER.get(disease)
     if not name:
         st.info("No 3D viewer is available for this disease yet.")
         return
-    # Embed the viewer by its hosted URL rather than inlining the file: the viewer is a full
-    # 100vh canvas app, and a real iframe gives it a proper viewport height (inlining it left
-    # the canvas measuring 0 height). GitHub Pages sends no X-Frame-Options, so framing is OK.
     url = "{}/{}".format(PAGES, name)
-    components.iframe(url, height=820, scrolling=True)
-    st.caption("Trouble loading the embed? [Open the full-screen viewer in a new tab]({}).".format(url))
+    # GUARANTEED path first: a prominent launch button to the standalone viewer, which renders
+    # perfectly on its own. This is never a dead end, even if the inline embed is blocked.
+    st.link_button("🧊 Open the interactive 3D viewer (full screen) ↗", url, type="primary")
+    # Inline embed as a bonus. We point an iframe at the hosted URL rather than inlining the
+    # file: the viewer is a full 100vh canvas app, so it needs a real browsing context to get a
+    # viewport height (inlining it left the canvas measuring 0 height). Pages sends no
+    # X-Frame-Options, so framing is allowed where the browser permits third-party frames.
+    st.caption("Or explore it inline below:")
+    components.iframe(url, height=760, scrolling=True)
 
 
 # ============================================================ sidebar
