@@ -214,6 +214,10 @@ cv.addEventListener("wheel", e=>{ e.preventDefault();
 spinBtn.onclick = ()=>{ auto=!auto; spinBtn.setAttribute("aria-pressed",String(auto));
   spinBtn.textContent="Auto-rotate: "+(auto?"on":"off"); };
 addEventListener("resize", resize);
+// Re-fit the canvas whenever its box changes — not just on window resize. This matters
+// when the viewer is embedded in an iframe, where the one-shot init resize() can run
+// before the canvas has its real size (leaving a 0-size buffer that paints black).
+if (window.ResizeObserver) new ResizeObserver(resize).observe(cv);
 
 buildList(); resize(); select(0); frame();
 </script>
