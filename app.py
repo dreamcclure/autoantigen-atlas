@@ -186,27 +186,20 @@ VIEWER = {"lupus": "structure_viewer.html",
           "rheumatoid_arthritis": "rheumatoid_arthritis_viewer.html"}
 
 
-@st.cache_data(show_spinner=False)
-def load_viewer(disease):
-    name = VIEWER.get(disease)
-    if not name:
-        return None
-    try:
-        with open(os.path.join(FIGURES, name)) as f:
-            return f.read()
-    except FileNotFoundError:
-        return None
-
-
 def render_structures(disease):
     st.caption("Every structure is an **AlphaFold** prediction, colored by per-residue confidence "
                "(**pLDDT**): blue = very high, orange/red = low (often flexible / disordered "
                "regions). Drag to rotate.")
-    html = load_viewer(disease)
-    if not html:
+    name = VIEWER.get(disease)
+    if not name:
         st.info("No 3D viewer is available for this disease yet.")
         return
-    components.html(html, height=820, scrolling=True)
+    # Embed the viewer by its hosted URL rather than inlining the file: the viewer is a full
+    # 100vh canvas app, and a real iframe gives it a proper viewport height (inlining it left
+    # the canvas measuring 0 height). GitHub Pages sends no X-Frame-Options, so framing is OK.
+    url = "{}/{}".format(PAGES, name)
+    components.iframe(url, height=820, scrolling=True)
+    st.caption("Trouble loading the embed? [Open the full-screen viewer in a new tab]({}).".format(url))
 
 
 # ============================================================ sidebar
