@@ -1,10 +1,16 @@
 # Autoantigen Atlas — an AI autoantigen-discovery platform
 
+[![Live app — Ask the Atlas](https://img.shields.io/badge/Live_app-Ask_the_Atlas-FF4B4B?logo=streamlit&logoColor=white)](https://autoantigen-atlas.streamlit.app)
+
 A **disease-agnostic** AI research platform that identifies the self-proteins the immune system
 mistakenly attacks in autoimmune disease — summarizing the evidence for each **with citations** and
 showing its AlphaFold-predicted 3D structure. Validated first, and most deeply, on **lupus**, then
 extended to **rheumatoid arthritis**. A research aide that keeps a human in the loop and takes
 nothing on trust.
+
+**▶ Try it live: [Ask the Atlas](https://autoantigen-atlas.streamlit.app)** — pick a disease, ask
+whether a protein is an autoantigen, and get a cited answer with a live trace of the databases the
+agent consulted. *(Owner-funded demo — rate-limited per visitor.)*
 
 ![Ro60 AlphaFold structure, colored by confidence](figures/P10155_alphafold.png)
 
@@ -12,9 +18,10 @@ nothing on trust.
 > confidence (pLDDT). Mostly very-high confidence (blue), with a low-confidence flexible tail
 > (orange).*
 
-### 🔬 Live demos — rotate the real structures in your browser
-- **[Lupus — 29 structures](https://dreamcclure.github.io/autoantigen-atlas/figures/structure_viewer.html)**
-- **[Rheumatoid arthritis — 20 structures](https://dreamcclure.github.io/autoantigen-atlas/figures/rheumatoid_arthritis_viewer.html)**
+### 🔬 Live demos
+- 💬 **[Ask the Atlas — hosted chat agent](https://autoantigen-atlas.streamlit.app)** — ask the live, cited agent about any protein
+- 🧊 **[Lupus — 29 structures](https://dreamcclure.github.io/autoantigen-atlas/figures/structure_viewer.html)** — rotate the real AlphaFold models in your browser
+- 🧊 **[Rheumatoid arthritis — 20 structures](https://dreamcclure.github.io/autoantigen-atlas/figures/rheumatoid_arthritis_viewer.html)**
 
 ---
 
