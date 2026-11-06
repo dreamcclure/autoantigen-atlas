@@ -19,7 +19,6 @@ import sys
 import time
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "src"))
@@ -186,24 +185,29 @@ VIEWER = {"lupus": "structure_viewer.html",
           "rheumatoid_arthritis": "rheumatoid_arthritis_viewer.html"}
 
 
+# One representative, well-folded structure per disease, shown as a static preview.
+HERO = {"lupus": ("P10155", "Ro60"),
+        "rheumatoid_arthritis": ("P06733", "Alpha-enolase")}
+
+
 def render_structures(disease):
     st.caption("Every structure is an **AlphaFold** prediction, colored by per-residue confidence "
-               "(**pLDDT**): blue = very high, orange/red = low (often flexible / disordered "
-               "regions). Drag to rotate; pick a protein from the list.")
+               "(**pLDDT**): blue = very high, orange/red = low (often a flexible / disordered region).")
+    # Static preview image — reliable and crisp. (The live viewer is a full-screen WebGL canvas
+    # that misbehaves inside a Streamlit panel, so we preview here and launch the real thing below.)
+    acc, label = HERO.get(disease, (None, None))
+    if acc:
+        img = os.path.join(FIGURES, "{}_alphafold.png".format(acc))
+        if os.path.exists(img):
+            st.image(img, width="stretch",
+                     caption="{} ({}) — a representative {} structure, colored by AlphaFold confidence."
+                     .format(label, acc, DISEASES[disease]["name"]))
     name = VIEWER.get(disease)
     if not name:
-        st.info("No 3D viewer is available for this disease yet.")
         return
     url = "{}/{}".format(PAGES, name)
-    # GUARANTEED path first: a prominent launch button to the standalone viewer, which renders
-    # perfectly on its own. This is never a dead end, even if the inline embed is blocked.
-    st.link_button("🧊 Open the interactive 3D viewer (full screen) ↗", url, type="primary")
-    # Inline embed as a bonus. We point an iframe at the hosted URL rather than inlining the
-    # file: the viewer is a full 100vh canvas app, so it needs a real browsing context to get a
-    # viewport height (inlining it left the canvas measuring 0 height). Pages sends no
-    # X-Frame-Options, so framing is allowed where the browser permits third-party frames.
-    st.caption("Or explore it inline below:")
-    components.iframe(url, height=760, scrolling=True)
+    st.link_button("🧊 Open the interactive 3D viewer — rotate every structure ↗", url, type="primary")
+    st.caption("Opens the full-screen viewer: all structures, rotatable, colored by confidence.")
 
 
 # ============================================================ sidebar
