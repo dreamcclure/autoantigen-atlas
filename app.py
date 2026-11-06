@@ -1,22 +1,30 @@
 """
-Phase 8 — Autoantigen Atlas web app (hosted chat).
-==================================================
-A browser chat interface over the existing agent: pick a disease, ask about a protein,
-read a CITED answer. Wraps src/agent.py — no re-implementation of the engine.
+Phase 8 — Autoantigen Atlas web app (hosted chat + discovery + 3D structures).
+=============================================================================
+A browser interface over the existing engine, in three tabs:
+  • 💬 Ask the Atlas  — chat with the cited agent (wraps src/agent.py)
+  • 🔬 Discovery      — ranked candidate autoantigen hypotheses (reads src/discover.py output)
+  • 🧊 3D Structures  — the AlphaFold viewer embedded in-app (figures/*.html)
+No engine is re-implemented here: the agent, the discovery runs, and the viewers all come
+from code and data produced elsewhere in the project. This file is pure presentation.
 
 Run locally:   streamlit run app.py     (needs ANTHROPIC_API_KEY in .env)
 Deploy:        Streamlit Community Cloud — put the key in Secrets, and set a hard
                monthly spend cap in the Anthropic console (owner-funded demo).
 """
 
+import json
 import os
 import sys
 import time
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "src"))
+PROCESSED = os.path.join(HERE, "data", "processed")
+FIGURES = os.path.join(HERE, "figures")
 
 # Secrets: local uses .env; Streamlit Cloud injects st.secrets → bridge it to the env
 # so ChatAnthropic (which reads ANTHROPIC_API_KEY from the environment) finds the key.
@@ -40,6 +48,7 @@ RATE_WINDOW = 3600     # ...per hour, per browser session
 st.set_page_config(page_title="Autoantigen Atlas", page_icon="🧬", layout="centered")
 
 
+# ============================================================ agent (tab 1)
 @st.cache_resource(show_spinner=False)
 def get_agent(disease):
     """Build the agent once per disease (cached across reruns / messages)."""
@@ -76,7 +85,131 @@ def within_rate_limit():
     return len(hits) < RATE_LIMIT
 
 
-# ---------------------------------------------------------------- sidebar
+# ============================================================ discovery (tab 2)
+@st.cache_data(show_spinner=False)
+def load_discovery(disease):
+    """Load the precomputed partner-arm and (if present) literature-arm discovery runs."""
+    def _read(name):
+        try:
+            with open(os.path.join(PROCESSED, name)) as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return None
+    return (_read("discovery_{}.json".format(disease)),
+            _read("discovery_{}_literature.json".format(disease)))
+
+
+# evidence tiers the agent assigns, with a display style (emoji + Streamlit color)
+TIER = {
+    "ESTABLISHED": ("🟢", "green", "Established"),
+    "EMERGING":    ("🟡", "orange", "Emerging"),
+    "NONE-FOUND":  ("⚪", "gray", "No published evidence"),
+}
+_TIER_ORDER = {"ESTABLISHED": 0, "EMERGING": 1, "NONE-FOUND": 2}
+
+
+def _na_label(value):
+    return {True: "yes", False: "no", None: "—"}.get(value, "—")
+
+
+def _render_assessments(assessments):
+    """Show the agent's cited verdict per candidate, strongest evidence first."""
+    for a in sorted(assessments, key=lambda x: _TIER_ORDER.get(x["evidence_tier"], 9)):
+        emoji, color, label = TIER.get(a["evidence_tier"], ("", "gray", a["evidence_tier"]))
+        st.markdown("**{}** (`{}`) — {} :{}[{}]".format(
+            a["gene"], a["accession"], emoji, color, label))
+        with st.expander("Agent's cited assessment"):
+            st.markdown(a["transcript"])
+
+
+def render_discovery(disease):
+    partner, literature = load_discovery(disease)
+    st.caption("Investigating **{}**.".format(DISEASES[disease]["name"]))
+    st.info("**Discovery mode flips the question** — instead of *“is protein X a known "
+            "autoantigen?”* it asks *“which proteins, **not** already established, might be?”* "
+            "Everything below is a **ranked, evidence-backed hypothesis for expert review — "
+            "never a confirmed discovery.**")
+
+    if not partner and not literature:
+        st.warning("No discovery run is available for this disease yet.")
+        return
+
+    # ---- Partner arm: epitope-spreading neighbors of known antigens ----
+    if partner and partner.get("candidates"):
+        st.markdown("#### 🧩 Partner arm — epitope-spreading neighbors")
+        with st.expander("How this arm works"):
+            st.caption(partner["_metadata"]["method"])
+        assessed = {a["accession"]: a for a in partner.get("agent_assessments", [])}
+        rows = []
+        for c in partner["candidates"][:15]:
+            rows.append({
+                "Gene": c["gene"],
+                "Linked antigens": c.get("partner_support"),
+                "Specificity": round(c.get("specificity", 0), 3),
+                "Nuclear/NA": _na_label(c.get("na_associated")),
+                "Connects to": ", ".join(c.get("connects_to", [])[:4]),
+            })
+        st.dataframe(rows, width="stretch", hide_index=True)
+        st.caption("*Specificity* = fraction of this protein's partners that are known antigens "
+                   "(controls for promiscuous interaction hubs). Showing top "
+                   "{} of {} candidates.".format(min(15, len(partner["candidates"])),
+                                                 len(partner["candidates"])))
+        if partner.get("agent_assessments"):
+            st.markdown("**Agent assessment of the top candidates:**")
+            _render_assessments(partner["agent_assessments"])
+
+    # ---- Literature arm: autoantibody-context co-mentions ----
+    if literature and literature.get("candidates"):
+        st.divider()
+        st.markdown("#### 📚 Literature arm — autoantibody-context co-mentions")
+        with st.expander("How this arm works"):
+            st.caption(literature["_metadata"]["method"])
+        assessed = {a["accession"]: a for a in literature.get("agent_assessments", [])}
+        rows = []
+        for c in literature["candidates"]:
+            a = assessed.get(c["accession"])
+            tier = TIER.get(a["evidence_tier"])[2] if a else "—"
+            rows.append({
+                "Gene": c["gene"],
+                "Accession": c["accession"],
+                "Papers": c.get("lit_support"),
+                "Agent verdict": tier,
+            })
+        st.dataframe(rows, width="stretch", hide_index=True)
+        if literature.get("agent_assessments"):
+            st.markdown("**Agent assessment of the candidates:**")
+            _render_assessments(literature["agent_assessments"])
+
+
+# ============================================================ 3D structures (tab 3)
+VIEWER = {"lupus": "structure_viewer.html",
+          "rheumatoid_arthritis": "rheumatoid_arthritis_viewer.html"}
+
+
+@st.cache_data(show_spinner=False)
+def load_viewer(disease):
+    name = VIEWER.get(disease)
+    if not name:
+        return None
+    try:
+        with open(os.path.join(FIGURES, name)) as f:
+            return f.read()
+    except FileNotFoundError:
+        return None
+
+
+def render_structures(disease):
+    st.caption("Every structure is an **AlphaFold** prediction, colored by per-residue confidence "
+               "(**pLDDT**): blue = very high, orange/red = low (often flexible / disordered "
+               "regions). Drag to rotate.")
+    html = load_viewer(disease)
+    if not html:
+        st.info("No 3D viewer is available for this disease yet.")
+        return
+    components.html(html, height=820, scrolling=True)
+
+
+# ============================================================ sidebar
 TOOL_LABEL = {"lookup_protein": "🧬 UniProt", "get_structure": "🧊 AlphaFold",
               "search_literature": "🔎 Europe PMC"}
 REPO = "https://github.com/dreamcclure/autoantigen-atlas"
@@ -95,68 +228,82 @@ with st.sidebar:
         "tool results, cites every source, and declines rather than guesses.")
     st.markdown("**Blind-tested:** lupus 96% recall · RA 81% · 100% precision & specificity on both.")
     st.divider()
-    st.markdown("🔬 **3D structure viewers**  \n"
+    st.markdown("🔬 **Open 3D viewers in a new tab**  \n"
                 "[Lupus]({}/structure_viewer.html) · "
                 "[RA]({}/rheumatoid_arthritis_viewer.html)".format(PAGES, PAGES))
     st.markdown("💻 [Source on GitHub]({})".format(REPO))
     st.caption("Research aide for scientists — not medical advice.")
 
-# ---------------------------------------------------------------- main
-st.title("🧬 Ask the Atlas")
-st.caption("Investigating **{}**. Ask whether a protein is an autoantigen, what its structure "
-           "looks like, or what the literature says — every answer comes with citations."
-           .format(DISEASES[disease]["name"]))
+# ============================================================ main
+st.title("🧬 Autoantigen Atlas")
 
 # reset the conversation when the disease changes
 if st.session_state.get("disease") != disease:
     st.session_state.disease = disease
     st.session_state.messages = []
 
-if not st.session_state.get("messages"):
-    st.markdown("**Try asking:**")
-    examples = {
-        "lupus": ["Is Ro60 an autoantigen in lupus?",
-                  "What does the literature say about anti-C1q antibodies?",
-                  "How confident is the AlphaFold structure for La/SSB?"],
-        "rheumatoid_arthritis": ["Is vimentin an autoantigen in rheumatoid arthritis?",
-                                 "What's the evidence for anti-citrullinated protein antibodies?",
-                                 "Tell me about alpha-enolase in RA."],
-    }.get(disease, [])
-    cols = st.columns(len(examples)) if examples else []
-    for col, ex in zip(cols, examples):
-        if col.button(ex, use_container_width=True):
-            st.session_state.pending = ex
+tab_chat, tab_discovery, tab_structures = st.tabs(
+    ["💬 Ask the Atlas", "🔬 Discovery", "🧊 3D Structures"])
 
-# replay history
-for msg in st.session_state.get("messages", []):
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
-        if msg.get("tools"):
-            st.caption("Consulted: " + " · ".join(TOOL_LABEL.get(t, t) for t in msg["tools"]))
+# ---------------------------------------------------------------- tab 1: chat
+with tab_chat:
+    st.caption("Investigating **{}**. Ask whether a protein is an autoantigen, what its structure "
+               "looks like, or what the literature says — every answer comes with citations."
+               .format(DISEASES[disease]["name"]))
 
-prompt = st.chat_input("Ask about a protein…") or st.session_state.pop("pending", None)
+    if not st.session_state.get("messages"):
+        st.markdown("**Try asking:**")
+        examples = {
+            "lupus": ["Is Ro60 an autoantigen in lupus?",
+                      "What does the literature say about anti-C1q antibodies?",
+                      "How confident is the AlphaFold structure for La/SSB?"],
+            "rheumatoid_arthritis": ["Is vimentin an autoantigen in rheumatoid arthritis?",
+                                     "What's the evidence for anti-citrullinated protein antibodies?",
+                                     "Tell me about alpha-enolase in RA."],
+        }.get(disease, [])
+        cols = st.columns(len(examples)) if examples else []
+        for col, ex in zip(cols, examples):
+            if col.button(ex, width="stretch"):
+                st.session_state.pending = ex
 
-if prompt:
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+    # replay history
+    for msg in st.session_state.get("messages", []):
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+            if msg.get("tools"):
+                st.caption("Consulted: " + " · ".join(TOOL_LABEL.get(t, t) for t in msg["tools"]))
 
-    if not within_rate_limit():
-        with st.chat_message("assistant"):
-            st.warning("You've reached this demo's hourly question limit. Please try again later — "
-                       "or run it locally with your own API key (see the GitHub repo).")
-    else:
-        st.session_state.hits = st.session_state.get("hits", []) + [time.time()]
-        with st.chat_message("assistant"):
-            with st.status("Investigating — consulting UniProt, AlphaFold, and Europe PMC…",
-                           expanded=False):
-                answer, tools, error = ask_agent(get_agent(disease), prompt)
-            if error:
-                st.error("The agent hit a problem: {}. Please try again.".format(error))
-            else:
-                st.markdown(answer)
-                if tools:
-                    st.caption("Consulted: " + " · ".join(
-                        dict.fromkeys(TOOL_LABEL.get(t, t) for t in tools)))
-                st.session_state.messages.append(
-                    {"role": "assistant", "content": answer, "tools": tools})
+    prompt = st.chat_input("Ask about a protein…") or st.session_state.pop("pending", None)
+
+    if prompt:
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        if not within_rate_limit():
+            with st.chat_message("assistant"):
+                st.warning("You've reached this demo's hourly question limit. Please try again later "
+                           "— or run it locally with your own API key (see the GitHub repo).")
+        else:
+            st.session_state.hits = st.session_state.get("hits", []) + [time.time()]
+            with st.chat_message("assistant"):
+                with st.status("Investigating — consulting UniProt, AlphaFold, and Europe PMC…",
+                               expanded=False):
+                    answer, tools, error = ask_agent(get_agent(disease), prompt)
+                if error:
+                    st.error("The agent hit a problem: {}. Please try again.".format(error))
+                else:
+                    st.markdown(answer)
+                    if tools:
+                        st.caption("Consulted: " + " · ".join(
+                            dict.fromkeys(TOOL_LABEL.get(t, t) for t in tools)))
+                    st.session_state.messages.append(
+                        {"role": "assistant", "content": answer, "tools": tools})
+
+# ---------------------------------------------------------------- tab 2: discovery
+with tab_discovery:
+    render_discovery(disease)
+
+# ---------------------------------------------------------------- tab 3: 3D structures
+with tab_structures:
+    render_structures(disease)
