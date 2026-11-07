@@ -47,16 +47,31 @@ RATE_WINDOW = 3600     # ...per hour, per browser session
 
 st.set_page_config(page_title="Autoantigen Atlas", page_icon="🧬", layout="centered")
 
-# A few polish touches the theme config can't express. Kept minimal and resilient — if a
-# Streamlit class name ever changes, the app still works, it just loses the flourish.
+# Typography + a few polish touches the theme config can't express. Kept resilient — if a
+# Streamlit class name ever changes or Google Fonts is blocked, it degrades to system fonts.
 st.markdown("""
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+  /* body: a clean modern sans, generously sized */
+  html, body, .stApp, [data-testid="stMarkdownContainer"], .stChatMessage,
+  button, input, select, textarea, label {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  .stApp { line-height: 1.6; }
+
+  /* headings: a modern, slightly technical display face, large and tight */
+  h1, h2, h3, h4 { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  h1 { font-size: 2.9rem; font-weight: 700; line-height: 1.08; }
+  h2 { font-size: 1.9rem; font-weight: 600; }
+  h3 { font-size: 1.4rem; font-weight: 600; }
+
+  /* keep accessions/code monospaced */
+  code, pre, kbd { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+
   /* the 3D viewers' signature radial-gradient ground, so the app matches them */
   .stApp { background: radial-gradient(130% 100% at 70% 0%, #151826 0%, #0A0B10 60%); }
-  h1, h2, h3 { letter-spacing: -0.015em; }
-  /* separate the sidebar with the viewers' hairline */
   section[data-testid="stSidebar"] { border-right: 1px solid #232838; }
-  /* AlphaFold renders have a solid near-black ground — drop their box border so they sit flush */
   div[data-testid="stImage"] img { border-radius: 0.6rem; }
 </style>
 """, unsafe_allow_html=True)

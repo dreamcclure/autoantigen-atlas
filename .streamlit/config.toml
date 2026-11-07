@@ -10,4 +10,5 @@ textColor = "#E6E9F2"                 # viewer --ink
 linkColor = "#65CBF3"                 # accent cyan for links
 borderColor = "#232838"               # viewer --line
 baseRadius = "0.6rem"                 # soft rounded corners like the viewer panels
-font = "sans-serif"
+baseFontSize = 18                     # larger, more readable base (default is 16)
+font = "sans-serif"                   # fallback; app.py loads Inter/Space Grotesk via CSS
