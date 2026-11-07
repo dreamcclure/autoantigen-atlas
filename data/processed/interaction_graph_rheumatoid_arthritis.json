@@ -1,0 +1,537 @@
+{
+  "_metadata": {
+    "disease_key": "rheumatoid_arthritis",
+    "disease": "Rheumatoid arthritis (RA)",
+    "built": "2026-11-07",
+    "note": "Precomputed interaction graph for live scope-steered discovery in the web app (data/raw is not deployed). Rebuild: discover.build_interaction_graph(disease)."
+  },
+  "known": [
+    {
+      "accession": "P08670",
+      "short": "Vimentin",
+      "partners": {
+        "Q9BYF1": "ACE2",
+        "Q6DHV7-2": "ADAL",
+        "Q8N302-2": "AGGF1",
+        "P54819": "AK2",
+        "P31749": "AKT1",
+        "P31751": "AKT2",
+        "Q9H6L4": "ARMC7",
+        "Q6XD76": "ASCL4",
+        "Q9UBB4": "ATXN10",
+        "Q9H6U6": "BCAS3",
+        "Q14457": "BECN1",
+        "P51451": "BLK",
+        "Q13895": "BYSL",
+        "Q8TAB5": "C1orf216",
+        "Q9UQM7": "CAMK2A",
+        "Q9HC52": "CBX8",
+        "Q96HB5": "CCDC120",
+        "Q9Y3D0": "CIAO2B",
+        "P16220": "CREB1",
+        "Q14194": "CRMP1",
+        "Q8WUE5": "CT55",
+        "Q2TBE0": "CWF19L2",
+        "P17661": "DES",
+        "O77932": "DXO",
+        "Q6NXG1": "ESRP1",
+        "Q3B820": "FAM161A",
+        "Q96GL9": "FAM163A",
+        "O15287": "FANCG",
+        "P55040": "GEM",
+        "P14136": "GFAP",
+        "Q4G1C9-2": "GLIPR1L2",
+        "Q96LI6": "HSFY2",
+        "P83110-1": "HTRA3",
+        "P83110-2": "HTRA3",
+        "P42858": "HTT",
+        "Q0VD86": "INCA1",
+        "Q92551": "IP6K1",
+        "O95251": "KAT7",
+        "Q6ZU52": "KIAA0408",
+        "Q9HAQ2": "KIF9",
+        "Q9BVG8-5": "KIFC3",
+        "O14901": "KLF11",
+        "P35900": "KRT20",
+        "O95678": "KRT75",
+        "P05787": "KRT8",
+        "Q6IAA8": "LAMTOR1",
+        "Q14847-2": "LASP1",
+        "Q8TCE9": "LGALS14",
+        "Q6ZQX7-4": "LIAT1",
+        "Q9Y4K0": "LOXL2",
+        "Q9NS73-5": "MBIP",
+        "Q8IVT4": "MGC50722",
+        "O76036": "NCR1",
+        "I6L9F6": "NEFL",
+        "P07196": "NEFL",
+        "P07197": "NEFM",
+        "P48681": "NES",
+        "Q8NI38": "NFKBID",
+        "Q9HC29": "NOD2",
+        "Q96IZ0": "PAWR",
+        "Q16512": "PKN1",
+        "Q13835-2": "PKP1",
+        "Q96PV4": "PNMA5",
+        "O60437": "PPL",
+        "Q6NYC8": "PPP1R18",
+        "P41219": "PRPH",
+        "Q8WUY3": "PRUNE2",
+        "P54727": "RAD23B",
+        "Q9UJD0": "RIMS3",
+        "Q9BWG6": "SCNM1",
+        "P12757": "SKIL",
+        "Q12824": "SMARCB1",
+        "Q7Z614-3": "SNX20",
+        "Q96BD6": "SPSB1",
+        "Q99619": "SPSB2",
+        "Q9H7C4": "SYNC",
+        "O60506-4": "SYNCRIP",
+        "O15273": "TCAP",
+        "Q15560": "TCEA2",
+        "P15923-3": "TCF3",
+        "Q13428-5": "TCOF1",
+        "Q5T1C6": "THEM4",
+        "Q08117-2": "TLE5",
+        "Q7Z403": "TMC6",
+        "Q12888": "TP53BP1",
+        "Q14142": "TRIM14",
+        "O95361": "TRIM16",
+        "Q9BQE3": "TUBA1C",
+        "Q5VYS8-5": "TUT7",
+        "Q8N3L3": "TXLNB",
+        "Q08AM6": "VAC14",
+        "Q9H270": "VPS11",
+        "B7ZLI8": "WHR1",
+        "P63104": "YWHAZ",
+        "P26651": "ZFP36",
+        "P17024": "ZNF20",
+        "Q7Z3I7": "ZNF572"
+      }
+    },
+    {
+      "accession": "P06733",
+      "short": "Alpha-enolase",
+      "partners": {
+        "P22303": "ACHE",
+        "P09104": "ENO2",
+        "P13929": "ENO3",
+        "P42858": "HTT",
+        "P12004": "PCNA",
+        "Q8WZ42": "TTN",
+        "P63104": "YWHAZ"
+      }
+    },
+    {
+      "accession": "P02671",
+      "short": "Fibrinogen alpha",
+      "partners": {
+        "Q8IXL6": "FAM20C",
+        "P27348": "YWHAQ",
+        "O00471": "EXOC5",
+        "P13473-2": "LAMP2",
+        "Q9Y3L3": "SH3BP1",
+        "Q9Y371": "SH3GLB1",
+        "P00441": "SOD1",
+        "P61266": "STX1B",
+        "P32856-2": "STX2",
+        "Q9UBB9": "TFIP11",
+        "Q9BTV4": "TMEM43",
+        "P09493-10": "TPM1",
+        "P06753": "TPM3"
+      }
+    },
+    {
+      "accession": "P02675",
+      "short": "Fibrinogen beta",
+      "partners": {}
+    },
+    {
+      "accession": "P02679",
+      "short": "Fibrinogen gamma",
+      "partners": {}
+    },
+    {
+      "accession": "P02751",
+      "short": "Fibronectin",
+      "partners": {
+        "P29279": "CCN2",
+        "P02452": "COL1A1",
+        "P07585": "DCN",
+        "P35555": "FBN1",
+        "P35556": "FBN2",
+        "O75636": "FCN3",
+        "P28300": "LOX",
+        "Q9Y4K0": "LOXL2",
+        "P08519": "LPA",
+        "P11684": "SCGB1A1",
+        "P05154": "SERPINA5",
+        "Q9NY15": "STAB1",
+        "P21980": "TGM2",
+        "P07996": "THBS1",
+        "P98066": "TNFAIP6",
+        "Q9UMX0": "UBQLN1",
+        "P40337": "VHL",
+        "P20908": "COL5A1",
+        "P06241": "FYN"
+      }
+    },
+    {
+      "accession": "P02458",
+      "short": "Type II collagen",
+      "partners": {
+        "P55212": "CASP6",
+        "Q8NI60": "COQ8A",
+        "P22607": "FGFR3",
+        "Q14957": "GRIN2C",
+        "P06396": "GSN",
+        "O00291": "HIP1",
+        "Q14145": "KEAP1",
+        "P13473-2": "LAMP2",
+        "O75400-2": "PRPF40A",
+        "Q9UMX0": "UBQLN1",
+        "Q9Y649": "?"
+      }
+    },
+    {
+      "accession": "P20930",
+      "short": "Filaggrin",
+      "partners": {
+        "Q9Y337": "KLK5"
+      }
+    },
+    {
+      "accession": "P62805",
+      "short": "Histone H4",
+      "partners": {
+        "P35609": "ACTN2",
+        "Q9Y294": "ASF1A",
+        "Q12830": "BPTF",
+        "Q12830-4": "BPTF",
+        "P25440": "BRD2",
+        "O60885-1": "BRD4",
+        "P55201": "BRPF1",
+        "P45973": "CBX5",
+        "P49450": "CENPA",
+        "P49450-1": "CENPA",
+        "Q9NQ92": "COPRS",
+        "Q92793": "CREBBP",
+        "P04908": "H2AC8",
+        "P16104": "H2AX",
+        "Q16778": "H2BC21",
+        "P84243": "H3-3B",
+        "Q16695": "H3-4",
+        "P68431": "H3C12",
+        "Q71DI3": "H3C15",
+        "O14929": "HAT1",
+        "Q13547": "HDAC1",
+        "P17096": "HMGA1",
+        "P42858": "HTT",
+        "Q9H9V9": "JMJD4",
+        "Q92993": "KAT5",
+        "O75164": "KDM4A",
+        "Q9NQR1": "KMT5A",
+        "Q9Y468": "L3MBTL1",
+        "Q8TAP4-4": "LMO3",
+        "Q05BQ5": "MBTD1",
+        "P49736": "MCM2",
+        "P25205": "MCM3",
+        "P33992": "MCM5",
+        "Q86UY6-1": "NAA40",
+        "Q9BVI0": "PHF20",
+        "A8MW92": "PHF20L1",
+        "P17252": "PRKCA",
+        "Q99873": "PRMT1",
+        "O14744": "PRMT5",
+        "P62826": "RAN",
+        "Q16576": "RBBP7",
+        "Q14684-1": "RRP1B",
+        "Q15047-2": "SETDB1",
+        "Q8IUQ4": "SIAH1",
+        "O60264": "SMARCA5",
+        "Q12824": "SMARCB1",
+        "Q04724": "TLE1",
+        "Q12888": "TP53BP1",
+        "Q12888-1": "TP53BP1",
+        "P61981": "YWHAG",
+        "P63104": "YWHAZ"
+      }
+    },
+    {
+      "accession": "P62807",
+      "short": "Histone H2B",
+      "partners": {
+        "Q96CW1": "AP2M1",
+        "Q12888": "TP53BP1",
+        "Q13625-3": "TP53BP2"
+      }
+    },
+    {
+      "accession": "P68431",
+      "short": "Histone H3.1",
+      "partners": {
+        "P01023": "A2M",
+        "O43918": "AIRE",
+        "P31749": "AKT1",
+        "P54252": "ATXN3",
+        "P83916": "CBX1",
+        "Q13185": "CBX3",
+        "P45973": "CBX5",
+        "Q9Y232": "CDYL",
+        "P07339": "CTSD",
+        "Q9UER7-1": "DAXX",
+        "Q8WXX5": "DNAJC9",
+        "P50570-2": "DNM2",
+        "Q8WUP2": "FBLIM1",
+        "P28799": "GRN",
+        "P62805": "H4C9",
+        "P42858": "HTT",
+        "Q9UNL4": "ING4",
+        "O75164": "KDM4A",
+        "Q03164": "KMT2A",
+        "Q9Y468": "L3MBTL1",
+        "P13473-2": "LAMP2",
+        "P49736": "MCM2",
+        "Q99549": "MPHOSPH8",
+        "P49321": "NASP",
+        "P49321-2": "NASP",
+        "O43933": "PEX1",
+        "Q9BVI0": "PHF20",
+        "A8MW92": "PHF20L1",
+        "P14618-1": "PKM",
+        "O60260-5": "PRKN",
+        "P49768-2": "PSEN1",
+        "P49810": "PSEN2",
+        "Q9Y3C5": "RNF11",
+        "Q8WTS6": "SETD7",
+        "Q96ES7": "SGF29",
+        "Q9Y371": "SH3GLB1",
+        "Q12824": "SMARCB1",
+        "P37840": "SNCA",
+        "Q12888": "TP53BP1",
+        "P02766": "TTR",
+        "P61964": "WDR5",
+        "O76024": "WFS1",
+        "P63104": "YWHAZ"
+      }
+    },
+    {
+      "accession": "P0C0S8",
+      "short": "Histone H2A",
+      "partners": {
+        "P55201": "BRPF1",
+        "Q99543": "DNAJC2",
+        "O95760": "IL33",
+        "Q99496": "RNF2",
+        "P63104": "YWHAZ"
+      }
+    },
+    {
+      "accession": "P11021",
+      "short": "BiP/GRP78",
+      "partners": {
+        "Q9BYF1": "ACE2",
+        "Q09666": "AHNAK",
+        "Q02410": "APBA1",
+        "P05067": "APP",
+        "P18850": "ATF6",
+        "Q9ULD4-2": "BRPF3",
+        "Q15700": "DLG2",
+        "Q92796": "DLG3",
+        "P78352": "DLG4",
+        "Q6E0U4": "DMKN",
+        "Q9UBS4": "DNAJB11",
+        "Q9UBS3": "DNAJB9",
+        "P49184": "DNASE1L1",
+        "Q92874": "DNASE1L2",
+        "Q9NZJ5": "EIF2AK3",
+        "P04626": "ERBB2",
+        "O75460": "ERN1",
+        "O75460-1": "ERN1",
+        "Q68DX3": "FRMPD2",
+        "Q9H8Y8": "GORASP2",
+        "P62993": "GRB2",
+        "A4D2P6": "GRID2IP",
+        "Q9Y3R0": "GRIP1",
+        "Q9C0E4": "GRIP2",
+        "Q15486": "GUSBP1",
+        "P14625": "HSP90B1",
+        "Q9Y4L1": "HYOU1",
+        "P01721": "IGLV6-57",
+        "Q14005": "IL16",
+        "Q8TBB1": "LNX1",
+        "O95868": "LY6G6D",
+        "Q86UL8": "MAGI2",
+        "Q9Y2H9": "MAST1",
+        "O75970": "MPDZ",
+        "Q86UT5": "NHERF4",
+        "Q9Y328": "NSG2",
+        "Q8TEW0": "PARD3",
+        "Q8NI35": "PATJ",
+        "Q96IZ0": "PAWR",
+        "Q15084": "PDIA6",
+        "Q5T2W1": "PDZK1",
+        "P04049": "RAF1",
+        "Q8TEU7": "RAPGEF6",
+        "Q14160": "SCRIB",
+        "P61619": "SEC61A1",
+        "P36955": "SERPINF1",
+        "Q9H173": "SIL1",
+        "Q9UHI5": "SLC7A8",
+        "Q13573": "SNW1",
+        "Q6URK8": "SPMIP8",
+        "Q07157": "TJP1",
+        "Q6PF05": "TTC23L",
+        "Q13404": "UBE2V1",
+        "Q9NYU1": "UGGT2",
+        "Q9P202": "WHRN",
+        "P09544": "WNT2",
+        "Q6T424": "?"
+      }
+    },
+    {
+      "accession": "P22626",
+      "short": "RA33",
+      "partners": {
+        "Q13936": "CACNA1C",
+        "Q08211": "DHX9",
+        "O60741": "HCN1",
+        "Q13151": "HNRNPA0",
+        "P09651": "HNRNPA1",
+        "P51991": "HNRNPA3",
+        "Q99729": "HNRNPAB",
+        "P07910": "HNRNPC",
+        "Q14103": "HNRNPD",
+        "O14979": "HNRNPDL",
+        "P61978": "HNRNPK",
+        "P14866": "HNRNPL",
+        "P14866-1": "HNRNPL",
+        "P52272": "HNRNPM",
+        "Q12906": "ILF3",
+        "Q5T7N2": "L1TD1",
+        "Q96PV0": "SYNGAP1",
+        "Q9HA38": "ZMAT3",
+        "P22626-2": "HNRNPA2B1"
+      }
+    },
+    {
+      "accession": "P26022",
+      "short": "Pentraxin 3",
+      "partners": {
+        "P08603": "CFH",
+        "P08603-2": "CFH",
+        "Q03591": "CFHR1",
+        "Q9BXR6": "CFHR5",
+        "O00602": "FCN1",
+        "Q15485": "FCN2",
+        "P09038": "FGF2",
+        "P98066": "TNFAIP6"
+      }
+    },
+    {
+      "accession": "P01857",
+      "short": "IgG1 Fc",
+      "partners": {
+        "P31994": "FCGR2B",
+        "P12314": "FCGR1A"
+      }
+    }
+  ],
+  "candidate_meta": {
+    "A8MW92": {
+      "gene": "PHF20L1",
+      "degree": 2,
+      "na": true
+    },
+    "O75164": {
+      "gene": "KDM4A",
+      "degree": 4,
+      "na": true
+    },
+    "P13473-2": {
+      "gene": "LAMP2",
+      "degree": 242,
+      "na": false
+    },
+    "P31749": {
+      "gene": "AKT1",
+      "degree": 92,
+      "na": true
+    },
+    "P42858": {
+      "gene": "HTT",
+      "degree": 854,
+      "na": true
+    },
+    "P45973": {
+      "gene": "CBX5",
+      "degree": 41,
+      "na": true
+    },
+    "P49736": {
+      "gene": "MCM2",
+      "degree": 19,
+      "na": true
+    },
+    "P55201": {
+      "gene": "BRPF1",
+      "degree": 10,
+      "na": true
+    },
+    "P63104": {
+      "gene": "YWHAZ",
+      "degree": 145,
+      "na": false
+    },
+    "P98066": {
+      "gene": "TNFAIP6",
+      "degree": 11,
+      "na": false
+    },
+    "Q12824": {
+      "gene": "SMARCB1",
+      "degree": 40,
+      "na": true
+    },
+    "Q12888": {
+      "gene": "TP53BP1",
+      "degree": 48,
+      "na": true
+    },
+    "Q96IZ0": {
+      "gene": "PAWR",
+      "degree": 6,
+      "na": true
+    },
+    "Q9BVI0": {
+      "gene": "PHF20",
+      "degree": 3,
+      "na": true
+    },
+    "Q9BYF1": {
+      "gene": "ACE2",
+      "degree": 46,
+      "na": false
+    },
+    "Q9UMX0": {
+      "gene": "UBQLN1",
+      "degree": 300,
+      "na": true
+    },
+    "Q9Y371": {
+      "gene": "SH3GLB1",
+      "degree": 145,
+      "na": false
+    },
+    "Q9Y468": {
+      "gene": "L3MBTL1",
+      "degree": 5,
+      "na": true
+    },
+    "Q9Y4K0": {
+      "gene": "LOXL2",
+      "degree": 5,
+      "na": true
+    }
+  }
+}

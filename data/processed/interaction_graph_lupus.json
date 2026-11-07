@@ -1,0 +1,863 @@
+{
+  "_metadata": {
+    "disease_key": "lupus",
+    "disease": "Systemic lupus erythematosus (SLE)",
+    "built": "2026-11-07",
+    "note": "Precomputed interaction graph for live scope-steered discovery in the web app (data/raw is not deployed). Rebuild: discover.build_interaction_graph(disease)."
+  },
+  "known": [
+    {
+      "accession": "P10155",
+      "short": "Ro60",
+      "partners": {}
+    },
+    {
+      "accession": "P19474",
+      "short": "Ro52",
+      "partners": {
+        "O15296": "ALOX15B",
+        "O00257-3": "CBX4",
+        "P13569": "CFTR",
+        "Q9NXE8": "CWC25",
+        "Q14203-5": "DCTN1",
+        "Q9NPF5": "DMAP1",
+        "Q08426": "EHHADH",
+        "P17813": "ENG",
+        "Q8IYI6": "EXOC8",
+        "Q9Y613": "FHOD1",
+        "Q96IK5": "GMCL1",
+        "Q13588": "GRAP",
+        "P42858": "HTT",
+        "Q86VF2-5": "IGFN1",
+        "Q8TBB1": "LNX1",
+        "O60260-5": "PRKN",
+        "Q9Y3C5": "RNF11",
+        "P37840": "SNCA",
+        "Q9NUJ3": "TCP11L1",
+        "Q8IZW8": "TNS4",
+        "O75382": "TRIM3",
+        "Q9HCM9": "TRIM39",
+        "Q9HCM9-2": "TRIM39",
+        "Q99757": "TXN2",
+        "Q7KZS0": "UBE2I",
+        "P09936": "UCHL1",
+        "Q9Y4E8": "USP15",
+        "Q13107-1": "USP4",
+        "Q9Y2B5": "VPS9D1",
+        "Q6GPH4": "XAF1",
+        "Q9BW85": "YJU2",
+        "Q05516": "ZBTB16"
+      }
+    },
+    {
+      "accession": "P05455",
+      "short": "La/SSB",
+      "partners": {
+        "P54652": "HSPA2",
+        "P42858": "HTT",
+        "O96000": "NDUFB10",
+        "Q8WZA2": "RAPGEF4"
+      }
+    },
+    {
+      "accession": "P14678",
+      "short": "Sm-B/B'",
+      "partners": {
+        "P54253": "ATXN1",
+        "O95400": "CD2BP2",
+        "P54105": "CLNS1A",
+        "P38432": "COIL",
+        "Q15428": "SF3A2",
+        "P62318": "SNRPD3",
+        "Q9Y3F4": "STRAP",
+        "Q16637-3": "SMN2",
+        "Q6PJH3": "AKAP9",
+        "O95429": "BAG4",
+        "Q8N9N5": "BANP",
+        "Q8N9N5-2": "BANP",
+        "Q14457": "BECN1",
+        "Q5SWW7": "C10orf55",
+        "Q13137": "CALCOCO2",
+        "Q53EZ4": "CEP55",
+        "Q96BR5": "COA7",
+        "Q9Y2V7": "COG6",
+        "Q03060-25": "CREM",
+        "Q8IUI8": "CRLF3",
+        "A8MQ03": "CYSRT1",
+        "O75553": "DAB1",
+        "Q86TI2-2": "DPP9",
+        "Q96B26": "EXOSC8",
+        "A1KXE4-2": "FAM168B",
+        "Q13643": "FHL3",
+        "Q96AE4-2": "FUBP1",
+        "O75420": "GIGYF1",
+        "Q08379": "GOLGA2",
+        "P31943": "HNRNPH1",
+        "P49639": "HOXA1",
+        "Q0VD86": "INCA1",
+        "O76011": "KRT34",
+        "Q6A162": "KRT40",
+        "Q8IUB9": "KRTAP19-1",
+        "Q3LI70": "KRTAP19-6",
+        "Q3LI64": "KRTAP6-1",
+        "Q3LI66": "KRTAP6-2",
+        "Q3LI67": "KRTAP6-3",
+        "Q96JM7": "L3MBTL3",
+        "Q9Y333": "LSM2",
+        "Q86UL8-2": "MAGI2",
+        "Q8WWY6": "MBD3L1",
+        "Q8N6F8": "METTL27",
+        "P02795": "MT2A",
+        "O43482": "OIP5",
+        "A6NGQ2": "OOEP",
+        "Q99471": "PFDN5",
+        "Q96CS7": "PLEKHB2",
+        "Q8ND90": "PNMA1",
+        "P86480": "PRR20D",
+        "P25788": "PSMA3",
+        "Q93062": "RBPMS",
+        "Q8HWS3": "RFX6",
+        "Q9UJW9": "SERTAD3",
+        "Q02447": "SP3",
+        "Q99932-2": "SPAG8",
+        "O75177": "SS18L1",
+        "Q9UBB9": "TFIP11",
+        "Q8WTV1": "THAP3",
+        "Q9BUZ4": "TRAF4",
+        "P36406": "TRIM23",
+        "Q9UHD9": "UBQLN2",
+        "Q5T124-6": "UBXN11",
+        "Q70EL1-9": "USP54",
+        "O00308": "WWP2",
+        "P52747": "ZNF143"
+      }
+    },
+    {
+      "accession": "P62314",
+      "short": "Sm-D1",
+      "partners": {
+        "P54105": "CLNS1A",
+        "Q8WXD5": "GEMIN6",
+        "Q15428": "SF3A2",
+        "Q16637": "SMN2",
+        "P62316": "SNRPD2"
+      }
+    },
+    {
+      "accession": "P62316",
+      "short": "Sm-D2",
+      "partners": {
+        "P54253": "ATXN1",
+        "Q8NHQ1": "CEP70",
+        "Q9BW66": "CINP",
+        "P54105": "CLNS1A",
+        "Q8WXD5": "GEMIN6",
+        "P42858": "HTT",
+        "Q9Y333": "LSM2",
+        "P62312": "LSM6",
+        "Q15428": "SF3A2",
+        "P62314": "SNRPD1",
+        "P62306": "SNRPF",
+        "Q5MJ10": "SPANXN2",
+        "Q9Y3F4": "STRAP"
+      }
+    },
+    {
+      "accession": "P62318",
+      "short": "Sm-D3",
+      "partners": {
+        "P54253": "ATXN1",
+        "P54105": "CLNS1A",
+        "P84090": "ERH",
+        "P62310": "LSM3",
+        "Q9UK45": "LSM7",
+        "Q96HA8": "NTAQ1",
+        "Q15428": "SF3A2",
+        "P14678": "SNRPB",
+        "P08579": "SNRPB2",
+        "Q96SB4": "SRPK1"
+      }
+    },
+    {
+      "accession": "P08621",
+      "short": "U1-70K",
+      "partners": {
+        "Q96MT8": "CEP63",
+        "P49760": "CLK2",
+        "Q9BX10": "GTPBP2",
+        "Q16637": "SMN2",
+        "Q96SB4": "SRPK1",
+        "P78362": "SRPK2",
+        "A7MD48": "SRRM4",
+        "Q07955": "SRSF1",
+        "P31483": "TIA1"
+      }
+    },
+    {
+      "accession": "P09012",
+      "short": "U1-A",
+      "partners": {
+        "O95400": "CD2BP2",
+        "Q9Y3Y2-3": "CHTOP",
+        "Q14011": "CIRBP",
+        "Q96EP5": "DAZAP1",
+        "Q96D03": "DDIT4L",
+        "Q13838": "DDX39B",
+        "Q16206-2": "ENOX2",
+        "Q96AE4-2": "FUBP1",
+        "Q06547": "GABPB1",
+        "O75420": "GIGYF1",
+        "P61978": "HNRNPK",
+        "P61978-2": "HNRNPK",
+        "Q00839": "HNRNPU",
+        "Q96PV6": "LENG8",
+        "Q969G2": "LHX4",
+        "Q8TBB1": "LNX1",
+        "Q5VZF2-2": "MBNL2",
+        "Q8N6R0": "METTL13",
+        "Q9P015": "MRPL15",
+        "Q5JR59": "MTUS2",
+        "Q9BU61": "NDUFAF3",
+        "Q9BU61-2": "NDUFAF3",
+        "P32243-2": "OTX2",
+        "Q15365": "PCBP1",
+        "Q15366": "PCBP2",
+        "P57721-2": "PCBP3",
+        "P26599": "PTBP1",
+        "Q9UKA9-2": "PTBP2",
+        "Q96PU8": "QKI",
+        "Q86YV0": "RASAL3",
+        "P57052": "RBM11",
+        "P98179": "RBM3",
+        "Q9BQ04": "RBM4B",
+        "P38159": "RBMX",
+        "P0DJD3-2": "RBMY1A1",
+        "Q15415": "RBMY1J",
+        "Q6ZRY4": "RBPMS2",
+        "O00560": "SDCBP",
+        "P23246": "SFPQ",
+        "P09661": "SNRPA1",
+        "P31483": "TIA1",
+        "Q01085-2": "TIAL1",
+        "Q08117-2": "TLE5",
+        "Q8WVP5": "TNFAIP8L1",
+        "P14373": "TRIM27",
+        "Q9BQ61": "TRIR",
+        "P26368": "U2AF2",
+        "P26368-2": "U2AF2",
+        "Q8WW36": "ZCCHC13"
+      }
+    },
+    {
+      "accession": "P09234",
+      "short": "U1-C",
+      "partners": {
+        "Q5BKX5-3": "ACTMAP",
+        "Q9ULX6": "AKAP8L",
+        "Q9NXR5-2": "ANKRD10",
+        "Q9BRR9": "ARHGAP9",
+        "O95429": "BAG4",
+        "O75934": "BCAS2",
+        "Q8N9W6-4": "BOLL",
+        "Q03060-25": "CREM",
+        "A8MQ03": "CYSRT1",
+        "Q15038": "DAZAP2",
+        "Q16610": "ECM1",
+        "Q96B26": "EXOSC8",
+        "O00167-2": "EYA2",
+        "A1KXE4-2": "FAM168B",
+        "Q13643": "FHL3",
+        "Q96AE4-2": "FUBP1",
+        "O75420": "GIGYF1",
+        "O14979": "HNRNPDL",
+        "P31943": "HNRNPH1",
+        "P49639": "HOXA1",
+        "Q9BPX1": "HSD17B14",
+        "Q5TA45": "INTS11",
+        "P0C870": "JMJD7",
+        "Q13351": "KLF1",
+        "Q8IUC1": "KRTAP11-1",
+        "Q52LG2": "KRTAP13-2",
+        "Q3LHN2": "KRTAP19-2",
+        "Q3LI72": "KRTAP19-5",
+        "Q3LI70": "KRTAP19-6",
+        "Q3LI59": "KRTAP21-2",
+        "Q3LI66": "KRTAP6-2",
+        "Q3LI67": "KRTAP6-3",
+        "Q8IUC3": "KRTAP7-1",
+        "Q8IUC2": "KRTAP8-1",
+        "Q9Y5V3": "MAGED1",
+        "Q8N6F8": "METTL27",
+        "Q13064": "MKRN3",
+        "Q9NZQ3-3": "NCKIPSD",
+        "A1E959": "ODAM",
+        "O15496": "PLA2G10",
+        "Q9GZV8": "PRDM14",
+        "P86480": "PRR20D",
+        "Q9BTL3": "RAMAC",
+        "P98175": "RBM10",
+        "Q93062-3": "RBPMS",
+        "Q9P2R6": "RERE",
+        "Q01196-8": "RUNX1",
+        "Q15437": "SEC23B",
+        "Q15428": "SF3A2",
+        "Q99932-2": "SPAG8",
+        "Q8IWL8": "STH",
+        "P31483": "TIA1",
+        "Q08117-2": "TLE5",
+        "Q96RU7": "TRIB3",
+        "Q6NVU6": "UFSP1",
+        "Q9BRX9": "WDR83",
+        "Q9NZC7-5": "WWOX",
+        "O00308": "WWP2"
+      }
+    },
+    {
+      "accession": "P62805",
+      "short": "Histone H4",
+      "partners": {
+        "P35609": "ACTN2",
+        "Q9Y294": "ASF1A",
+        "Q12830": "BPTF",
+        "Q12830-4": "BPTF",
+        "P25440": "BRD2",
+        "O60885-1": "BRD4",
+        "P55201": "BRPF1",
+        "P45973": "CBX5",
+        "P49450": "CENPA",
+        "P49450-1": "CENPA",
+        "Q9NQ92": "COPRS",
+        "Q92793": "CREBBP",
+        "P04908": "H2AC8",
+        "P16104": "H2AX",
+        "Q16778": "H2BC21",
+        "P84243": "H3-3B",
+        "Q16695": "H3-4",
+        "P68431": "H3C12",
+        "Q71DI3": "H3C15",
+        "O14929": "HAT1",
+        "Q13547": "HDAC1",
+        "P17096": "HMGA1",
+        "P42858": "HTT",
+        "Q9H9V9": "JMJD4",
+        "Q92993": "KAT5",
+        "O75164": "KDM4A",
+        "Q9NQR1": "KMT5A",
+        "Q9Y468": "L3MBTL1",
+        "Q8TAP4-4": "LMO3",
+        "Q05BQ5": "MBTD1",
+        "P49736": "MCM2",
+        "P25205": "MCM3",
+        "P33992": "MCM5",
+        "Q86UY6-1": "NAA40",
+        "Q9BVI0": "PHF20",
+        "A8MW92": "PHF20L1",
+        "P17252": "PRKCA",
+        "Q99873": "PRMT1",
+        "O14744": "PRMT5",
+        "P62826": "RAN",
+        "Q16576": "RBBP7",
+        "Q14684-1": "RRP1B",
+        "Q15047-2": "SETDB1",
+        "Q8IUQ4": "SIAH1",
+        "O60264": "SMARCA5",
+        "Q12824": "SMARCB1",
+        "Q04724": "TLE1",
+        "Q12888": "TP53BP1",
+        "Q12888-1": "TP53BP1",
+        "P61981": "YWHAG",
+        "P63104": "YWHAZ"
+      }
+    },
+    {
+      "accession": "P68431",
+      "short": "Histone H3.1",
+      "partners": {
+        "P01023": "A2M",
+        "O43918": "AIRE",
+        "P31749": "AKT1",
+        "P54252": "ATXN3",
+        "P83916": "CBX1",
+        "Q13185": "CBX3",
+        "P45973": "CBX5",
+        "Q9Y232": "CDYL",
+        "P07339": "CTSD",
+        "Q9UER7-1": "DAXX",
+        "Q8WXX5": "DNAJC9",
+        "P50570-2": "DNM2",
+        "Q8WUP2": "FBLIM1",
+        "P28799": "GRN",
+        "P62805": "H4C9",
+        "P42858": "HTT",
+        "Q9UNL4": "ING4",
+        "O75164": "KDM4A",
+        "Q03164": "KMT2A",
+        "Q9Y468": "L3MBTL1",
+        "P13473-2": "LAMP2",
+        "P49736": "MCM2",
+        "Q99549": "MPHOSPH8",
+        "P49321": "NASP",
+        "P49321-2": "NASP",
+        "O43933": "PEX1",
+        "Q9BVI0": "PHF20",
+        "A8MW92": "PHF20L1",
+        "P14618-1": "PKM",
+        "O60260-5": "PRKN",
+        "P49768-2": "PSEN1",
+        "P49810": "PSEN2",
+        "Q9Y3C5": "RNF11",
+        "Q8WTS6": "SETD7",
+        "Q96ES7": "SGF29",
+        "Q9Y371": "SH3GLB1",
+        "Q12824": "SMARCB1",
+        "P37840": "SNCA",
+        "Q12888": "TP53BP1",
+        "P02766": "TTR",
+        "P61964": "WDR5",
+        "O76024": "WFS1",
+        "P63104": "YWHAZ"
+      }
+    },
+    {
+      "accession": "P62807",
+      "short": "Histone H2B",
+      "partners": {
+        "Q96CW1": "AP2M1",
+        "Q12888": "TP53BP1",
+        "Q13625-3": "TP53BP2"
+      }
+    },
+    {
+      "accession": "P0C0S8",
+      "short": "Histone H2A",
+      "partners": {
+        "P55201": "BRPF1",
+        "Q99543": "DNAJC2",
+        "O95760": "IL33",
+        "Q99496": "RNF2",
+        "P63104": "YWHAZ"
+      }
+    },
+    {
+      "accession": "P05388",
+      "short": "Ribosomal P0",
+      "partners": {
+        "O95273": "CCNDBP1",
+        "O95793": "STAU1"
+      }
+    },
+    {
+      "accession": "P05386",
+      "short": "Ribosomal P1",
+      "partners": {
+        "P68400": "CSNK2A1",
+        "P05387": "RPLP2",
+        "P51687": "SUOX"
+      }
+    },
+    {
+      "accession": "P05387",
+      "short": "Ribosomal P2",
+      "partners": {
+        "P05386": "RPLP1"
+      }
+    },
+    {
+      "accession": "P02745",
+      "short": "C1q A",
+      "partners": {
+        "P02746": "C1QB",
+        "Q07021": "C1QBP",
+        "Q96EQ0": "SGTB",
+        "Q9UHD9": "UBQLN2"
+      }
+    },
+    {
+      "accession": "P02746",
+      "short": "C1q B",
+      "partners": {
+        "P02745": "C1QA",
+        "Q07021": "C1QBP",
+        "Q9UHD9": "UBQLN2"
+      }
+    },
+    {
+      "accession": "P02747",
+      "short": "C1q C",
+      "partners": {
+        "Q07021": "C1QBP",
+        "Q9UHD9": "UBQLN2",
+        "Q76KX8": "ZNF534"
+      }
+    },
+    {
+      "accession": "P12956",
+      "short": "Ku70",
+      "partners": {
+        "Q96P48": "ARAP1",
+        "Q07812": "BAX",
+        "P38432": "COIL",
+        "O75398": "DEAF1",
+        "Q6NT76": "HMBOX1",
+        "P42858": "HTT",
+        "Q92597": "NDRG1",
+        "Q08752": "PPID",
+        "O15355": "PPM1G",
+        "P78527": "PRKDC",
+        "Q9Y3C5": "RNF11",
+        "Q96EB6": "SIRT1",
+        "P15884": "TCF4",
+        "Q9NQB0": "TCF7L2",
+        "Q9NYB0": "TERF2IP",
+        "P04637": "TP53",
+        "P13693": "TPT1",
+        "O76024": "WFS1",
+        "Q14191": "WRN",
+        "Q13426": "XRCC4",
+        "P13010": "XRCC5"
+      }
+    },
+    {
+      "accession": "P13010",
+      "short": "Ku80",
+      "partners": {
+        "Q8IW19": "APLF",
+        "P38432": "COIL",
+        "Q96EV8-1": "DTNBP1",
+        "Q9H4A6": "GOLPH3",
+        "P09629": "HOXB7",
+        "P04792": "HSPB1",
+        "Q9BUH6": "PAXX",
+        "Q9BUH6-1": "PAXX",
+        "O15355": "PPM1G",
+        "P78527": "PRKDC",
+        "P15884": "TCF4",
+        "P13693": "TPT1",
+        "P12956": "XRCC6",
+        "Q9UGI0": "ZRANB1"
+      }
+    },
+    {
+      "accession": "P12004",
+      "short": "PCNA",
+      "partners": {
+        "P04075": "ALDOA",
+        "P03950": "ANG",
+        "P07355": "ANXA2",
+        "P61769": "B2M",
+        "P38936": "CDKN1A",
+        "P42771": "CDKN2A",
+        "Q9H211": "CDT1",
+        "Q13111": "CHAF1A",
+        "Q96DZ9-2": "CMTM5",
+        "P68104": "EEF1A1",
+        "P06733": "ENO1",
+        "P39748": "FEN1",
+        "P24522": "GADD45A",
+        "P04406": "GAPDH",
+        "Q14527": "HLTF",
+        "Q9H160": "ING2",
+        "Q9H063": "MAF1",
+        "P20585": "MSH3",
+        "O95944": "NCR2",
+        "P61970": "NUTF2",
+        "Q15004": "PCLAF",
+        "P18669": "PGAM1",
+        "P00558": "PGK1",
+        "P28340": "POLD1",
+        "P49005": "POLD2",
+        "Q15054": "POLD3",
+        "Q9HCU8": "POLD4",
+        "P30041": "PRDX6",
+        "Q9UBF6": "RNF7",
+        "Q86TU7": "SETD3",
+        "Q8IWU4": "SLC30A8",
+        "Q9NZD8": "SPG21",
+        "A2RU14": "TMEM218",
+        "P60174": "TPI1",
+        "Q5FWF4": "ZRANB3",
+        "Q8TE30": "?"
+      }
+    },
+    {
+      "accession": "P02749",
+      "short": "Beta-2-GPI",
+      "partners": {
+        "P13473-2": "LAMP2",
+        "P01130": "LDLR",
+        "P08519": "LPA",
+        "P11226": "MBL2",
+        "P02776": "PF4",
+        "P00747": "PLG",
+        "Q9Y371": "SH3GLB1"
+      }
+    }
+  ],
+  "candidate_meta": {
+    "A1KXE4-2": {
+      "gene": "FAM168B",
+      "degree": 53,
+      "na": false
+    },
+    "A8MQ03": {
+      "gene": "CYSRT1",
+      "degree": 499,
+      "na": false
+    },
+    "A8MW92": {
+      "gene": "PHF20L1",
+      "degree": 2,
+      "na": true
+    },
+    "O00308": {
+      "gene": "WWP2",
+      "degree": 65,
+      "na": true
+    },
+    "O15355": {
+      "gene": "PPM1G",
+      "degree": 5,
+      "na": false
+    },
+    "O60260-5": {
+      "gene": "PRKN",
+      "degree": 152,
+      "na": false
+    },
+    "O75164": {
+      "gene": "KDM4A",
+      "degree": 4,
+      "na": true
+    },
+    "O75420": {
+      "gene": "GIGYF1",
+      "degree": 34,
+      "na": false
+    },
+    "O76024": {
+      "gene": "WFS1",
+      "degree": 461,
+      "na": false
+    },
+    "O95400": {
+      "gene": "CD2BP2",
+      "degree": 17,
+      "na": true
+    },
+    "O95429": {
+      "gene": "BAG4",
+      "degree": 86,
+      "na": false
+    },
+    "P13473-2": {
+      "gene": "LAMP2",
+      "degree": 242,
+      "na": false
+    },
+    "P13693": {
+      "gene": "TPT1",
+      "degree": 15,
+      "na": false
+    },
+    "P15884": {
+      "gene": "TCF4",
+      "degree": 208,
+      "na": true
+    },
+    "P31483": {
+      "gene": "TIA1",
+      "degree": 3,
+      "na": true
+    },
+    "P31943": {
+      "gene": "HNRNPH1",
+      "degree": 38,
+      "na": true
+    },
+    "P37840": {
+      "gene": "SNCA",
+      "degree": 168,
+      "na": true
+    },
+    "P38432": {
+      "gene": "COIL",
+      "degree": 46,
+      "na": true
+    },
+    "P42858": {
+      "gene": "HTT",
+      "degree": 854,
+      "na": true
+    },
+    "P45973": {
+      "gene": "CBX5",
+      "degree": 41,
+      "na": true
+    },
+    "P49639": {
+      "gene": "HOXA1",
+      "degree": 276,
+      "na": true
+    },
+    "P49736": {
+      "gene": "MCM2",
+      "degree": 19,
+      "na": true
+    },
+    "P54105": {
+      "gene": "CLNS1A",
+      "degree": 13,
+      "na": true
+    },
+    "P54253": {
+      "gene": "ATXN1",
+      "degree": 377,
+      "na": true
+    },
+    "P55201": {
+      "gene": "BRPF1",
+      "degree": 10,
+      "na": true
+    },
+    "P63104": {
+      "gene": "YWHAZ",
+      "degree": 145,
+      "na": false
+    },
+    "P78527": {
+      "gene": "PRKDC",
+      "degree": 13,
+      "na": true
+    },
+    "P86480": {
+      "gene": "PRR20D",
+      "degree": 81,
+      "na": false
+    },
+    "Q03060-25": {
+      "gene": "CREM",
+      "degree": 18,
+      "na": false
+    },
+    "Q07021": {
+      "gene": "C1QBP",
+      "degree": 19,
+      "na": true
+    },
+    "Q08117-2": {
+      "gene": "TLE5",
+      "degree": 264,
+      "na": false
+    },
+    "Q12824": {
+      "gene": "SMARCB1",
+      "degree": 40,
+      "na": true
+    },
+    "Q12888": {
+      "gene": "TP53BP1",
+      "degree": 48,
+      "na": true
+    },
+    "Q13643": {
+      "gene": "FHL3",
+      "degree": 129,
+      "na": true
+    },
+    "Q15428": {
+      "gene": "SF3A2",
+      "degree": 52,
+      "na": true
+    },
+    "Q16637": {
+      "gene": "SMN2",
+      "degree": 77,
+      "na": true
+    },
+    "Q3LI66": {
+      "gene": "KRTAP6-2",
+      "degree": 181,
+      "na": false
+    },
+    "Q3LI67": {
+      "gene": "KRTAP6-3",
+      "degree": 158,
+      "na": false
+    },
+    "Q3LI70": {
+      "gene": "KRTAP19-6",
+      "degree": 65,
+      "na": false
+    },
+    "Q8N6F8": {
+      "gene": "METTL27",
+      "degree": 48,
+      "na": true
+    },
+    "Q8TBB1": {
+      "gene": "LNX1",
+      "degree": 777,
+      "na": false
+    },
+    "Q8WXD5": {
+      "gene": "GEMIN6",
+      "degree": 11,
+      "na": true
+    },
+    "Q96AE4-2": {
+      "gene": "FUBP1",
+      "degree": 12,
+      "na": false
+    },
+    "Q96B26": {
+      "gene": "EXOSC8",
+      "degree": 54,
+      "na": true
+    },
+    "Q96SB4": {
+      "gene": "SRPK1",
+      "degree": 27,
+      "na": true
+    },
+    "Q99932-2": {
+      "gene": "SPAG8",
+      "degree": 101,
+      "na": false
+    },
+    "Q9BVI0": {
+      "gene": "PHF20",
+      "degree": 3,
+      "na": true
+    },
+    "Q9UHD9": {
+      "gene": "UBQLN2",
+      "degree": 243,
+      "na": true
+    },
+    "Q9Y333": {
+      "gene": "LSM2",
+      "degree": 25,
+      "na": true
+    },
+    "Q9Y371": {
+      "gene": "SH3GLB1",
+      "degree": 145,
+      "na": false
+    },
+    "Q9Y3C5": {
+      "gene": "RNF11",
+      "degree": 222,
+      "na": true
+    },
+    "Q9Y3F4": {
+      "gene": "STRAP",
+      "degree": 7,
+      "na": true
+    },
+    "Q9Y468": {
+      "gene": "L3MBTL1",
+      "degree": 5,
+      "na": true
+    }
+  }
+}

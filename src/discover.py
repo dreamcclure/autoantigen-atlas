@@ -193,6 +193,107 @@ def holdout_recall(disease):
 
 
 # ---------------------------------------------------------------------------
+# LIVE, CLOUD-SAFE DISCOVERY (for the web app).
+# data/raw is git-ignored (not deployed), so the hosted app can't read the UniProt
+# interaction files directly. We precompute exactly what the ranker needs into a small
+# COMMITTED graph file, then rank_candidates() runs the full scope-steerable ranking off
+# that file — free, fast, and self-contained. The CLI main() below is untouched.
+# ---------------------------------------------------------------------------
+def build_interaction_graph(disease):
+    """Precompute the interaction data rank_candidates() needs into a committed JSON file.
+    Reproducible from data/raw (run locally). Shape:
+        known:          [{accession, short, partners:{pacc:pgene}}]   # the positives
+        candidate_meta: {pacc: {gene, degree, na}}                    # per partner protein
+    """
+    pos = positives(disease)
+    known, support = [], {}
+    for p in pos:
+        parts = partners_of(p["accession"])
+        known.append({"accession": p["accession"], "short": p["short"], "partners": parts})
+        for pacc, pgene in parts.items():
+            s = support.setdefault(pacc, {"gene": pgene, "n": 0})
+            s["n"] += 1
+    # Only compute (and fetch) meta for candidates that could EVER be ranked: full-set support
+    # must be >= MIN_SUPPORT, since any scope is a subset (so its support can only be lower).
+    candidate_meta = {}
+    for acc, s in sorted(support.items()):
+        if s["n"] < MIN_SUPPORT:
+            continue
+        candidate_meta[acc] = {"gene": s["gene"], "degree": interaction_degree(acc),
+                               "na": is_na_associated(acc)}
+    payload = {
+        "_metadata": {"disease_key": disease, "disease": DISEASES[disease]["name"],
+                      "built": datetime.date.today().isoformat(),
+                      "note": "Precomputed interaction graph for live scope-steered discovery in "
+                              "the web app (data/raw is not deployed). Rebuild: "
+                              "discover.build_interaction_graph(disease)."},
+        "known": known, "candidate_meta": candidate_meta,
+    }
+    out = os.path.join(PROCESSED_DIR, "interaction_graph_{}.json".format(disease))
+    with open(out, "w") as f:
+        json.dump(payload, f, indent=2)
+    return out
+
+
+def _load_graph(disease):
+    with open(os.path.join(PROCESSED_DIR, "interaction_graph_{}.json".format(disease))) as f:
+        return json.load(f)
+
+
+def rank_candidates(disease, scope_accessions=None, top_n=None):
+    """Rank novel candidates live from the precomputed graph — mirrors the CLI ranking.
+
+    scope_accessions: restrict which known antigens seed the search (the 'steering'); None = all.
+    Returns a list of candidate dicts identical in shape to discovery_{disease}.json['candidates'].
+    """
+    graph = _load_graph(disease)
+    seed_acc = all_seed_accessions(disease)
+    use_prior = disease in NA_PRIOR_DISEASES
+    short_of = {k["accession"]: k["short"] for k in graph["known"]}
+    scope = set(scope_accessions) if scope_accessions is not None else set(short_of)
+
+    pooled = {}
+    for k in graph["known"]:
+        if k["accession"] not in scope:
+            continue
+        for pacc, pgene in k["partners"].items():
+            e = pooled.setdefault(pacc, {"gene": pgene, "partner_support": 0, "connects_to": set()})
+            e["partner_support"] += 1
+            e["connects_to"].add(short_of.get(k["accession"], k["accession"]))
+
+    meta = graph["candidate_meta"]
+    ranked = []
+    for pacc, e in pooled.items():
+        if pacc in seed_acc or e["partner_support"] < MIN_SUPPORT:
+            continue
+        deg = (meta.get(pacc) or {}).get("degree")
+        if not deg or deg < MIN_DEGREE:
+            continue
+        spec = round(e["partner_support"] / deg, 3)
+        if spec < MIN_SPECIFICITY:
+            continue
+        na = meta[pacc].get("na") if use_prior else None
+        ranked.append({"accession": pacc, "gene": e["gene"],
+                       "partner_support": e["partner_support"], "total_partners": deg,
+                       "specificity": spec, "na_associated": na,
+                       "connects_to": sorted(e["connects_to"])})
+    ranked.sort(key=lambda c: (c["partner_support"], c["specificity"],
+                               1 if c["na_associated"] else 0), reverse=True)
+    return ranked[:top_n] if top_n else ranked
+
+
+def assessment_prompt(gene, acc, disease_name, rationale):
+    """Build the discovery-framed assessment question (reused by the CLI and the web app)."""
+    return ASSESS_QUESTION.format(gene=gene, acc=acc, disease_name=disease_name, rationale=rationale)
+
+
+def parse_evidence_tier(answer):
+    """Pull the ESTABLISHED / EMERGING / NONE-FOUND verdict out of an agent answer."""
+    matches = EVIDENCE_RE.findall(answer or "")
+    return matches[-1].upper() if matches else "UNPARSED"
+
+
+# ---------------------------------------------------------------------------
 # Shared agent-assessment step (used by both arms). `--assess N` turns it on.
 # ---------------------------------------------------------------------------
 def assess_count(default=5):

@@ -39,6 +39,7 @@ except Exception:
     pass
 
 from diseases import DISEASES
+import discover   # reused for live candidate ranking + the assessment prompt/parser
 
 # --- cost guardrail: per-session rate limit (the hard ceiling is the console spend cap) ---
 RATE_LIMIT = 10        # questions...
@@ -107,10 +108,6 @@ TIER = {
 _TIER_ORDER = {"ESTABLISHED": 0, "EMERGING": 1, "NONE-FOUND": 2}
 
 
-def _na_label(value):
-    return {True: "yes", False: "no", None: "—"}.get(value, "—")
-
-
 def _render_assessments(assessments):
     """Show the agent's cited verdict per candidate, strongest evidence first."""
     for a in sorted(assessments, key=lambda x: _TIER_ORDER.get(x["evidence_tier"], 9)):
@@ -119,6 +116,53 @@ def _render_assessments(assessments):
             a["gene"], a["accession"], emoji, color, label))
         with st.expander("Agent's cited assessment"):
             st.markdown(a["transcript"])
+
+
+def _assess_candidate(disease, c):
+    """Run the paid cited agent on ONE candidate; record the rate-limit hit and cache the result
+    (keyed per disease+accession) so a repeat click never re-spends."""
+    st.session_state.hits = st.session_state.get("hits", []) + [time.time()]
+    rationale = "physically associates with known {} autoantigens ({})".format(
+        DISEASES[disease]["name"], ", ".join(c["connects_to"]))
+    prompt = discover.assessment_prompt(c["gene"], c["accession"], DISEASES[disease]["name"], rationale)
+    answer, _tools, error = ask_agent(get_agent(disease), prompt)
+    if error:
+        result = {"evidence_tier": "UNPARSED", "transcript": "The agent hit a problem: " + error}
+    else:
+        result = {"accession": c["accession"], "gene": c["gene"],
+                  "evidence_tier": discover.parse_evidence_tier(answer), "transcript": answer}
+    st.session_state.setdefault("assessed", {})[(disease, c["accession"])] = result
+    return result
+
+
+def _tier_badge(verdict):
+    emoji, color, label = TIER.get(verdict["evidence_tier"], ("", "gray", verdict["evidence_tier"]))
+    st.markdown("{} :{}[{}]".format(emoji, color, label))
+
+
+def _render_candidate_row(disease, c, precomputed):
+    """One live candidate: its evidence, and either a cached/precomputed verdict or an Assess button."""
+    verdict = st.session_state.get("assessed", {}).get((disease, c["accession"])) \
+        or precomputed.get(c["accession"])
+    info, action = st.columns([3, 1])
+    with info:
+        na = " · nuclear/NA" if c.get("na_associated") else ""
+        st.markdown("**{}** (`{}`) — links {} · spec {}{}".format(
+            c["gene"], c["accession"], c["partner_support"], c["specificity"], na))
+        st.caption("connects to: " + ", ".join(c["connects_to"]))
+    with action:
+        if verdict:
+            _tier_badge(verdict)
+        elif st.button("🔬 Assess", key="assess_{}_{}".format(disease, c["accession"])):
+            if not within_rate_limit():
+                st.warning("Hourly limit reached — try later.")
+            else:
+                with st.spinner("Investigating {}…".format(c["gene"])):
+                    verdict = _assess_candidate(disease, c)
+                _tier_badge(verdict)
+    if verdict and verdict.get("transcript"):
+        with st.expander("Agent's cited assessment — {}".format(c["gene"])):
+            st.markdown(verdict["transcript"])
 
 
 def render_discovery(disease):
@@ -133,29 +177,37 @@ def render_discovery(disease):
         st.warning("No discovery run is available for this disease yet.")
         return
 
-    # ---- Partner arm: epitope-spreading neighbors of known antigens ----
-    if partner and partner.get("candidates"):
-        st.markdown("#### 🧩 Partner arm — epitope-spreading neighbors")
+    # ---- Partner arm: LIVE, steerable epitope-spreading search ----
+    st.markdown("#### 🧩 Partner arm — epitope-spreading neighbors *(live)*")
+    if partner:
         with st.expander("How this arm works"):
             st.caption(partner["_metadata"]["method"])
-        assessed = {a["accession"]: a for a in partner.get("agent_assessments", [])}
-        rows = []
-        for c in partner["candidates"][:15]:
-            rows.append({
-                "Gene": c["gene"],
-                "Linked antigens": c.get("partner_support"),
-                "Specificity": round(c.get("specificity", 0), 3),
-                "Nuclear/NA": _na_label(c.get("na_associated")),
-                "Connects to": ", ".join(c.get("connects_to", [])[:4]),
-            })
-        st.dataframe(rows, width="stretch", hide_index=True)
-        st.caption("*Specificity* = fraction of this protein's partners that are known antigens "
-                   "(controls for promiscuous interaction hubs). Showing top "
-                   "{} of {} candidates.".format(min(15, len(partner["candidates"])),
-                                                 len(partner["candidates"])))
-        if partner.get("agent_assessments"):
-            st.markdown("**Agent assessment of the top candidates:**")
-            _render_assessments(partner["agent_assessments"])
+
+    # STEER: choose which known antigens to spread from (blank = all). Ranking is live and
+    # FREE — it runs off a small committed interaction graph, no agent calls.
+    pos = discover.positives(disease)
+    short_to_acc = {p["short"]: p["accession"] for p in pos}
+    picked = st.multiselect("Focus on specific known antigens (leave blank to use all):",
+                            list(short_to_acc.keys()), default=[], key="scope_" + disease)
+    scope_acc = [short_to_acc[s] for s in picked] or None
+
+    try:
+        cands = discover.rank_candidates(disease, scope_accessions=scope_acc)
+    except FileNotFoundError:
+        st.warning("Live ranking is unavailable (interaction graph not found).")
+        cands = []
+
+    # precomputed verdicts (from the saved run) show for free; new ones come from the buttons.
+    pre = {a["accession"]: a for a in (partner.get("agent_assessments") if partner else [])}
+    if not cands:
+        st.caption("No candidates clear the filters for this scope — try adding more antigens.")
+    else:
+        st.caption("**{}** candidate{} from this scope. *Specificity* = links-to-known-antigens / "
+                   "total partners (down-weights promiscuous hubs). Press **Assess** to run the "
+                   "cited agent on one (counts against the demo's hourly limit).".format(
+                       len(cands), "s" if len(cands) != 1 else ""))
+        for c in cands[:12]:
+            _render_candidate_row(disease, c, pre)
 
     # ---- Literature arm: autoantibody-context co-mentions ----
     if literature and literature.get("candidates"):
