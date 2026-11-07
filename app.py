@@ -47,6 +47,20 @@ RATE_WINDOW = 3600     # ...per hour, per browser session
 
 st.set_page_config(page_title="Autoantigen Atlas", page_icon="🧬", layout="centered")
 
+# A few polish touches the theme config can't express. Kept minimal and resilient — if a
+# Streamlit class name ever changes, the app still works, it just loses the flourish.
+st.markdown("""
+<style>
+  /* the 3D viewers' signature radial-gradient ground, so the app matches them */
+  .stApp { background: radial-gradient(130% 100% at 70% 0%, #151826 0%, #0A0B10 60%); }
+  h1, h2, h3 { letter-spacing: -0.015em; }
+  /* separate the sidebar with the viewers' hairline */
+  section[data-testid="stSidebar"] { border-right: 1px solid #232838; }
+  /* AlphaFold renders have a solid near-black ground — drop their box border so they sit flush */
+  div[data-testid="stImage"] img { border-radius: 0.6rem; }
+</style>
+""", unsafe_allow_html=True)
+
 
 # ============================================================ agent (tab 1)
 @st.cache_resource(show_spinner=False)

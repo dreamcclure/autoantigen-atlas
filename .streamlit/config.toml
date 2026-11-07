@@ -1,0 +1,13 @@
+# Streamlit theme — the dark "instrument" look, matching the 3D structure viewers
+# (figures/*viewer.html). Palette lifted straight from the viewers so the whole app reads
+# as one designed system rather than default Streamlit styling.
+[theme]
+base = "dark"
+primaryColor = "#65CBF3"              # accent cyan (viewer --accent) → primary buttons, chips, widgets
+backgroundColor = "#0A0B10"           # viewer --bg (near-black with a blue cast)
+secondaryBackgroundColor = "#141824"  # viewer --panel → sidebar, widgets, code blocks
+textColor = "#E6E9F2"                 # viewer --ink
+linkColor = "#65CBF3"                 # accent cyan for links
+borderColor = "#232838"               # viewer --line
+baseRadius = "0.6rem"                 # soft rounded corners like the viewer panels
+font = "sans-serif"
