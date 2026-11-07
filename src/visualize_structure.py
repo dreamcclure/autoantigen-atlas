@@ -53,14 +53,13 @@ def read_ca_atoms(pdb_path):
     return xs, ys, zs, bs
 
 
-def main():
-    acc = sys.argv[1] if len(sys.argv) > 1 else "P10155"
-    label = sys.argv[2] if len(sys.argv) > 2 else "Ro60"
-
+def render(acc, label):
+    """Render one accession's AlphaFold structure to figures/{acc}_alphafold.png.
+    Returns the output path, or None if we have no structure file for it. Factored out of
+    main() so a batch job can render many proteins in one process (one matplotlib import)."""
     pdb_path = os.path.join(RAW_DIR, "{}_alphafold.pdb".format(acc))
     if not os.path.exists(pdb_path):
-        print("No structure file for {} at {}".format(acc, pdb_path))
-        return
+        return None
 
     xs, ys, zs, bs = read_ca_atoms(pdb_path)
     colors = [color_for(b) for b in bs]
@@ -92,7 +91,15 @@ def main():
     os.makedirs(FIG_DIR, exist_ok=True)
     out = os.path.join(FIG_DIR, "{}_alphafold.png".format(acc))
     fig.savefig(out, dpi=150, facecolor=fig.get_facecolor(), bbox_inches="tight")
-    print("Saved: {}  ({} residues, mean pLDDT {})".format(out, len(bs), mean_plddt))
+    plt.close(fig)   # free the figure — important when rendering many in one process
+    return out
+
+
+def main():
+    acc = sys.argv[1] if len(sys.argv) > 1 else "P10155"
+    label = sys.argv[2] if len(sys.argv) > 2 else "Ro60"
+    out = render(acc, label)
+    print("Saved: {}".format(out) if out else "No structure file for {}".format(acc))
 
 
 if __name__ == "__main__":

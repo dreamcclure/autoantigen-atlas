@@ -242,24 +242,38 @@ HERO = {"lupus": ("P10155", "Ro60"),
         "rheumatoid_arthritis": ("P06733", "Alpha-enolase")}
 
 
+def _structure_options(disease):
+    """[(short, accession)] for autoantigens that have a rendered structure image."""
+    opts = []
+    for p in DISEASES[disease]["seed"]:
+        if p.get("role", "positive") != "positive":
+            continue
+        if os.path.exists(os.path.join(FIGURES, "{}_alphafold.png".format(p["accession"]))):
+            opts.append((p["short"], p["accession"]))
+    return opts
+
+
 def render_structures(disease):
     st.caption("Every structure is an **AlphaFold** prediction, colored by per-residue confidence "
                "(**pLDDT**): blue = very high, orange/red = low (often a flexible / disordered region).")
-    # Static preview image — reliable and crisp. (The live viewer is a full-screen WebGL canvas
-    # that misbehaves inside a Streamlit panel, so we preview here and launch the real thing below.)
-    acc, label = HERO.get(disease, (None, None))
-    if acc:
-        img = os.path.join(FIGURES, "{}_alphafold.png".format(acc))
-        if os.path.exists(img):
-            st.image(img, width="stretch",
-                     caption="{} ({}) — a representative {} structure, colored by AlphaFold confidence."
-                     .format(label, acc, DISEASES[disease]["name"]))
+    # Protein picker → that protein's static render. Static images are reliable; the full WebGL
+    # viewer (which misbehaves inside a Streamlit panel) is one click away via the button below.
+    opts = _structure_options(disease)
+    if opts:
+        acc_of = dict(opts)
+        hero_acc = HERO.get(disease, (None, None))[0]
+        default = next((i for i, (_, a) in enumerate(opts) if a == hero_acc), 0)
+        pick = st.selectbox("Pick an autoantigen to view its structure:",
+                            [s for s, _ in opts], index=default, key="struct_" + disease)
+        acc = acc_of[pick]
+        st.image(os.path.join(FIGURES, "{}_alphafold.png".format(acc)), width="stretch",
+                 caption="{} ({}) — AlphaFold structure, colored by confidence.".format(pick, acc))
     name = VIEWER.get(disease)
     if not name:
         return
     url = "{}/{}".format(PAGES, name)
     st.link_button("🧊 Open the interactive 3D viewer — rotate every structure ↗", url, type="primary")
-    st.caption("Opens the full-screen viewer: all structures, rotatable, colored by confidence.")
+    st.caption("The full viewer shows all structures together, rotatable and zoomable.")
 
 
 # ============================================================ sidebar
