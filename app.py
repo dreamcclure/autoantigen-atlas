@@ -200,7 +200,24 @@ def render_discovery(disease):
     # precomputed verdicts (from the saved run) show for free; new ones come from the buttons.
     pre = {a["accession"]: a for a in (partner.get("agent_assessments") if partner else [])}
     if not cands:
-        st.caption("No candidates clear the filters for this scope — try adding more antigens.")
+        # Explain WHY this scope came up empty instead of a flat "no results". Most often it's
+        # because the picked antigen(s) are standalone (e.g. Ro60, a lone RNP with no curated
+        # partners), so the epitope-spreading search has nothing to follow — point to antigens
+        # that DO form complexes.
+        counts = discover.antigen_partner_counts(disease)
+        standalone = [s for s in picked if counts.get(s, 0) == 0]
+        # prefer a couple of well-known complex antigens that actually have partners; else fall
+        # back to whichever known antigens have the most partners.
+        suggest = [s for s in ["Sm-B/B'", "La/SSB", "U1-70K", "Ku70"] if counts.get(s, 0) > 0][:2] \
+            or [s for s, n in sorted(counts.items(), key=lambda kv: -kv[1]) if n > 0][:2]
+        if standalone:
+            st.info("**{}** {} no curated interaction partners in UniProt — {} standalone, so the "
+                    "epitope-spreading search has nothing to follow. Try a complex-forming antigen "
+                    "like **{}** instead.".format(
+                        ", ".join(standalone), "has" if len(standalone) == 1 else "have",
+                        "it's" if len(standalone) == 1 else "they're", "** or **".join(suggest)))
+        else:
+            st.caption("No candidates clear the filters for this scope — try adding more antigens.")
     else:
         st.caption("**{}** candidate{} from this scope. *Specificity* = links-to-known-antigens / "
                    "total partners (down-weights promiscuous hubs). Press **Assess** to run the "

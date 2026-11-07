@@ -240,6 +240,13 @@ def _load_graph(disease):
         return json.load(f)
 
 
+def antigen_partner_counts(disease):
+    """{short name: # curated interaction partners} for each known antigen, from the graph.
+    Lets the app explain why a narrow scope (e.g. just Ro60, a standalone RNP with 0 partners)
+    returns nothing, and suggest high-connectivity antigens to pick instead."""
+    return {k["short"]: len(k["partners"]) for k in _load_graph(disease)["known"]}
+
+
 def rank_candidates(disease, scope_accessions=None, top_n=None):
     """Rank novel candidates live from the precomputed graph — mirrors the CLI ranking.
 
