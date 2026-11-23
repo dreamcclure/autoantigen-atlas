@@ -51,7 +51,7 @@ st.set_page_config(page_title="Autoantigen Atlas", page_icon="🧬", layout="cen
 # Streamlit class name ever changes or Google Fonts is blocked, it degrades to system fonts.
 st.markdown("""
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
 
   /* body: a clean modern sans, generously sized */
   html, body, .stApp, [data-testid="stMarkdownContainer"], .stChatMessage,
@@ -60,11 +60,12 @@ st.markdown("""
   }
   .stApp { line-height: 1.6; }
 
-  /* headings: a modern, slightly technical display face, large and tight */
-  h1, h2, h3, h4 { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
-  h1 { font-size: 2.9rem; font-weight: 700; line-height: 1.08; }
-  h2 { font-size: 1.9rem; font-weight: 600; }
-  h3 { font-size: 1.4rem; font-weight: 600; }
+  /* headings: Fraunces — an elegant, high-contrast display serif, large and tight */
+  h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-optical-sizing: auto; letter-spacing: -0.01em; }
+  h1 { font-size: 3.2rem; font-weight: 600; line-height: 1.04; }
+  h2 { font-size: 2.0rem; font-weight: 600; }
+  h3 { font-size: 1.45rem; font-weight: 600; }
 
   /* keep accessions/code monospaced */
   code, pre, kbd { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
