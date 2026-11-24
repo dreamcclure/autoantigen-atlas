@@ -112,17 +112,35 @@ limitation, not a hidden one.)*
 
 A [LangGraph](https://github.com/langchain-ai/langgraph) agent powered by **Claude Opus 4.8** (with
 adaptive thinking) decides which databases to consult, calls its tools, and writes a cited summary.
+The same `diseases.py` registry drives both the **offline build/validate pipeline** and the
+**runtime agent loop**, so the whole system is one coherent flow:
 
 ```mermaid
-flowchart LR
-  Q[Research question] --> A{{Claude Opus 4.8 agent}}
-  A -->|lookup_protein| U[(UniProt)]
-  A -->|get_structure| F[(AlphaFold)]
-  A -->|search_literature| E[(Europe PMC)]
-  U --> A
-  F --> A
-  E --> A
-  A --> R[Cited summary<br/>for human review]
+flowchart TB
+  REG["diseases.py — disease registry<br/>seed proteins · sources · reasoning"]
+
+  subgraph BUILD["Build &amp; validate (offline, per disease)"]
+    direction LR
+    FET["fetch_proteins.py<br/>UniProt + AlphaFold"] --> BLD["build_dataset.py<br/>validated dataset"] --> EVAL["evaluate.py<br/>blind test vs. negative controls<br/>recall · precision · specificity"]
+  end
+
+  subgraph SERVE["Serve (runtime agent loop)"]
+    direction TB
+    Q["Research question"] --> AG{{"LangGraph ReAct agent<br/>Claude Opus 4.8"}}
+    AG -->|lookup_protein| U[(UniProt)]
+    AG -->|get_structure| F[(AlphaFold)]
+    AG -->|search_literature| E[(Europe PMC)]
+    U --> AG
+    F --> AG
+    E --> AG
+    AG --> R["Cited summary<br/>for human review"]
+  end
+
+  REG --> BUILD
+  REG --> SERVE
+  BLD -. clean data .-> DISC["discover.py<br/>novel candidate autoantigens"]
+  R --> APP["Streamlit app<br/>Ask the Atlas · Discovery · 3D Structures"]
+  DISC --> APP
 ```
 
 **Three tools, all free and key-free:** `lookup_protein` (UniProt facts & complex membership),
@@ -191,6 +209,31 @@ figures/                structure renders + interactive viewers
 - **Filaggrin** (4,061 aa) has no AlphaFold model (too large), so it has no 3D view.
 - Scope is **protein** autoantigens with structures; non-protein antigens are excluded by design.
 - Negative-control panels are small (5 each); larger panels would tighten the specificity estimates.
+
+## Future roadmap — scaling the pipeline
+
+Today the platform validates the method on curated, per-disease seed sets. The next stage scales the
+**same agent + registry architecture** from curated seeds to **proteome-scale discovery** — new
+capability is added as *data and tools*, not a rewrite. That is the whole point of the keystone design.
+
+| Stage | Today | Next |
+|---|---|---|
+| **Ingestion** | Curated seed proteins per disease (UniProt accessions) | **Batch FASTA ingestion** — point the pipeline at a whole proteome or a lab's protein list and run it end-to-end |
+| **Retrieval** | Live Europe PMC search per query (titles + abstracts) | **Deeper PubMed / Europe PMC mining** — full-text retrieval, pre-indexed per disease, weighted by recency and study type |
+| **Structural scoring** | AlphaFold pLDDT confidence, shown per protein | **Quantitative structural scoring** — disorder, surface accessibility, and domain features as ranked, comparable numbers |
+| **Throughput** | One protein / one question at a time | Parallel batch runs with caching + rate-limit backoff, so a proteome-wide scan is a single job |
+
+- **Batch FASTA → ranked candidates.** Accept a FASTA file (or a UniProt proteome ID), fan the
+  existing `lookup_protein` / `get_structure` / `search_literature` tools across every sequence, and
+  emit a ranked, cited candidate table — turning the interactive aide into a screening pipeline.
+- **Quantitative structural scoring.** Go beyond *displaying* pLDDT to *computing* comparable
+  structural features, so candidates can be **ranked**, not just fetched — the same honest, auditable
+  framing, now numeric.
+- **Full-text literature mining.** Move from abstract-level Europe PMC search to full-text retrieval
+  with an autoantibody-context filter, closing the retrieval gaps behind today's honest misses
+  (coilin, PCNA).
+- **Same architecture, more scale.** Every extension rides the existing `diseases.py` registry and
+  tool interface — multi-disease, multi-tool, multi-proteome — without touching the agent core.
 
 ## Tech stack
 
