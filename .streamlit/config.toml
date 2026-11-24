@@ -1,14 +1,58 @@
-# Streamlit theme — the dark "instrument" look, matching the 3D structure viewers
-# (figures/*viewer.html). Palette lifted straight from the viewers so the whole app reads
-# as one designed system rather than default Streamlit styling.
+# Streamlit theme — a light, editorial main canvas (to match dreamcclure.com) with the dark
+# "instrument" sidebar rail kept. Fonts are self-hosted (static/) and set via theme.font /
+# theme.headingFont so they actually load (the old app.py @import was silently ignored).
+
+[server]
+enableStaticServing = true            # serve ./static/* (the self-hosted font files) at /app/static/*
+
 [theme]
-base = "dark"
-primaryColor = "#65CBF3"              # accent cyan (viewer --accent) → primary buttons, chips, widgets
-backgroundColor = "#0A0B10"           # viewer --bg (near-black with a blue cast)
-secondaryBackgroundColor = "#141824"  # viewer --panel → sidebar, widgets, code blocks
-textColor = "#E6E9F2"                 # viewer --ink
-linkColor = "#65CBF3"                 # accent cyan for links
-borderColor = "#232838"               # viewer --line
-baseRadius = "0.6rem"                 # soft rounded corners like the viewer panels
-baseFontSize = 18                     # larger, more readable base (default is 16)
-font = "sans-serif"                   # fallback; app.py loads Inter/Fraunces via CSS
+base = "light"
+primaryColor = "#2563EB"              # accent (tab underline, primary buttons) — cobalt blue
+backgroundColor = "#FDFDFD"           # main canvas: near-white
+secondaryBackgroundColor = "#F3F3F1"  # cards / widgets on the main canvas
+textColor = "#1B1212"                 # "licorice" near-black
+linkColor = "#2563EB"
+borderColor = "#E4E4E0"
+baseRadius = "0.6rem"
+baseFontSize = 18
+baseFontWeight = 300                  # body: a thinner, lighter weight (skinnier look)
+font = "Inter, sans-serif"            # body: a clean, simple sans (self-hosted — see fontFaces)
+headingFont = "Fraunces, Georgia, serif"  # headings: an elegant high-contrast display serif
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/inter-300.woff2"
+weight = 300
+style = "normal"
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/inter-400.woff2"
+weight = 400
+style = "normal"
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/inter-600.woff2"
+weight = 600
+style = "normal"
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/inter-700.woff2"
+weight = 700
+style = "normal"
+
+[[theme.fontFaces]]
+family = "Fraunces"
+url = "app/static/fraunces-var.woff2"
+weight = "400 700"
+style = "normal"
+
+# The sidebar keeps the dark "instrument" rail (overrides the light base above).
+[theme.sidebar]
+backgroundColor = "#0A0B10"
+secondaryBackgroundColor = "#141824"
+textColor = "#E6E9F2"
+borderColor = "#232838"
+primaryColor = "#2563EB"

@@ -45,35 +45,129 @@ import discover   # reused for live candidate ranking + the assessment prompt/pa
 RATE_LIMIT = 10        # questions...
 RATE_WINDOW = 3600     # ...per hour, per browser session
 
-st.set_page_config(page_title="Autoantigen Atlas", page_icon="🧬", layout="centered")
+st.set_page_config(page_title="Autoantigen Atlas", page_icon="🧬", layout="wide")
 
-# Typography + a few polish touches the theme config can't express. Kept resilient — if a
-# Streamlit class name ever changes or Google Fonts is blocked, it degrades to system fonts.
+# A few polish touches the theme config can't express (gradient ground, heading sizes, borders).
+# The fonts themselves are now set natively via theme.font / theme.headingFont (self-hosted woff2
+# in static/) in .streamlit/config.toml — the old Google-Fonts @import here was silently ignored.
 st.markdown("""
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
-
-  /* body: a clean modern sans, generously sized */
-  html, body, .stApp, [data-testid="stMarkdownContainer"], .stChatMessage,
-  button, input, select, textarea, label {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
   .stApp { line-height: 1.6; }
 
-  /* headings: Fraunces — an elegant, high-contrast display serif, large and tight */
-  h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
-    font-optical-sizing: auto; letter-spacing: -0.01em; }
-  h1 { font-size: 3.2rem; font-weight: 600; line-height: 1.04; }
-  h2 { font-size: 2.0rem; font-weight: 600; }
-  h3 { font-size: 1.45rem; font-weight: 600; }
+  /* editorial title: stacked + uppercase, with ATLAS dropped below and offset (echoes the site) */
+  .atlas-title { display: flex; flex-direction: column; align-items: flex-start;
+    width: fit-content; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.005em;
+    font-weight: 600; font-size: 4.3rem !important; margin: 0.2rem 0 2.6rem !important; }
+  /* ATLAS steps down and to the right, à la the DREA MCCLURE nameplate */
+  .atlas-title .l2 { margin-left: 2.4em; letter-spacing: 0.1em; }
+
+  /* larger, airier section headings (Fraunces face comes from theme.headingFont in config.toml) */
+  h2 { font-size: 2.3rem !important; font-weight: 600 !important; letter-spacing: -0.01em;
+       margin: 2.2rem 0 0.8rem !important; }
+  h3 { font-size: 1.6rem !important; font-weight: 600 !important; margin: 1.6rem 0 0.6rem !important; }
+
+  /* keep sidebar headings compact so the long title doesn't break mid-word in the narrow rail */
+  section[data-testid="stSidebar"] h1,
+  section[data-testid="stSidebar"] h2,
+  section[data-testid="stSidebar"] h3 { font-size: 1.45rem !important; line-height: 1.2 !important;
+       margin: 0.1rem 0 0.5rem !important; overflow-wrap: anywhere; }
+
+  /* more breathing room around + between the main page's elements */
+  .block-container { padding-top: 3.5rem !important; padding-bottom: 4rem !important; }
+  section[data-testid="stMain"] [data-testid="stVerticalBlock"] { gap: 1.8rem !important; }
+  /* Streamlit zeroes inner heading margins, so put real section breaks on the flex-child wrapper */
+  section[data-testid="stMain"] [data-testid="stElementContainer"]:has(.sec-head) {
+    margin-top: 3.6rem !important; }
+  section[data-testid="stMain"] [data-testid="stElementContainer"]:has(.tryasking) {
+    margin-top: 1rem !important; }
+  section[data-testid="stMain"] [data-testid="stElementContainer"]:has([data-testid="stChatInput"]) {
+    margin-top: 1.2rem !important; }
+
+  /* the sidebar's Disease dropdown: a white box with dark text (the rail itself stays dark) */
+  section[data-testid="stSidebar"] [data-baseweb="select"] > div {
+    background-color: #FFFFFF !important; border-color: #FFFFFF !important; }
+  section[data-testid="stSidebar"] [data-baseweb="select"] > div * { color: #1B1212 !important; }
 
   /* keep accessions/code monospaced */
   code, pre, kbd { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
 
-  /* the 3D viewers' signature radial-gradient ground, so the app matches them */
-  .stApp { background: radial-gradient(130% 100% at 70% 0%, #151826 0%, #0A0B10 60%); }
-  section[data-testid="stSidebar"] { border-right: 1px solid #232838; }
   div[data-testid="stImage"] img { border-radius: 0.6rem; }
+
+  /* main tabs: uppercase, evenly spread under the title, blue on hover */
+  section[data-testid="stMain"] [data-baseweb="tab-list"] {
+    width: 100%; justify-content: space-between; gap: 0; margin-bottom: 2.4rem; }
+  section[data-testid="stMain"] button[data-baseweb="tab"],
+  section[data-testid="stMain"] button[data-baseweb="tab"] p {
+    text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.95rem; font-weight: 600; }
+  section[data-testid="stMain"] button[data-baseweb="tab"]:hover,
+  section[data-testid="stMain"] button[data-baseweb="tab"]:hover p { color: #2563EB !important; }
+
+  /* larger gap between the header row and the tab row (+ SCROLL) */
+  section[data-testid="stMain"] [data-testid="stHorizontalBlock"]:has([data-baseweb="tab-list"]) {
+    margin-top: 3rem !important; }
+
+  /* space after the tab bar, before the intro line */
+  section[data-testid="stMain"] [data-baseweb="tab-panel"] { padding-top: 1.4rem; }
+
+  /* "Try asking" — Fraunces, uppercase, with space above it */
+  .tryasking { font-family: 'Fraunces', Georgia, serif; text-transform: uppercase;
+    font-size: 1.2rem; font-weight: 600; letter-spacing: 0.06em; margin: 2.6rem 0 0.5rem; }
+
+  /* chat input: larger, a licorice bar with Fraunces text */
+  [data-testid="stChatInput"] > div,
+  [data-testid="stChatInput"] [data-baseweb="textarea"],
+  [data-testid="stChatInput"] [data-baseweb="base-input"] {
+    background: #1B1212 !important; border-color: #1B1212 !important; }
+  [data-testid="stChatInput"] > div { border-radius: 0.7rem !important; }
+  [data-testid="stChatInput"] [data-baseweb="base-input"] { padding: 0.55rem 0.4rem !important; }
+  [data-testid="stChatInput"] textarea {
+    color: #FDFDFD !important; font-family: 'Fraunces', Georgia, serif !important;
+    font-size: 1.4rem !important; }
+  [data-testid="stChatInput"] textarea::placeholder {
+    color: rgba(253,253,253,0.6) !important; font-family: 'Fraunces', Georgia, serif !important; }
+  [data-testid="stChatInput"] button svg { fill: #FDFDFD !important; color: #FDFDFD !important; }
+
+  /* sidebar section headings — Fraunces, uppercase, on the dark rail */
+  .side-head { font-family: 'Fraunces', Georgia, serif; text-transform: uppercase;
+    font-size: 1.3rem; font-weight: 600; letter-spacing: 0.04em; color: #E6E9F2;
+    margin: 0.3rem 0 0.6rem; }
+
+  /* main Fraunces section titles (Autoimmune Disease, Protein Profile) */
+  .sec-head { font-family: 'Fraunces', Georgia, serif; text-transform: uppercase;
+    font-size: 1.55rem; font-weight: 600; letter-spacing: 0.04em; color: #1B1212;
+    margin: 2.6rem 0 0.7rem; }
+
+  /* the research-aide blurb to the right of the title */
+  .hero-desc { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.15rem;
+    line-height: 1.5; color: #4a4443; max-width: 34ch; margin: 0; }
+  .hero-desc b { font-weight: 600; color: #1B1212; }
+
+  /* SCROLL cue — Fraunces, to the right of the tabs; jumps to the disease section */
+  .scroll-link { display: inline-block; font-family: 'Fraunces', Georgia, serif;
+    text-transform: uppercase; font-size: 1rem; font-weight: 600; letter-spacing: 0.12em;
+    color: #1B1212; text-decoration: none; white-space: nowrap; }
+  .scroll-link:hover { color: #2563EB; }
+
+  /* the disease selection bar in the main area — large */
+  section[data-testid="stMain"] [data-baseweb="select"] > div {
+    min-height: 3.3rem; font-size: 1.15rem; border-radius: 0.6rem; }
+
+  /* Autoimmune Disease — a black "hero" band with white type (like the site hero) */
+  .st-key-disease_band { background: #1B1212 !important; border-radius: 0.6rem !important;
+    padding: 1.6rem 1.8rem 1.9rem !important; }
+  .band-head { color: #FDFDFD; font-family: 'Fraunces', Georgia, serif; text-transform: uppercase;
+    font-size: 1.7rem; font-weight: 600; letter-spacing: 0.04em; margin: 0 0 0.9rem; }
+  .st-key-disease_band [data-baseweb="select"] > div {
+    background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.4) !important; }
+  .st-key-disease_band [data-baseweb="select"] > div *,
+  .st-key-disease_band [data-baseweb="select"] svg {
+    color: #FDFDFD !important; fill: #FDFDFD !important; }
+
+
+  /* air above the tab bar; wide layout left-aligned with a gap from the sidebar */
+  section[data-testid="stMain"] [data-baseweb="tab-list"] { margin-top: 1.2rem; }
+  .block-container { max-width: 82rem !important; padding-left: 3rem !important;
+    padding-right: 3rem !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -129,11 +223,11 @@ def load_discovery(disease):
             _read("discovery_{}_literature.json".format(disease)))
 
 
-# evidence tiers the agent assigns, with a display style (emoji + Streamlit color)
+# evidence tiers the agent assigns, with a display color + label (Streamlit colored text)
 TIER = {
-    "ESTABLISHED": ("🟢", "green", "Established"),
-    "EMERGING":    ("🟡", "orange", "Emerging"),
-    "NONE-FOUND":  ("⚪", "gray", "No published evidence"),
+    "ESTABLISHED": ("green", "Established"),
+    "EMERGING":    ("orange", "Emerging"),
+    "NONE-FOUND":  ("gray", "No published evidence"),
 }
 _TIER_ORDER = {"ESTABLISHED": 0, "EMERGING": 1, "NONE-FOUND": 2}
 
@@ -141,9 +235,9 @@ _TIER_ORDER = {"ESTABLISHED": 0, "EMERGING": 1, "NONE-FOUND": 2}
 def _render_assessments(assessments):
     """Show the agent's cited verdict per candidate, strongest evidence first."""
     for a in sorted(assessments, key=lambda x: _TIER_ORDER.get(x["evidence_tier"], 9)):
-        emoji, color, label = TIER.get(a["evidence_tier"], ("", "gray", a["evidence_tier"]))
-        st.markdown("**{}** (`{}`) — {} :{}[{}]".format(
-            a["gene"], a["accession"], emoji, color, label))
+        color, label = TIER.get(a["evidence_tier"], ("gray", a["evidence_tier"]))
+        st.markdown("**{}** (`{}`) — :{}[{}]".format(
+            a["gene"], a["accession"], color, label))
         with st.expander("Agent's cited assessment"):
             st.markdown(a["transcript"])
 
@@ -166,8 +260,8 @@ def _assess_candidate(disease, c):
 
 
 def _tier_badge(verdict):
-    emoji, color, label = TIER.get(verdict["evidence_tier"], ("", "gray", verdict["evidence_tier"]))
-    st.markdown("{} :{}[{}]".format(emoji, color, label))
+    color, label = TIER.get(verdict["evidence_tier"], ("gray", verdict["evidence_tier"]))
+    st.markdown(":{}[{}]".format(color, label))
 
 
 def _render_candidate_row(disease, c, precomputed):
@@ -183,7 +277,7 @@ def _render_candidate_row(disease, c, precomputed):
     with action:
         if verdict:
             _tier_badge(verdict)
-        elif st.button("🔬 Assess", key="assess_{}_{}".format(disease, c["accession"])):
+        elif st.button("Assess", key="assess_{}_{}".format(disease, c["accession"])):
             if not within_rate_limit():
                 st.warning("Hourly limit reached — try later.")
             else:
@@ -208,7 +302,7 @@ def render_discovery(disease):
         return
 
     # ---- Partner arm: LIVE, steerable epitope-spreading search ----
-    st.markdown("#### 🧩 Partner arm — epitope-spreading neighbors *(live)*")
+    st.markdown("#### Partner arm — epitope-spreading neighbors *(live)*")
     if partner:
         with st.expander("How this arm works"):
             st.caption(partner["_metadata"]["method"])
@@ -259,14 +353,14 @@ def render_discovery(disease):
     # ---- Literature arm: autoantibody-context co-mentions ----
     if literature and literature.get("candidates"):
         st.divider()
-        st.markdown("#### 📚 Literature arm — autoantibody-context co-mentions")
+        st.markdown("#### Literature arm — autoantibody-context co-mentions")
         with st.expander("How this arm works"):
             st.caption(literature["_metadata"]["method"])
         assessed = {a["accession"]: a for a in literature.get("agent_assessments", [])}
         rows = []
         for c in literature["candidates"]:
             a = assessed.get(c["accession"])
-            tier = TIER.get(a["evidence_tier"])[2] if a else "—"
+            tier = TIER.get(a["evidence_tier"], ("gray", "—"))[1] if a else "—"
             rows.append({
                 "Gene": c["gene"],
                 "Accession": c["accession"],
@@ -319,54 +413,81 @@ def render_structures(disease):
     if not name:
         return
     url = "{}/{}".format(PAGES, name)
-    st.link_button("🧊 Open the interactive 3D viewer — rotate every structure ↗", url, type="primary")
+    st.link_button("Open the interactive 3D viewer — rotate every structure ↗", url, type="primary")
     st.caption("The full viewer shows all structures together, rotatable and zoomable.")
 
 
 # ============================================================ sidebar
-TOOL_LABEL = {"lookup_protein": "🧬 UniProt", "get_structure": "🧊 AlphaFold",
-              "search_literature": "🔎 Europe PMC"}
+TOOL_LABEL = {"lookup_protein": "UniProt", "get_structure": "AlphaFold",
+              "search_literature": "Europe PMC"}
 REPO = "https://github.com/dreamcclure/autoantigen-atlas"
 PAGES = "https://dreamcclure.github.io/autoantigen-atlas/figures"
 
 with st.sidebar:
-    st.header("Autoantigen Atlas")
-    st.caption("An AI research aide that finds the proteins the immune system attacks in "
-               "autoimmune disease — and **cites every claim**.")
-    disease = st.selectbox("Disease", list(DISEASES.keys()),
-                           format_func=lambda k: DISEASES[k]["name"])
-    st.divider()
+    st.markdown('<p class="side-head">How it works</p>', unsafe_allow_html=True)
     st.markdown(
-        "**How it works** — a Claude Opus 4.8 agent with three free tools "
-        "(UniProt, AlphaFold, Europe PMC) and five guardrails: it answers **only** from "
-        "tool results, cites every source, and declines rather than guesses.")
-    st.markdown("**Blind-tested:** lupus 96% recall · RA 81% · 100% precision & specificity on both.")
+        "A Claude Opus 4.8 agent with three free tools (UniProt, AlphaFold, Europe PMC) and five "
+        "guardrails: it answers **only** from tool results, cites every source, and declines "
+        "rather than guesses.")
     st.divider()
-    st.markdown("🔬 **Open 3D viewers in a new tab**  \n"
+    st.markdown('<p class="side-head">Blind-tested</p>', unsafe_allow_html=True)
+    st.markdown("Lupus 96% recall · RA 81% · 100% precision & specificity on both.")
+    st.divider()
+    st.markdown("**Open 3D viewers in a new tab**  \n"
                 "[Lupus]({}/structure_viewer.html) · "
                 "[RA]({}/rheumatoid_arthritis_viewer.html)".format(PAGES, PAGES))
-    st.markdown("💻 [Source on GitHub]({})".format(REPO))
+    st.markdown("[Source on GitHub]({})".format(REPO))
     st.caption("Research aide for scientists — not medical advice.")
 
 # ============================================================ main
-st.title("🧬 Autoantigen Atlas")
+# Header: title on the left, the "research aide" blurb on the right.
+hc1, hc2 = st.columns([3, 2], vertical_alignment="center")
+with hc1:
+    st.markdown(
+        '<h1 class="atlas-title"><span class="l1">Autoantigen</span>'
+        '<span class="l2">Atlas</span></h1>',
+        unsafe_allow_html=True,
+    )
+with hc2:
+    st.markdown(
+        '<p class="hero-desc">An AI research aide that finds the proteins the immune system '
+        'attacks in autoimmune disease — and <b>cites every claim</b>.</p>',
+        unsafe_allow_html=True,
+    )
 
-# reset the conversation when the disease changes
-if st.session_state.get("disease") != disease:
-    st.session_state.disease = disease
-    st.session_state.messages = []
-
-tab_chat, tab_discovery, tab_structures = st.tabs(
-    ["💬 Ask the Atlas", "🔬 Discovery", "🧊 3D Structures"])
+# Tab bar, with a SCROLL cue to its right that jumps to the disease section below.
+tabs_col, scroll_col = st.columns([8, 1], vertical_alignment="top")
+with tabs_col:
+    tab_chat, tab_discovery, tab_structures = st.tabs(
+        ["Ask the Atlas", "Discovery", "3D Structures"])
+with scroll_col:
+    st.markdown('<a class="scroll-link" href="#disease-anchor">Scroll ↓</a>',
+                unsafe_allow_html=True)
 
 # ---------------------------------------------------------------- tab 1: chat
 with tab_chat:
+    # Disease selection — moved out of the sidebar into the main flow.
+    st.markdown('<div id="disease-anchor"></div>', unsafe_allow_html=True)
+    # Disease selection — a black "hero" band with white type (matches dreamcclure.com).
+    with st.container(key="disease_band"):
+        st.markdown('<p class="band-head">Autoimmune Disease</p>', unsafe_allow_html=True)
+        disease = st.selectbox("Autoimmune disease", list(DISEASES.keys()),
+                               format_func=lambda k: DISEASES[k]["name"],
+                               label_visibility="collapsed")
+
+    # reset the conversation when the disease changes
+    if st.session_state.get("disease") != disease:
+        st.session_state.disease = disease
+        st.session_state.messages = []
+
     st.caption("Investigating **{}**. Ask whether a protein is an autoantigen, what its structure "
                "looks like, or what the literature says — every answer comes with citations."
                .format(DISEASES[disease]["name"]))
 
+    st.markdown('<p class="sec-head">Ask About a Protein</p>', unsafe_allow_html=True)
+
     if not st.session_state.get("messages"):
-        st.markdown("**Try asking:**")
+        st.markdown('<p class="tryasking">Suggested Questions</p>', unsafe_allow_html=True)
         examples = {
             "lupus": ["Is Ro60 an autoantigen in lupus?",
                       "What does the literature say about anti-C1q antibodies?",
@@ -387,7 +508,7 @@ with tab_chat:
             if msg.get("tools"):
                 st.caption("Consulted: " + " · ".join(TOOL_LABEL.get(t, t) for t in msg["tools"]))
 
-    prompt = st.chat_input("Ask about a protein…") or st.session_state.pop("pending", None)
+    prompt = st.chat_input("Protein") or st.session_state.pop("pending", None)
 
     if prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
