@@ -48,17 +48,17 @@ told the answers.
 never misclassifies a control. Recall is high, and every miss is a documented, understood
 retrieval limitation (not a guess).
 
-**Earned honestly.** Both scores were reached by improving the agent's *evidence and reasoning* while
+**Earned, not engineered.** Both scores were reached by improving the agent's *evidence and reasoning* while
 holding the evaluation rubric fixed — never by lowering the bar (the perfect specificity is the proof).
 During the RA work, an early run scored a perfect 1.00 because the agent's instructions had
-accidentally *named the answer proteins*; that leak was caught, removed, and the honest result
+accidentally *named the answer proteins*; that leak was caught, removed, and the corrected result
 (0.81) reported instead. The leaked and intermediate runs are preserved in `data/processed/` for
 audit.
 
 ## Beyond retrieval — a disease-specific signature in the structures
 
 The platform doesn't just *fetch* facts; it *analyzes* them. We asked whether autoantigens share a
-biological signature, and tested two hypotheses honestly against a **random 40-protein human-proteome
+biological signature, and tested two hypotheses against a **random 40-protein human-proteome
 background** (reproducible, fixed seed) — reporting both the win and the null.
 
 ![Lupus autoantigens are enriched for nuclear / nucleic-acid biology](figures/lupus_localization_signature.png)
@@ -85,7 +85,7 @@ interaction *hubs* (ranking by **specificity**, not raw count), and runs the tru
 tier each candidate's published evidence (`ESTABLISHED` / `EMERGING` / `NONE-FOUND`).
 
 Candidates are framed as **cited hypotheses for expert review, never "confirmed discoveries."** The
-method is validated two honest ways — with *no* answer key:
+method is validated two independent ways — with *no* answer key:
 
 - **Hold-out rediscovery:** hide a known antigen, and the method re-proposes it from its partners
   (**recall 0.50** on lupus; the misses are standalone antigens with no complexes, an understood gap).
@@ -104,7 +104,7 @@ which a 2021 study shows carries autoantibodies in sporadic lupus
 `NONE-FOUND` for a pseudogene that slipped through. The two arms find **disjoint** candidates —
 structural neighbours vs literature-grounded — each with its own validated hit (FUBP1, DNASE1L3).
 
-*(Honesty note: the agent abstains rather than guesses — e.g. it returns `NONE-FOUND` for coilin, a real
+*(Note: the agent abstains rather than guesses — e.g. it returns `NONE-FOUND` for coilin, a real
 but hard-to-retrieve autoantigen, because the literature tool sees only titles/abstracts. A documented
 limitation, not a hidden one.)*
 
@@ -147,7 +147,7 @@ flowchart TB
 `get_structure` (AlphaFold 3D structure & pLDDT confidence), `search_literature` (Europe PMC papers).
 
 **Five guardrails, designed in from the start:** (1) cite or don't claim, (2) no hallucination —
-answers only from tool results, (3) human in the loop, (4) stay in scope, (5) fail honestly.
+answers only from tool results, (3) human in the loop, (4) stay in scope, (5) abstain, don't guess.
 
 **The platform keystone** is `src/diseases.py` — a registry where each disease is pure data (its seed
 proteins, its sources, and the reasoning the agent should use). The fetch / build / evaluate scripts
@@ -202,10 +202,10 @@ data/processed/         the cited datasets + evaluation results (per disease)
 figures/                structure renders + interactive viewers
 ```
 
-## Honest limitations
+## Limitations
 
 - **Lupus** misses PCNA (1/24); **RA** misses Fibronectin and Histones H4/H2B (3/16) — all literature
-  -retrieval gaps where the agent abstained honestly rather than guessing.
+  -retrieval gaps where the agent abstained rather than guessing.
 - **Filaggrin** (4,061 aa) has no AlphaFold model (too large), so it has no 3D view.
 - Scope is **protein** autoantigens with structures; non-protein antigens are excluded by design.
 - Negative-control panels are small (5 each); larger panels would tighten the specificity estimates.
@@ -227,10 +227,10 @@ capability is added as *data and tools*, not a rewrite. That is the whole point 
   existing `lookup_protein` / `get_structure` / `search_literature` tools across every sequence, and
   emit a ranked, cited candidate table — turning the interactive aide into a screening pipeline.
 - **Quantitative structural scoring.** Go beyond *displaying* pLDDT to *computing* comparable
-  structural features, so candidates can be **ranked**, not just fetched — the same honest, auditable
+  structural features, so candidates can be **ranked**, not just fetched — the same auditable
   framing, now numeric.
 - **Full-text literature mining.** Move from abstract-level Europe PMC search to full-text retrieval
-  with an autoantibody-context filter, closing the retrieval gaps behind today's honest misses
+  with an autoantibody-context filter, closing the retrieval gaps behind today's documented misses
   (coilin, PCNA).
 - **Same architecture, more scale.** Every extension rides the existing `diseases.py` registry and
   tool interface — multi-disease, multi-tool, multi-proteome — without touching the agent core.
