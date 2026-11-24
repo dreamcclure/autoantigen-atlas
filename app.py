@@ -101,6 +101,11 @@ st.markdown("""
     text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.95rem; font-weight: 600; }
   section[data-testid="stMain"] button[data-baseweb="tab"]:hover,
   section[data-testid="stMain"] button[data-baseweb="tab"]:hover p { color: #2563EB !important; }
+  /* active tab stays licorice (blue only on hover), and no underline bar / divider */
+  section[data-testid="stMain"] button[data-baseweb="tab"][aria-selected="true"],
+  section[data-testid="stMain"] button[data-baseweb="tab"][aria-selected="true"] p { color: #1B1212 !important; }
+  section[data-testid="stMain"] [data-baseweb="tab-highlight"],
+  section[data-testid="stMain"] [data-baseweb="tab-border"] { background-color: transparent !important; }
 
   /* larger gap between the header row and the tab row (+ SCROLL) */
   section[data-testid="stMain"] [data-testid="stHorizontalBlock"]:has([data-baseweb="tab-list"]) {
@@ -110,8 +115,8 @@ st.markdown("""
   section[data-testid="stMain"] [data-baseweb="tab-panel"] { padding-top: 1.4rem; }
 
   /* "Try asking" — Fraunces, uppercase, with space above it */
-  .tryasking { font-family: 'Fraunces', Georgia, serif; text-transform: uppercase;
-    font-size: 1.2rem; font-weight: 600; letter-spacing: 0.06em; margin: 2.6rem 0 0.5rem; }
+  .tryasking { font-family: 'Inter', sans-serif; text-transform: uppercase; color: #1B1212;
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.08em; margin: 2.6rem 0 0.5rem; }
 
   /* chat input: larger, a licorice bar with Fraunces text */
   [data-testid="stChatInput"] > div,
@@ -121,10 +126,10 @@ st.markdown("""
   [data-testid="stChatInput"] > div { border-radius: 0.7rem !important; }
   [data-testid="stChatInput"] [data-baseweb="base-input"] { padding: 0.55rem 0.4rem !important; }
   [data-testid="stChatInput"] textarea {
-    color: #FDFDFD !important; font-family: 'Fraunces', Georgia, serif !important;
+    color: #FFFFFF !important; font-family: 'Fraunces', Georgia, serif !important;
     font-size: 1.4rem !important; }
   [data-testid="stChatInput"] textarea::placeholder {
-    color: rgba(253,253,253,0.6) !important; font-family: 'Fraunces', Georgia, serif !important; }
+    color: rgba(255,255,255,0.8) !important; font-family: 'Fraunces', Georgia, serif !important; }
   [data-testid="stChatInput"] button svg { fill: #FDFDFD !important; color: #FDFDFD !important; }
 
   /* sidebar section headings — Fraunces, uppercase, on the dark rail */
@@ -145,8 +150,8 @@ st.markdown("""
   /* SCROLL cue — Fraunces, to the right of the tabs; jumps to the disease section */
   .scroll-link { display: inline-block; font-family: 'Fraunces', Georgia, serif;
     text-transform: uppercase; font-size: 1rem; font-weight: 600; letter-spacing: 0.12em;
-    color: #1B1212; text-decoration: none; white-space: nowrap; }
-  .scroll-link:hover { color: #2563EB; }
+    color: #1B1212 !important; text-decoration: none !important; white-space: nowrap; }
+  .scroll-link:hover { color: #2563EB !important; }
 
   /* the disease selection bar in the main area — large */
   section[data-testid="stMain"] [data-baseweb="select"] > div {
