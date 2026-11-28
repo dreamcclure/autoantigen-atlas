@@ -1,0 +1,66 @@
+# Keeps Drea's Streamlit demos awake so visitors never see the "gone to sleep" page.
+# Runs on GitHub's servers every 8 hours — no personal computer needed.
+# Save this file in a repo at: .github/workflows/keep-streamlit-awake.yml
+
+name: Keep Streamlit demos awake
+
+on:
+  schedule:
+    - cron: "17 */8 * * *"   # every 8 hours (UTC)
+  workflow_dispatch:          # adds a "Run workflow" button for manual runs
+
+jobs:
+  wake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install headless browser
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Visit and wake each app
+        run: |
+          cat > wake.py <<'EOF'
+          import re, sys, time
+          from playwright.sync_api import sync_playwright
+
+          APPS = [
+              "https://autoantigen-atlas.streamlit.app",
+              "https://personal-ai-finance-coach.streamlit.app",
+          ]
+
+          failed = []
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              for url in APPS:
+                  page = browser.new_page()
+                  page.goto(url, wait_until="domcontentloaded", timeout=60_000)
+                  page.wait_for_timeout(8_000)
+                  wake = page.get_by_role("button", name=re.compile("get this app back up", re.I))
+                  if wake.count():
+                      print(f"{url}: asleep -> waking")
+                      wake.first.click()
+                  else:
+                      print(f"{url}: already awake")
+                  # Awake once the tab title is more than just "Streamlit"
+                  deadline = time.time() + 180
+                  while time.time() < deadline and page.title().strip() in ("", "Streamlit"):
+                      page.wait_for_timeout(10_000)
+                  title = page.title().strip()
+                  if title in ("", "Streamlit"):
+                      print(f"{url}: did NOT finish loading")
+                      failed.append(url)
+                  else:
+                      print(f"{url}: OK ({title})")
+                  page.close()
+              browser.close()
+
+          if failed:
+              sys.exit("Not awake: " + ", ".join(failed))
+          EOF
+          python wake.py
